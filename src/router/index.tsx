@@ -16,6 +16,7 @@ import {
   UserReviews,
   Friends,
   Likes,
+  FavouriteFilms,
   Actors,
   Actor,
   loadActor,
@@ -91,7 +92,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'films',
-            element: <div></div>,
+            element: <FavouriteFilms />,
           },
           {
             path: 'famous',
