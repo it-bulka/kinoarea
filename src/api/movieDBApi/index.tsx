@@ -107,7 +107,7 @@ export const getSearchedItem = async (value?: string, page: number = 1): Promise
   if (!value) return
   const { data } = await movieDBAxious.get<ISearchResult>(`/search/multi`, {
     params: {
-      query: 'value',
+      query: value,
       page,
     },
   })
