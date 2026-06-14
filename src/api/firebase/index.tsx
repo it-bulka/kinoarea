@@ -192,6 +192,39 @@ const getFavouriteFilm = async ({
   return null
 }
 
+const toggleFilmStatus = async ({
+  userId,
+  film,
+  filmStatus,
+}: {
+  userId: string
+  film: Omit<IFbFavouriteMovie, 'status'>
+  filmStatus: IFilmStatus
+}): Promise<IFbFavouriteMovie | null> => {
+  const docRef = doc(db, COLLECTIONS.FILMS, userId, COLLECTIONS.FILMS, film.id.toString())
+  const docSnap = await getDoc(docRef)
+
+  if (docSnap.exists()) {
+    const existing = { id: docSnap.id, ...docSnap.data() } as unknown as IFbFavouriteMovie
+    const newStatuses = existing.status.includes(filmStatus)
+      ? existing.status.filter(s => s !== filmStatus)
+      : [...existing.status, filmStatus]
+
+    if (newStatuses.length === 0) {
+      await deleteDoc(docRef)
+      return null
+    }
+
+    const updated = { ...existing, status: newStatuses }
+    await setDoc(docRef, updated)
+    return updated
+  }
+
+  const created: IFbFavouriteMovie = { ...film, status: [filmStatus] } as IFbFavouriteMovie
+  await setDoc(docRef, created)
+  return created
+}
+
 /* FAVOURITE PERSONS */
 
 const addFavouritePerson = async ({
@@ -242,6 +275,7 @@ export const FirebaseApi = {
   removeFavouriteFilm,
   getFavouriteFilms,
   getFavouriteFilm,
+  toggleFilmStatus,
   addFavouritePerson,
   removeFavouritePerson,
   getFavouritePersons,
