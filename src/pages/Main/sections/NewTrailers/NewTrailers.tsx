@@ -2,7 +2,7 @@ import { SectionHeader, SectionHeaderType } from '../../../../components/ui/Sect
 import { Typography, TypographyTypes } from '../../../../components/ui/Typography/Typography'
 import { IconBtn } from '../../../../components/ui/IconBtn/IconBtn'
 import { VideoSlider } from '../../../../components/ui/sliders/VideoSlider/VideoSlider'
-import { useEffect, useMemo } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { useActions } from '../../../../hooks/useActions'
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 import { useVideoTrailers } from '../../../../hooks/useVideoTrailers'
@@ -12,13 +12,24 @@ import { ReactComponent as InstagramIcon } from '../../../../assets/images/gener
 import { ReactComponent as LinkedInIcon } from '../../../../assets/images/general/linkedin-in.svg'
 import { setMovieDBPath } from '../../../../utils'
 import { notificationList } from '../../../../mock/notificationList'
+import { FirebaseApi } from '../../../../api/firebase'
+import { IFbFavouriteMovie, IFilmStatus, IMovieRes } from '../../../../api/types/film'
 
 const TRAILER_POOL_SIZE = 8
+
+const toFbFilm = (m: IMovieRes): Omit<IFbFavouriteMovie, 'status'> => ({
+  id: m.id,
+  name: m.name || m.title || '',
+  original_name: m.original_name || m.original_title || '',
+  poster_path: m.poster_path,
+})
 
 export const NewTrailers = () => {
   const user = useTypedSelector(state => state.user.user)
   const { fetchUpcomingMovies, setNotification } = useActions()
   const { upcoming } = useTypedSelector(state => state.movies)
+
+  const [filmStatus, setFilmStatus] = useState<IFbFavouriteMovie | null>(null)
 
   useEffect(() => {
     fetchUpcomingMovies()
@@ -29,6 +40,11 @@ export const NewTrailers = () => {
     const [first, ...rest] = upcoming
     return { first, rest }
   }, [upcoming])
+
+  useEffect(() => {
+    if (!user?.id || !movies?.first) return
+    FirebaseApi.getFavouriteFilm({ userId: user.id, filmId: String(movies.first.id) }).then(setFilmStatus)
+  }, [user?.id, movies?.first?.id])
 
   const movieRefs = useMemo(
     () =>
@@ -43,18 +59,17 @@ export const NewTrailers = () => {
 
   if (!movies) return null
 
-  const onLikeClick = () => {
+  const handleStatusToggle = async (status: IFilmStatus) => {
     if (!user) {
       setNotification(notificationList.userAbsent)
       return
     }
-  }
-
-  const onDislikeClick = () => {
-    if (!user) {
-      setNotification(notificationList.userAbsent)
-      return
-    }
+    const updated = await FirebaseApi.toggleFilmStatus({
+      userId: user.id,
+      film: toFbFilm(movies.first),
+      filmStatus: status,
+    })
+    setFilmStatus(updated)
   }
 
   return (
@@ -80,7 +95,6 @@ export const NewTrailers = () => {
           <Typography variant={'h4'} type={TypographyTypes.SUBTITLE}>
             {movies.first.title || movies.first.name}
           </Typography>
-
           <div className={'flex gap-4 md:w-full md:justify-between '}>
             <LinkedInIcon className={'fill-grayIcon hover:fill-white w-4 max-h-4'} />
             <InstagramIcon className={'fill-grayIcon hover:fill-white w-4 max-h-4'} />
@@ -89,14 +103,16 @@ export const NewTrailers = () => {
           </div>
         </div>
         <div className={'flex items-center text-white gap-1 text-0.5rem'}>
-          <div>
-            <IconBtn type={'like'} onClick={onLikeClick} />
-            <p className={'text-center'}>3 245</p>
-          </div>
-          <div>
-            <IconBtn type={'dislike'} onClick={onDislikeClick} />
-            <p className={'text-center'}>420</p>
-          </div>
+          <IconBtn
+            type={'like'}
+            isActive={filmStatus?.status?.includes('liked')}
+            onClick={() => handleStatusToggle('liked')}
+          />
+          <IconBtn
+            type={'dislike'}
+            isActive={filmStatus?.status?.includes('disliked')}
+            onClick={() => handleStatusToggle('disliked')}
+          />
         </div>
       </div>
 
