@@ -142,18 +142,6 @@ const getNewsItem = async (id: string): Promise<INews | null> => {
 }
 
 /* FAVOURITE FILMS */
-// TODO: remove
-/*const addFavouriteFilm = async (userId: string, film: IFbFavouriteMovie): Promise<void> => {
-  const docRef = doc(db, COLLECTIONS.USERS, userId)
-  await updateDoc(docRef, { favouriteFilms: arrayUnion(film) })
-}
-}*/
-
-// TODO: replace
-/*const removeFavouriteFilm = async (userId: string, film: IFbFavouriteMovie): Promise<void> => {
-  const docRef = doc(db, COLLECTIONS.USERS, userId)
-  await updateDoc(docRef, { favouriteFilms: arrayRemove(film) })
-}*/
 
 const addFavouriteFilm = async ({
   userId,
