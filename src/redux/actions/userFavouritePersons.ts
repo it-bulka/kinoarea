@@ -16,7 +16,4 @@ export interface ErrUserFavouritePersons {
   payload: CustomError
 }
 
-export type UserFavouritePersonsActions =
-  | AddUserFavouritePersons
-  | LoadUserFavouritePersons
-  | ErrUserFavouritePersons
+export type UserFavouritePersonsActions = AddUserFavouritePersons | LoadUserFavouritePersons | ErrUserFavouritePersons

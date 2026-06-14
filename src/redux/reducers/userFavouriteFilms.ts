@@ -14,10 +14,7 @@ const initialState: IInitialState = {
   error: null,
 }
 
-export const userFavouriteFilmsReducer = (
-  state = initialState,
-  action: UserFavouriteFilmsActions
-): IInitialState => {
+export const userFavouriteFilmsReducer = (state = initialState, action: UserFavouriteFilmsActions): IInitialState => {
   switch (action.type) {
     case UserFavouriteFilms.ADD:
       return { ...state, films: action.payload, loading: false, error: null }
