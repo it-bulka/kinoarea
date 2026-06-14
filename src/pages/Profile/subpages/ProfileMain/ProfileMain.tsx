@@ -36,23 +36,33 @@ const socials: { id: number; name: SocialMedias }[] = [
 interface InfoItemProps {
   amount: number
   title: string
+  to?: string
 }
 
-const InfoItem = ({ amount, title }: InfoItemProps) => {
-  return (
-    <div className={'text-[#323A55] px-1'}>
+const InfoItem = ({ amount, title, to }: InfoItemProps) => {
+  const inner = (
+    <>
       <p>{amount}</p>
       <p className={'w-min lg:w-auto'}>{title}</p>
-    </div>
+    </>
   )
+
+  if (to) {
+    return (
+      <Link to={to} className={'text-[#323A55] px-1 hover:text-blue transition-colors'}>
+        {inner}
+      </Link>
+    )
+  }
+
+  return <div className={'text-[#323A55] px-1'}>{inner}</div>
 }
 
-//TODO: set others fields for user
-const info: { id: number; title: string; property?: keyof Pick<IUser, 'friends' | 'reviews'> }[] = [
-  { title: 'Друзья', id: 1, property: 'friends' },
-  { title: `Любимые\nфильмы`, id: 2 },
-  { title: 'Избранное', id: 3 },
-  { title: 'Рецензии', id: 4, property: 'reviews' },
+const info: { id: number; title: string; to?: string; property?: keyof Pick<IUser, 'friends' | 'reviews'> }[] = [
+  { title: 'Друзья', id: 1, property: 'friends', to: ProfilePages.friends },
+  { title: `Любимые\nфильмы`, id: 2, to: ProfilePages.likes },
+  { title: 'Избранное', id: 3, to: ProfilePages.films },
+  { title: 'Рецензии', id: 4, property: 'reviews', to: ProfilePages.reviews },
   { title: 'Ожидаемые\nфильмы', id: 5 },
 ]
 export const ProfileMain = () => {
@@ -120,7 +130,12 @@ export const ProfileMain = () => {
         className={'flex-center flex-wrap font-q-700 text-xs text-center whitespace-wrap md:text-15 md:justify-between'}
       >
         {info.map(item => (
-          <InfoItem title={item.title} amount={(item.property && user?.[item.property]?.length) || 0} key={item.id} />
+          <InfoItem
+            key={item.id}
+            title={item.title}
+            amount={(item.property && user?.[item.property]?.length) || 0}
+            to={item.to}
+          />
         ))}
       </div>
     </>
