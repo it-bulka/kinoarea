@@ -162,8 +162,11 @@ const getFavouriteFilms = async ({
   filmStatus: IFilmStatus | IFilmStatus[]
 }): Promise<IFbFavouriteMovie[]> => {
   const colRef = collection(db, COLLECTIONS.FILMS, userId, COLLECTIONS.FILMS)
-  const status = Array.isArray(filmStatus) ? filmStatus : [filmStatus]
-  const q = query(colRef, where('status', 'array-contains', status))
+  const statusArray = Array.isArray(filmStatus) ? filmStatus : [filmStatus]
+  const q =
+    statusArray.length === 1
+      ? query(colRef, where('status', 'array-contains', statusArray[0]))
+      : query(colRef, where('status', 'array-contains-any', statusArray))
   return await getDocsInfo<IFbFavouriteMovie>(q)
 }
 
