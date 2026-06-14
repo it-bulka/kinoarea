@@ -3,8 +3,7 @@ import { IMovieVideo } from '../../../../api/types/responses'
 import { Typography, TypographyTypes } from '../../../../components/ui/Typography/Typography'
 import cls from './FilmVideos.module.scss'
 
-const getYoutubeThumbnail = (key: string) =>
-  `https://img.youtube.com/vi/${key}/mqdefault.jpg`
+const getYoutubeThumbnail = (key: string) => `https://img.youtube.com/vi/${key}/mqdefault.jpg`
 
 interface FilmVideosProps {
   videos: IMovieVideo[]
@@ -16,22 +15,14 @@ export const FilmVideos = ({ videos, onVideoSelect }: FilmVideosProps) => {
 
   return (
     <>
-      <Typography
-        variant="h3"
-        type={TypographyTypes._TITLE}
-        className="mx-auto mb-[18px] md:mb-9 2xl:mb-[42px] w-max"
-      >
+      <Typography variant="h3" type={TypographyTypes._TITLE} className="mx-auto mb-[18px] md:mb-9 2xl:mb-[42px] w-max">
         Трейлери та відео
       </Typography>
-      <div className={cls.grid}>
+      <div className={cls.videosGrid}>
         {videos.map(video => (
           <button key={video.id} className={cls.card} onClick={() => onVideoSelect(video.key)}>
             <div className={cls.thumbWrap}>
-              <img
-                src={getYoutubeThumbnail(video.key)}
-                alt={video.name}
-                className={cls.thumb}
-              />
+              <img src={getYoutubeThumbnail(video.key)} alt={video.name} className={cls.thumb} />
               <div className={cls.overlay}>
                 <PlayIcon className={cls.playIcon} />
               </div>

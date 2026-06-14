@@ -96,17 +96,26 @@ export const FilmPage = () => {
   )
 
   const onLikeClick = async () => {
-    if (!user) { setNotification(notificationList.userAbsent); return }
+    if (!user) {
+      setNotification(notificationList.userAbsent)
+      return
+    }
     await handleStatusToggle('liked')
   }
 
   const onDislikeClick = async () => {
-    if (!user) { setNotification(notificationList.userAbsent); return }
+    if (!user) {
+      setNotification(notificationList.userAbsent)
+      return
+    }
     await handleStatusToggle('disliked')
   }
 
   const onFavouriteClick = async () => {
-    if (!user) { setNotification(notificationList.userAbsentFavourite); return }
+    if (!user) {
+      setNotification(notificationList.userAbsentFavourite)
+      return
+    }
     await handleStatusToggle('favourite')
   }
 
@@ -137,9 +146,7 @@ export const FilmPage = () => {
                 />
                 <div className={'w-[37%] flex flex-col items-center gap-2 md:w-auto'}>
                   <RateBadge rating={details.vote_average} />
-                  <p className={'text-xs text-white/60 text-center'}>
-                    {details.vote_count.toLocaleString()} голосів
-                  </p>
+                  <p className={'text-xs text-white/60 text-center'}>{details.vote_count.toLocaleString()} голосів</p>
                 </div>
               </div>
               <div>
@@ -161,8 +168,16 @@ export const FilmPage = () => {
               />
               <div className={'flex items-center text-white gap-1 text-0.5rem'}>
                 <IconBtn type={'like'} isActive={!!favouriteFilm?.status?.includes('liked')} onClick={onLikeClick} />
-                <IconBtn type={'dislike'} isActive={!!favouriteFilm?.status?.includes('disliked')} onClick={onDislikeClick} />
-                <IconBtn type={'heart'} isActive={!!favouriteFilm?.status?.includes('favourite')} onClick={onFavouriteClick} />
+                <IconBtn
+                  type={'dislike'}
+                  isActive={!!favouriteFilm?.status?.includes('disliked')}
+                  onClick={onDislikeClick}
+                />
+                <IconBtn
+                  type={'heart'}
+                  isActive={!!favouriteFilm?.status?.includes('favourite')}
+                  onClick={onFavouriteClick}
+                />
               </div>
             </div>
 
