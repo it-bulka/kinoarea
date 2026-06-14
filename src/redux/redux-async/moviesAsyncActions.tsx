@@ -41,7 +41,7 @@ export const fetchUpcomingMovies = () => {
   return async (dispatch: Dispatch<MovieActions>) => {
     try {
       dispatch(MoviesActionCreators.loadUpcomingMovies())
-      const data = await getSearch({ type: 'movie', category: 'now_playing' })
+      const data = await getSearch({ type: 'movie', category: 'upcoming' })
       dispatch(MoviesActionCreators.addUpcomingMovies(data.results))
     } catch (err) {
       let message = 'Smth went wrong'
