@@ -88,7 +88,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'comments',
-            element: <div></div>,
+            element: <UserReviews />,
           },
           {
             path: 'films',
