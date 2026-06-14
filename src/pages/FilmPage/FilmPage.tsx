@@ -4,7 +4,7 @@ import cls from './FilmPage.module.scss'
 import { useParams } from 'react-router-dom'
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getCast, getMovieDetails, getMovieVideos, getPosters, getReview, getSimilarMovies } from '../../api/movieDBApi'
-import { ICastRes, IMovieDetailsRes, IPoster, IReview } from '../../api/types/responses'
+import { ICastRes, IMovieDetailsRes, IMovieVideo, IPoster, IReview } from '../../api/types/responses'
 import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
 import { CastList } from '../../components/ui/CastList/CastList'
 import { PostersList } from '../../components/ui/PostersList/PostersList'
@@ -17,6 +17,7 @@ import { Button } from '../../components/ui/Button/Button'
 import { setMovieDBPath } from '../../utils'
 import { RateBadge } from '../../components/ui/RateBadge/RateBadge'
 import { Description } from './sections/Descriotion/Description'
+import { FilmVideos } from './sections/FilmVideos/FilmVideos'
 import { MovieModal } from '../../components/ui/modals/MovieModal/MovieModal'
 import { Comment } from '../../components/ui/Comment/Comment'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
@@ -35,6 +36,7 @@ export const FilmPage = () => {
   const [similar, setSimilar] = useState<IMovieRes[]>([])
   const [isModalOpen, setModalOpen] = useState(false)
   const [trailerKey, setTrailerKey] = useState<string | null>(null)
+  const [videos, setVideos] = useState<IMovieVideo[]>([])
   const user = useTypedSelector(state => state.user.user)
   const [isCommentBlockShown, setCommentBlockShown] = useState(false)
   const [favouriteFilm, setFavouriteFilm] = useState<IFbFavouriteMovie | null>(null)
@@ -47,9 +49,11 @@ export const FilmPage = () => {
     getReview(slug).then(res => setReviews(res))
     getSimilarMovies(slug).then(res => setSimilar(res))
     getMovieDetails(slug).then(res => setDetails(res))
-    getMovieVideos(slug).then(videos => {
-      const trailer = videos.find(v => v.site === 'YouTube' && v.type === 'Trailer')
-      setTrailerKey(trailer?.key ?? null)
+    getMovieVideos(slug).then(vids => {
+      const youtubeVideos = vids.filter(v => v.site === 'YouTube')
+      setVideos(youtubeVideos)
+      const trailer = youtubeVideos.find(v => v.type === 'Trailer')
+      setTrailerKey(trailer?.key ?? youtubeVideos[0]?.key ?? null)
     })
 
     if (!user) return
@@ -57,6 +61,11 @@ export const FilmPage = () => {
   }, [slug])
 
   const handlePlay = () => setModalOpen(true)
+
+  const handleVideoSelect = useCallback((key: string) => {
+    setTrailerKey(key)
+    setModalOpen(true)
+  }, [])
 
   const addComment = () => {
     if (user) {
@@ -218,7 +227,11 @@ export const FilmPage = () => {
           <ReviewsList list={reviews} />
         </section>
 
-        <section className={'rounded-10 pt-4 px-3.5 pb-8 lg:py-10 lg:px-5'}></section>
+        {videos.length > 0 && (
+          <section className={'rounded-10 pt-4 px-3.5 pb-8 lg:py-10 lg:px-5'}>
+            <FilmVideos videos={videos} onVideoSelect={handleVideoSelect} />
+          </section>
+        )}
       </div>
     </>
   )
