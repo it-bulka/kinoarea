@@ -5,12 +5,15 @@ import { VideoSlider } from '../../../../components/ui/sliders/VideoSlider/Video
 import { useEffect, useMemo } from 'react'
 import { useActions } from '../../../../hooks/useActions'
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
+import { useVideoTrailers } from '../../../../hooks/useVideoTrailers'
 import { ReactComponent as TwitterIcon } from '../../../../assets/images/general/icons8-twitter.svg'
 import { ReactComponent as FacebookIcon } from '../../../../assets/images/general/facebook-f.svg'
 import { ReactComponent as InstagramIcon } from '../../../../assets/images/general/instagram.svg'
 import { ReactComponent as LinkedInIcon } from '../../../../assets/images/general/linkedin-in.svg'
 import { setMovieDBPath } from '../../../../utils'
 import { notificationList } from '../../../../mock/notificationList'
+
+const TRAILER_POOL_SIZE = 8
 
 export const NewTrailers = () => {
   const user = useTypedSelector(state => state.user.user)
@@ -23,11 +26,20 @@ export const NewTrailers = () => {
 
   const movies = useMemo(() => {
     if (!upcoming || !upcoming.length) return null
-
     const [first, ...rest] = upcoming
-
     return { first, rest }
   }, [upcoming])
+
+  const movieRefs = useMemo(
+    () =>
+      movies?.rest.slice(0, TRAILER_POOL_SIZE).map(m => ({
+        id: String(m.id),
+        title: m.title || m.name || '',
+      })) ?? [],
+    [movies?.rest]
+  )
+
+  const trailers = useVideoTrailers(movieRefs)
 
   if (!movies) return null
 
@@ -58,7 +70,7 @@ export const NewTrailers = () => {
       <div>
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
-          poster={setMovieDBPath(movies?.first?.poster_path)}
+          poster={setMovieDBPath(movies.first.poster_path)}
           className={'w-full aspect-[368/198.87] rounded-lg overflow-hidden object-cover'}
           src={'/'}
         />
@@ -66,7 +78,7 @@ export const NewTrailers = () => {
       <div className={'flex justify-between mb-4 md:mb-6 lg:mb-8 2xl:mb-11'}>
         <div className={'whitespace-nowrap flex flex-col items-center gap-2 md:flex-row md:gap-6'}>
           <Typography variant={'h4'} type={TypographyTypes.SUBTITLE}>
-            Форсаж 9
+            {movies.first.title || movies.first.name}
           </Typography>
 
           <div className={'flex gap-4 md:w-full md:justify-between '}>
@@ -88,7 +100,7 @@ export const NewTrailers = () => {
         </div>
       </div>
 
-      <VideoSlider slides={movies?.rest} />
+      <VideoSlider slides={trailers} />
     </section>
   )
 }
