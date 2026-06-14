@@ -15,6 +15,7 @@ import { IMovieRes } from '../../api/types'
 import { ReviewsList } from '../../components/ui/ReviewsList/ReviewsList'
 import { Button } from '../../components/ui/Button/Button'
 import { setMovieDBPath } from '../../utils'
+import { RateBadge } from '../../components/ui/RateBadge/RateBadge'
 import { Description } from './sections/Descriotion/Description'
 import { MovieModal } from '../../components/ui/modals/MovieModal/MovieModal'
 import { Comment } from '../../components/ui/Comment/Comment'
@@ -142,9 +143,11 @@ export const FilmPage = () => {
                   alt={'film'}
                   className={'rounded-10 w-[63%] object-cover aspect-[230/310] md:hidden'}
                 />
-                <div className={'w-[37%] flex flex-col items-center md:w-auto'}>
-                  <div>raiting 1</div>
-                  <div>raiting 2</div>
+                <div className={'w-[37%] flex flex-col items-center gap-2 md:w-auto'}>
+                  <RateBadge rating={details.vote_average} />
+                  <p className={'text-xs text-white/60 text-center'}>
+                    {details.vote_count.toLocaleString()} голосів
+                  </p>
                 </div>
               </div>
               <div>
