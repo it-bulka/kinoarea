@@ -1,6 +1,7 @@
 import * as MovieAsyncActions from './moviesAsyncActions'
 import * as GenresAsyncActions from './genres'
 import * as PersonsThunk from './persons'
+import * as ProfitAsyncActions from './profit'
 import {
   MoviesActionCreators,
   PersonsActionCreator,
@@ -19,6 +20,7 @@ export default {
   ...MovieAsyncActions,
   ...GenresAsyncActions,
   ...PersonsThunk,
+  ...ProfitAsyncActions,
   changePersonActiveCategory: PersonsActionCreator.changeActiveCategory,
   ...MoviesActionCreators,
   ...ProfitActionCreators,
