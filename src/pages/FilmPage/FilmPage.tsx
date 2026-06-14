@@ -36,7 +36,7 @@ export const FilmPage = () => {
   const [isModalOpen, setModalOpen] = useState(false)
   const user = useTypedSelector(state => state.user.user)
   const [isCommentBlockShown, setCommentBlockShown] = useState(false)
-  const [_favouriteFilm, setFavouriteFilm] = useState<IFbFavouriteMovie | null>(null)
+  const [favouriteFilm, setFavouriteFilm] = useState<IFbFavouriteMovie | null>(null)
   const { setNotification } = useActions()
 
   useEffect(() => {
@@ -48,9 +48,7 @@ export const FilmPage = () => {
     getMovieDetails(slug).then(res => setDetails(res))
 
     if (!user) return
-    FirebaseApi.getFavouriteFilm({ userId: user.id, filmId: slug, filmStatus: 'favourite' }).then(res =>
-      setFavouriteFilm(res)
-    )
+    FirebaseApi.getFavouriteFilm({ userId: user.id, filmId: slug }).then(setFavouriteFilm)
   }, [slug])
 
   const handlePlay = () => setModalOpen(true)
@@ -74,48 +72,28 @@ export const FilmPage = () => {
     )
   }, [details])
 
-  const setCategoryForFilm = useCallback(
+  const handleStatusToggle = useCallback(
     async (filmStatus: IFilmStatus): Promise<void> => {
       if (!film || !user) return
-
-      console.log('film', film)
-      console.log('filmStatus', filmStatus)
-      try {
-        await FirebaseApi.addFavouriteFilm({
-          userId: user.id,
-          filmStatus,
-          film,
-        })
-      } catch (err) {
-        console.log('err', err)
-      }
+      const updated = await FirebaseApi.toggleFilmStatus({ userId: user.id, film, filmStatus })
+      setFavouriteFilm(updated)
     },
     [film, user]
   )
-  const onLikeClick = async () => {
-    if (!user) {
-      setNotification(notificationList.userAbsent)
-      return
-    }
 
-    await setCategoryForFilm('liked')
+  const onLikeClick = async () => {
+    if (!user) { setNotification(notificationList.userAbsent); return }
+    await handleStatusToggle('liked')
   }
 
   const onDislikeClick = async () => {
-    if (!user) {
-      setNotification(notificationList.userAbsent)
-      return
-    }
-    await setCategoryForFilm('disliked')
+    if (!user) { setNotification(notificationList.userAbsent); return }
+    await handleStatusToggle('disliked')
   }
 
   const onFavouriteClick = async () => {
-    if (!user) {
-      setNotification(notificationList.userAbsentFavourite)
-      return
-    }
-
-    await setCategoryForFilm('favourite')
+    if (!user) { setNotification(notificationList.userAbsentFavourite); return }
+    await handleStatusToggle('favourite')
   }
 
   return (
@@ -168,9 +146,9 @@ export const FilmPage = () => {
                 className={'hidden rounded-10 object-cover aspect-[230/310] md:block md:max-w-[297px]'}
               />
               <div className={'flex items-center text-white gap-1 text-0.5rem'}>
-                <IconBtn type={'like'} onClick={onLikeClick} />
-                <IconBtn type={'dislike'} onClick={onDislikeClick} />
-                <IconBtn type={'heart'} onClick={onFavouriteClick} />
+                <IconBtn type={'like'} isActive={!!favouriteFilm?.status?.includes('liked')} onClick={onLikeClick} />
+                <IconBtn type={'dislike'} isActive={!!favouriteFilm?.status?.includes('disliked')} onClick={onDislikeClick} />
+                <IconBtn type={'heart'} isActive={!!favouriteFilm?.status?.includes('favourite')} onClick={onFavouriteClick} />
               </div>
             </div>
 
