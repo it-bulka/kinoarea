@@ -7,6 +7,7 @@ import type { IUserReview } from '../../../api/types/responses'
 import { useActions } from '../../../hooks/useActions'
 import { Timestamp } from 'firebase/firestore'
 import { twMerge } from 'tailwind-merge'
+import { notificationList } from '../../../mock/notificationList'
 
 interface CommentProps extends Pick<IUserReview, 'movie' | 'userId'> {
   userImg: string
@@ -18,7 +19,8 @@ interface CommentProps extends Pick<IUserReview, 'movie' | 'userId'> {
 export const Comment = ({ userId, userImg, userName, userSurname, movie, className }: CommentProps) => {
   const editorValRef = useRef<string>('')
   const [showPreview, setShowPreview] = useState(false)
-  const { setUserReview } = useActions()
+  const [editorKey, setEditorKey] = useState(0)
+  const { setUserReview, setNotification } = useActions()
 
   const comment = {
     userId,
@@ -31,10 +33,14 @@ export const Comment = ({ userId, userImg, userName, userSurname, movie, classNa
       rating: 0,
     },
   }
+
   const sendMessage = (content: string) => {
+    if (!content) return
     setUserReview({ ...comment, created_at: Timestamp.now(), content })
-    //TODO: message that comment is sent
+    setNotification(notificationList.commentSent)
     editorValRef.current = ''
+    setEditorKey(prev => prev + 1)
+    setShowPreview(false)
   }
 
   return (
@@ -60,7 +66,7 @@ export const Comment = ({ userId, userImg, userName, userSurname, movie, classNa
               </div>
             </div>
             <div className={'mt-5 mb-8 md:mt-9 md:mb-[27px]'}>
-              <Editor getContent={val => (editorValRef.current = val)} initialContentState={editorValRef.current} />
+              <Editor key={editorKey} getContent={val => (editorValRef.current = val)} initialContentState={''} />
             </div>
           </>
         )}
