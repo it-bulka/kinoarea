@@ -1,41 +1,40 @@
+import { useCallback, useEffect, useState } from 'react'
 import { NewsMiniCard } from '../NewsMiniCard/NewsMiniCard'
 import { NewsBigCard } from '../NewsBigCard/NewsBigCard'
-import { news } from '../../../mock/news'
 import { getScreenWidth, screens } from '../../../utils'
-import { useCallback, useEffect, useState } from 'react'
 import { INews } from '../../../api/types'
+import { FirebaseApi } from '../../../api/firebase'
 
-const lenghts = {
-  [screens.md]: 3,
-  [screens.lg]: 4,
+const getResponsiveCount = (): number => {
+  const screen = getScreenWidth()
+  if (screen >= screens.lg) return 4
+  if (screen >= screens.md) return 3
+  return 2
 }
 
 interface NewsListProps {
   className?: string
 }
+
 export const NewsList = ({ className }: NewsListProps) => {
-  const [cards, setCards] = useState<INews[]>([])
-  const [first, ...rest] = news
-
-  const listener = useCallback(() => {
-    let length = 2
-    const screen = getScreenWidth()
-    if (screen >= screens.md) length = lenghts[screens.md]
-    if (screen >= screens.lg) length = lenghts[screens.lg]
-
-    rest.length = length
-    setCards(rest)
-  }, [rest])
+  const [allNews, setAllNews] = useState<INews[]>([])
+  const [count, setCount] = useState(getResponsiveCount)
 
   useEffect(() => {
-    listener()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    FirebaseApi.getNews(5).then(setAllNews)
   }, [])
 
+  const updateCount = useCallback(() => setCount(getResponsiveCount()), [])
+
   useEffect(() => {
-    window.addEventListener('resize', listener)
-    return () => window.removeEventListener('resize', listener)
-  }, [listener])
+    window.addEventListener('resize', updateCount)
+    return () => window.removeEventListener('resize', updateCount)
+  }, [updateCount])
+
+  if (!allNews.length) return null
+
+  const [first, ...rest] = allNews
+  const cards = rest.slice(0, count)
 
   return (
     <div className={'2xl:flex 2xl:gap-3.5'}>

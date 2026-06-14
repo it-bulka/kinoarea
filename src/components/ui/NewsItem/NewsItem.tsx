@@ -1,17 +1,19 @@
+import { Link } from 'react-router-dom'
 import { ReactComponent as EyeIcon } from '../../../assets/images/general/eye.svg'
 import { ReactComponent as CommentIcon } from '../../../assets/images/general/comment.svg'
 import { INews } from '../../../api/types'
 import { getDate } from '../../../utils'
 
-interface NewsItemProps extends Omit<INews, 'id' | 'details'> {
+interface NewsItemProps extends INews {
   className?: string
 }
-export const NewsItem = ({ img, date, seen, comments, title, className }: NewsItemProps) => {
+export const NewsItem = ({ id, img, date, seen, comments, title, className }: NewsItemProps) => {
   return (
-    <div
+    <Link
+      to={`/news/${id}`}
       className={`
         group/news relative bg-img rounded-10 overflow-hidden h-[245px]
-        sm:h-[332px] sm:pl-[22px] sm:pr-12 
+        sm:h-[332px] sm:pl-[22px] sm:pr-12
         md:h-[289px]
         lg:h-[245px]
         xl:h-[332px]
@@ -21,7 +23,7 @@ export const NewsItem = ({ img, date, seen, comments, title, className }: NewsIt
     >
       <div className={'group-hover/news:opacity-100 opacity-0 absolute inset-0 bg-news-gradient z-0'} />
       <div
-        className={`absolute inset-0 p-4 pl-[22px] flex flex-col h-full z-20 sm:pr-12 md:py-[26px] 
+        className={`absolute inset-0 p-4 pl-[22px] flex flex-col h-full z-20 sm:pr-12 md:py-[26px]
           md:pl-[18px] md:pr-[14px]`}
       >
         <p className={'flex-1 text-13 flex items-end text-gray-3'}>Новость</p>
@@ -37,6 +39,6 @@ export const NewsItem = ({ img, date, seen, comments, title, className }: NewsIt
         </div>
         <h4 className={'text-lg font-q-900 font-black'}>{title}</h4>
       </div>
-    </div>
+    </Link>
   )
 }

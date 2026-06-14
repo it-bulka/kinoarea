@@ -4,14 +4,14 @@ import { getDate } from '../../../utils'
 import { ReactComponent as EyeIcon } from '../../../assets/images/general/eye.svg'
 import { ReactComponent as CommentIcon } from '../../../assets/images/general/comment.svg'
 
-interface NewsBigCardProps extends Omit<INews, 'id'> {
+interface NewsBigCardProps extends INews {
   className?: string
 }
-export const NewsBigCard = ({ title, date, seen, comments, details, img, className }: NewsBigCardProps) => {
+export const NewsBigCard = ({ id, title, date, seen, comments, details, img, className }: NewsBigCardProps) => {
   return (
     <div
-      className={`${className} px-6 py-5 flex flex-col justify-between bg-img rounded-10 aspect-[368/245] 
-        md:aspect-[7/3] 
+      className={`${className} px-6 py-5 flex flex-col justify-between bg-img rounded-10 aspect-[368/245]
+        md:aspect-[7/3]
         lg:pl-[23px] lg:pr-[87px] lg:py-[38px]
         2xl:pr-[87px] 2xl:pl-[221px] 2xl:pt-[52px] 2xl:pb-14 2xl:aspect-[5/3] `}
       style={{ backgroundImage: `url(${img})` }}
@@ -28,7 +28,7 @@ export const NewsBigCard = ({ title, date, seen, comments, details, img, classNa
       </div>
       <div>
         <p className={'text-lg/[20px] font-q-900 mb-5 md:text-3xl lg:text-4xl 2xl:text-[45px]'}>
-          <Link to={'/'}>{title}</Link>
+          <Link to={`/news/${id}`}>{title}</Link>
         </p>
         <p className={'hidden md:block'}>{details}</p>
       </div>

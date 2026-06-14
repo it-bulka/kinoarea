@@ -6,4 +6,6 @@ export interface INews {
   comments: number
   title: string
   details: string
+  content?: string[]
+  images?: string[]
 }

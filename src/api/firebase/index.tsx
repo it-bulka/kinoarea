@@ -10,6 +10,8 @@ import {
   deleteDoc,
   query,
   where,
+  orderBy,
+  limit,
   documentId,
   arrayUnion,
   arrayRemove,
@@ -19,6 +21,7 @@ import {
 } from 'firebase/firestore'
 import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { IFriend, IUser, IUserReview } from '../types/responses'
+import { INews } from '../types/news'
 import { FirebaseEndpoints } from './endpoints'
 import { IFbFavouriteMovie, IFilmStatus } from '../types/film'
 import { IFbFavouritePerson } from '../types/person'
@@ -28,6 +31,7 @@ export enum COLLECTIONS {
   REVIEWS = 'reviews',
   FILMS = 'films',
   PERSONS = 'persons',
+  NEWS = 'news',
 }
 
 const getCollectionRef = (colName: COLLECTIONS) => collection(db, colName)
@@ -122,6 +126,18 @@ const addIncomingFriend = async (userId: string, friendId: string | string[]): P
 const removeIncomingFriend = async (userId: string, friendId: string): Promise<void> => {
   const docRef = doc(db, COLLECTIONS.USERS, userId)
   await updateDoc(docRef, { incomingFriends: arrayRemove(friendId) })
+}
+
+/* NEWS */
+
+const getNews = async (count?: number): Promise<INews[]> => {
+  const colRef = getCollectionRef(COLLECTIONS.NEWS)
+  const q = count ? query(colRef, orderBy('date', 'desc'), limit(count)) : query(colRef, orderBy('date', 'desc'))
+  return await getDocsInfo<INews>(q)
+}
+
+const getNewsItem = async (id: string): Promise<INews | null> => {
+  return await getDocInfo(id, COLLECTIONS.NEWS)
 }
 
 /* FAVOURITE FILMS */
@@ -261,6 +277,8 @@ export const FirebaseApi = {
   getDocsInfo,
   getDocsInfoWithCol,
   getUser,
+  getNews,
+  getNewsItem,
   createUser,
   refreshUser,
   uploadProfileImg,
