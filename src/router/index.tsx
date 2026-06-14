@@ -1,29 +1,49 @@
+import { lazy } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { Layout } from '../components/layout/Layout'
-import {
-  Main,
-  NotFound,
-  Premiere,
-  FilmPage,
-  News,
-  OneNews,
-  Collections,
-  ChosenCollection,
-  SearchResult,
-  Profile,
-  ProfileMain,
-  ProfileSetting,
-  UserReviews,
-  Friends,
-  Likes,
-  FavouriteFilms,
-  Famous,
-  Actors,
-  Actor,
-  loadActor,
-} from '../pages'
-import { ActorImages } from '../pages/ActorImages/ActorImages'
+import { WithSuspense } from '../components/ui/WithSuspense/WithSuspense'
+import { loadActor } from '../pages/Actor/loader'
 import { ProtectedRoute } from '../components/business/ProtectedRoute/ProtectedRoute'
+
+import { NowPlayingSkeleton } from '../pages/Main/sections/NowPlaying/NowPlayingSkeleton'
+import { FilmPageSkeleton } from '../pages/FilmPage/FilmPageSkeleton'
+import { ActorsSkeleton } from '../pages/Actors/ActorsSkeleton'
+import { ActorSkeleton } from '../pages/Actor/ActorSkeleton'
+import { SearchResultSkeleton } from '../pages/SearchResult/SearchResultSkeleton'
+import { NewsSkeleton } from '../pages/News/NewsSkeleton'
+import { PremiereSkeleton } from '../pages/Premiere/PremiereSkeleton'
+import { CollectionsSkeleton } from '../pages/Collections/CollectionsSkeleton'
+
+const Main = lazy(() => import('../pages/Main/Main').then(m => ({ default: m.Main })))
+const NotFound = lazy(() => import('../pages/NotFound/NotFound').then(m => ({ default: m.NotFound })))
+const Premiere = lazy(() => import('../pages/Premiere/Premiere').then(m => ({ default: m.Premiere })))
+const FilmPage = lazy(() => import('../pages/FilmPage/FilmPage').then(m => ({ default: m.FilmPage })))
+const News = lazy(() => import('../pages/News/News').then(m => ({ default: m.News })))
+const OneNews = lazy(() => import('../pages/OneNews/OneNews').then(m => ({ default: m.OneNews })))
+const Collections = lazy(() => import('../pages/Collections/Collections').then(m => ({ default: m.Collections })))
+const ChosenCollection = lazy(() =>
+  import('../pages/Collections/subpages/ChosenCollection').then(m => ({ default: m.ChosenCollection }))
+)
+const SearchResult = lazy(() => import('../pages/SearchResult/SearchResult').then(m => ({ default: m.SearchResult })))
+const Profile = lazy(() => import('../pages/Profile/Profile').then(m => ({ default: m.Profile })))
+const ProfileMain = lazy(() =>
+  import('../pages/Profile/subpages/ProfileMain/ProfileMain').then(m => ({ default: m.ProfileMain }))
+)
+const ProfileSetting = lazy(() =>
+  import('../pages/Profile/subpages/Setting/Setting').then(m => ({ default: m.Setting }))
+)
+const UserReviews = lazy(() =>
+  import('../pages/Profile/subpages/UserReviews/UserReviews').then(m => ({ default: m.UserReviews }))
+)
+const Friends = lazy(() => import('../pages/Profile/subpages/Friends/Friends').then(m => ({ default: m.Friends })))
+const Likes = lazy(() => import('../pages/Profile/subpages/Likes/Likes').then(m => ({ default: m.Likes })))
+const FavouriteFilms = lazy(() =>
+  import('../pages/Profile/subpages/FavouriteFilms/FavouriteFilms').then(m => ({ default: m.FavouriteFilms }))
+)
+const Famous = lazy(() => import('../pages/Profile/subpages/Famous/Famous').then(m => ({ default: m.Famous })))
+const Actors = lazy(() => import('../pages/Actors/Actors').then(m => ({ default: m.Actors })))
+const Actor = lazy(() => import('../pages/Actor/Actor').then(m => ({ default: m.Actor })))
+const ActorImages = lazy(() => import('../pages/ActorImages/ActorImages').then(m => ({ default: m.ActorImages })))
 
 export const router = createBrowserRouter([
   {
@@ -32,72 +52,143 @@ export const router = createBrowserRouter([
     children: [
       {
         index: true,
-        element: <Main />,
+        element: (
+          <WithSuspense fallback={<NowPlayingSkeleton />}>
+            <Main />
+          </WithSuspense>
+        ),
       },
       {
         path: 'premiere',
-        element: <Premiere />,
+        element: (
+          <WithSuspense fallback={<PremiereSkeleton />}>
+            <Premiere />
+          </WithSuspense>
+        ),
       },
       {
         path: 'films',
-        element: <SearchResult />,
+        element: (
+          <WithSuspense fallback={<SearchResultSkeleton />}>
+            <SearchResult />
+          </WithSuspense>
+        ),
       },
       {
         path: 'films/:slug',
-        element: <FilmPage />,
+        element: (
+          <WithSuspense fallback={<FilmPageSkeleton />}>
+            <FilmPage />
+          </WithSuspense>
+        ),
       },
       {
         path: 'news',
-        element: <News />,
+        element: (
+          <WithSuspense fallback={<NewsSkeleton />}>
+            <News />
+          </WithSuspense>
+        ),
       },
       {
         path: 'news/:slug',
-        element: <OneNews />,
+        element: (
+          <WithSuspense>
+            <OneNews />
+          </WithSuspense>
+        ),
       },
       {
         path: 'collections',
-        element: <Collections />,
-        children: [{ path: ':slug', element: <ChosenCollection /> }],
+        element: (
+          <WithSuspense fallback={<CollectionsSkeleton />}>
+            <Collections />
+          </WithSuspense>
+        ),
+        children: [
+          {
+            path: ':slug',
+            element: (
+              <WithSuspense fallback={<CollectionsSkeleton />}>
+                <ChosenCollection />
+              </WithSuspense>
+            ),
+          },
+        ],
       },
       {
         path: 'profile',
         element: (
           <ProtectedRoute>
-            <Profile />
+            <WithSuspense>
+              <Profile />
+            </WithSuspense>
           </ProtectedRoute>
         ),
         children: [
           {
             index: true,
-            element: <ProfileMain />,
+            element: (
+              <WithSuspense>
+                <ProfileMain />
+              </WithSuspense>
+            ),
           },
           {
             path: 'setting',
-            element: <ProfileSetting />,
+            element: (
+              <WithSuspense>
+                <ProfileSetting />
+              </WithSuspense>
+            ),
           },
           {
             path: 'friends',
-            element: <Friends />,
+            element: (
+              <WithSuspense>
+                <Friends />
+              </WithSuspense>
+            ),
           },
           {
             path: 'reviews',
-            element: <UserReviews />,
+            element: (
+              <WithSuspense>
+                <UserReviews />
+              </WithSuspense>
+            ),
           },
           {
             path: 'likes',
-            element: <Likes />,
+            element: (
+              <WithSuspense>
+                <Likes />
+              </WithSuspense>
+            ),
           },
           {
             path: 'comments',
-            element: <UserReviews />,
+            element: (
+              <WithSuspense>
+                <UserReviews />
+              </WithSuspense>
+            ),
           },
           {
             path: 'films',
-            element: <FavouriteFilms />,
+            element: (
+              <WithSuspense>
+                <FavouriteFilms />
+              </WithSuspense>
+            ),
           },
           {
             path: 'famous',
-            element: <Famous />,
+            element: (
+              <WithSuspense>
+                <Famous />
+              </WithSuspense>
+            ),
           },
           {
             path: '*',
@@ -107,16 +198,28 @@ export const router = createBrowserRouter([
       },
       {
         path: 'actors',
-        element: <Actors />,
+        element: (
+          <WithSuspense fallback={<ActorsSkeleton />}>
+            <Actors />
+          </WithSuspense>
+        ),
       },
       {
         path: 'actors/:actorId',
-        element: <Actor />,
+        element: (
+          <WithSuspense fallback={<ActorSkeleton />}>
+            <Actor />
+          </WithSuspense>
+        ),
         loader: loadActor,
         children: [
           {
             path: 'images',
-            element: <ActorImages />,
+            element: (
+              <WithSuspense>
+                <ActorImages />
+              </WithSuspense>
+            ),
           },
         ],
       },
@@ -124,6 +227,10 @@ export const router = createBrowserRouter([
   },
   {
     path: '*',
-    element: <NotFound />,
+    element: (
+      <WithSuspense>
+        <NotFound />
+      </WithSuspense>
+    ),
   },
 ])
