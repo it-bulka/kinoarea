@@ -1,0 +1,9 @@
+@keyframes shimmer {
+  0%   { opacity: .45; }
+  50%  { opacity: .75; }
+  100% { opacity: .45; }
+}
+
+.shimmer {
+  animation: shimmer 1.6s ease-in-out infinite;
+}
