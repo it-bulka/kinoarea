@@ -188,6 +188,21 @@ export interface ISimilarRes {
   total_results: number
 }
 
+export interface IMovieVideo {
+  id: string
+  key: string
+  name: string
+  site: string
+  type: string
+  official: boolean
+  published_at: string
+}
+
+export interface IMovieVideosRes {
+  id: number
+  results: IMovieVideo[]
+}
+
 export interface IMovieDetailsRes {
   adult: boolean
   backdrop_path: string

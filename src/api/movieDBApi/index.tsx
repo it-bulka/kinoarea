@@ -10,6 +10,8 @@ import {
   IReviewsRes,
   ISimilarRes,
   IMovieDetailsRes,
+  IMovieVideo,
+  IMovieVideosRes,
   ISearchResult,
   IDiscoverResult,
   IPersonResult,
@@ -100,6 +102,11 @@ export const getReview = async (id: string): Promise<IReview[]> => {
 
 export const getSimilarMovies = async (id: string): Promise<IMovieRes[]> => {
   const { data } = await movieDBAxious.get<ISimilarRes>(path.movie(id) + '/similar')
+  return data.results
+}
+
+export const getMovieVideos = async (id: string): Promise<IMovieVideo[]> => {
+  const { data } = await movieDBAxious.get<IMovieVideosRes>(path.movie(id) + '/videos')
   return data.results
 }
 

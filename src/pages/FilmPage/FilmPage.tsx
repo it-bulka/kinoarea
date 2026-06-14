@@ -3,7 +3,7 @@ import { ReactComponent as PlayIcon } from '../../assets/images/general/play-btn
 import cls from './FilmPage.module.scss'
 import { useParams } from 'react-router-dom'
 import { useCallback, useEffect, useMemo, useState } from 'react'
-import { getCast, getMovieDetails, getPosters, getReview, getSimilarMovies } from '../../api/movieDBApi'
+import { getCast, getMovieDetails, getMovieVideos, getPosters, getReview, getSimilarMovies } from '../../api/movieDBApi'
 import { ICastRes, IMovieDetailsRes, IPoster, IReview } from '../../api/types/responses'
 import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
 import { CastList } from '../../components/ui/CastList/CastList'
@@ -34,6 +34,7 @@ export const FilmPage = () => {
   const [reviews, setReviews] = useState<IReview[]>([])
   const [similar, setSimilar] = useState<IMovieRes[]>([])
   const [isModalOpen, setModalOpen] = useState(false)
+  const [trailerKey, setTrailerKey] = useState<string | null>(null)
   const user = useTypedSelector(state => state.user.user)
   const [isCommentBlockShown, setCommentBlockShown] = useState(false)
   const [favouriteFilm, setFavouriteFilm] = useState<IFbFavouriteMovie | null>(null)
@@ -46,6 +47,10 @@ export const FilmPage = () => {
     getReview(slug).then(res => setReviews(res))
     getSimilarMovies(slug).then(res => setSimilar(res))
     getMovieDetails(slug).then(res => setDetails(res))
+    getMovieVideos(slug).then(videos => {
+      const trailer = videos.find(v => v.site === 'YouTube' && v.type === 'Trailer')
+      setTrailerKey(trailer?.key ?? null)
+    })
 
     if (!user) return
     FirebaseApi.getFavouriteFilm({ userId: user.id, filmId: slug }).then(setFavouriteFilm)
@@ -152,7 +157,7 @@ export const FilmPage = () => {
               </div>
             </div>
 
-            <MovieModal close={() => setModalOpen(false)} isOpened={isModalOpen} />
+            <MovieModal close={() => setModalOpen(false)} isOpened={isModalOpen} videoKey={trailerKey} />
           </section>
         )}
 

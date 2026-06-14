@@ -1,20 +1,26 @@
 import { Modal, ModalProps } from '../Modal/Modal'
-//import YouTube from 'react-youtube'
 import cls from './MovieModal.module.scss'
 
-type MovieModalProps = Omit<ModalProps, 'children'>
+type MovieModalProps = Omit<ModalProps, 'children'> & {
+  videoKey: string | null
+}
 
-export const MovieModal = ({ close, isOpened }: MovieModalProps) => {
+export const MovieModal = ({ close, isOpened, videoKey }: MovieModalProps) => {
   return (
     <Modal close={close} isOpened={isOpened} className={cls.modal} contentClassName={cls.modalContent}>
-      <iframe
-        title={'l'}
-        src={`https://www.youtube.com/embed/Wn0JG9SeGBE`} // Замените videoKey на ваш ключ
-        frameBorder="0"
-        allowFullScreen
-        className={cls.youtubeFrame}
-      ></iframe>
-      {/* <YouTube videoId={'Wn0JG9SeGBE'} iframeClassName={cls.youtubeFrame} />*/}
+      {videoKey ? (
+        <iframe
+          title="trailer"
+          src={`https://www.youtube.com/embed/${videoKey}`}
+          frameBorder="0"
+          allowFullScreen
+          className={cls.youtubeFrame}
+        />
+      ) : (
+        <div className={`${cls.youtubeFrame} flex items-center justify-center text-white/60 text-sm`}>
+          Трейлер недоступний
+        </div>
+      )}
     </Modal>
   )
 }
