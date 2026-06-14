@@ -6,3 +6,10 @@ export interface IPerson {
   originalActorName: string
   age: number
 }
+
+export interface IFbFavouritePerson {
+  id: number
+  name: string
+  profile_path: string | null
+  popularity: number
+}

@@ -21,11 +21,13 @@ import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { IFriend, IUser, IUserReview } from '../types/responses'
 import { FirebaseEndpoints } from './endpoints'
 import { IFbFavouriteMovie, IFilmStatus } from '../types/film'
+import { IFbFavouritePerson } from '../types/person'
 
 export enum COLLECTIONS {
   USERS = 'users',
   REVIEWS = 'reviews',
   FILMS = 'films',
+  PERSONS = 'persons',
 }
 
 const getCollectionRef = (colName: COLLECTIONS) => collection(db, colName)
@@ -190,6 +192,29 @@ const getFavouriteFilm = async ({
   return null
 }
 
+/* FAVOURITE PERSONS */
+
+const addFavouritePerson = async ({
+  userId,
+  person,
+}: {
+  userId: string
+  person: IFbFavouritePerson
+}): Promise<void> => {
+  const docRef = doc(db, COLLECTIONS.PERSONS, userId, COLLECTIONS.PERSONS, person.id.toString())
+  await setDoc(docRef, person)
+}
+
+const removeFavouritePerson = async ({ userId, personId }: { userId: string; personId: string }): Promise<void> => {
+  const docRef = doc(db, COLLECTIONS.PERSONS, userId, COLLECTIONS.PERSONS, personId)
+  await deleteDoc(docRef)
+}
+
+const getFavouritePersons = async ({ userId }: { userId: string }): Promise<IFbFavouritePerson[]> => {
+  const colRef = collection(db, COLLECTIONS.PERSONS, userId, COLLECTIONS.PERSONS)
+  return await getDocsInfo<IFbFavouritePerson>(colRef)
+}
+
 /* STORAGE */
 
 const uploadProfileImg = async (id: string, file: Blob): Promise<string> => {
@@ -217,4 +242,7 @@ export const FirebaseApi = {
   removeFavouriteFilm,
   getFavouriteFilms,
   getFavouriteFilm,
+  addFavouritePerson,
+  removeFavouritePerson,
+  getFavouritePersons,
 }

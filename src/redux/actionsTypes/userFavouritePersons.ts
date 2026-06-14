@@ -1,0 +1,5 @@
+export enum UserFavouritePersons {
+  ADD = 'ADD_USER_FAVOURITE_PERSONS',
+  LOAD = 'LOAD_USER_FAVOURITE_PERSONS',
+  ERR = 'ERR_USER_FAVOURITE_PERSONS',
+}
