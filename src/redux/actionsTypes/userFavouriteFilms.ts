@@ -1,0 +1,5 @@
+export enum UserFavouriteFilms {
+  ADD = 'ADD_USER_FAVOURITE_FILMS',
+  LOAD = 'LOAD_USER_FAVOURITE_FILMS',
+  ERR = 'ERR_USER_FAVOURITE_FILMS',
+}

@@ -12,6 +12,7 @@ import { fetchUser, updateUser, createUser, removeFetchedUser, getLoggedUser } f
 import { fetchUserReviews, setUserReview } from './userReviews'
 import { fetchUserFriends, addUserFriend, removeUserFriend } from './userFriends'
 import { fetchIncomingFriends, removeIncomingFriend, addIncomingFriend } from './incomingFriends'
+import { fetchUserFavouriteFilms } from './userFavouriteFilms'
 
 export default {
   ...MovieAsyncActions,
@@ -35,4 +36,5 @@ export default {
   removeIncomingFriend,
   fetchIncomingFriends,
   addIncomingFriend,
+  fetchUserFavouriteFilms,
 }

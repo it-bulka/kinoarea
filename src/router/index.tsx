@@ -15,6 +15,7 @@ import {
   ProfileSetting,
   UserReviews,
   Friends,
+  Likes,
   Actors,
   Actor,
   loadActor,
@@ -82,7 +83,7 @@ export const router = createBrowserRouter([
           },
           {
             path: 'likes',
-            element: <div></div>,
+            element: <Likes />,
           },
           {
             path: 'comments',
