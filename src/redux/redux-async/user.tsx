@@ -31,7 +31,6 @@ export const updateUser = (id: string, data: Partial<IUser>, img?: Blob | null) 
       }
       await FirebaseApi.refreshUser(id, body)
       const user = await FirebaseApi.getUser(id)
-      console.log('user', user)
       if (!user) throw { message: 'Your account not found' }
 
       dispatch(UserActionCreators.add(user))
@@ -55,7 +54,6 @@ export const createUser = (userData: Pick<IUser, 'name' | 'surname'> & { login: 
             id: user.uid,
           })
             .then(user => {
-              console.log('added User', user)
               user && dispatch(UserActionCreators.add(user))
             })
             .catch(error => {

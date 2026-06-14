@@ -1,4 +1,4 @@
-import { signal, effect } from '@preact/signals-react'
+import { signal } from '@preact/signals-react'
 import { ReactNode, useCallback, useEffect } from 'react'
 import { Header } from '../ui/Header/Header'
 import { Navigation } from '../ui/Navigation/Navigation'
@@ -25,8 +25,6 @@ export const Layout = ({ children, noMailing = false }: LayoutProps) => {
   const onMenuClick = useCallback(() => {
     isNavOpen.value = true
   }, [])
-
-  effect(() => console.log({ isNavOpen: isNavOpen.value }))
 
   useEffect(() => {
     getLoggedUser()

@@ -19,9 +19,6 @@ export const Friends = () => {
     if (user?.friends) fetchUserFriends(user?.friends)
     if (user?.incomingFriends) fetchIncomingFriends(user?.incomingFriends)
   }, [fetchUserFriends, fetchIncomingFriends, user])
-  console.log('friends', friends)
-  console.log('incomingFriends', incomingFriends)
-
   const onAcceptFriend = (userId: string, friendId: string) => {
     addUserFriend(userId, friendId)
     removeIncomingFriend(userId, friendId)

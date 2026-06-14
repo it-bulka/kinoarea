@@ -25,12 +25,6 @@ export const Actors = () => {
     setData()
   }, [])
 
-  actors?.map(item => {
-    if (item.name === 'Zhao Lusi') {
-      console.log('PERSON', item)
-    }
-  })
-
   const onPaginationChange = (page: number) => setData(page)
   return (
     <section className={'container'}>
