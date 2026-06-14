@@ -26,6 +26,7 @@ import { notificationList } from '../../mock/notificationList'
 import { IconBtn } from '../../components/ui/IconBtn/IconBtn'
 import { FirebaseApi } from '../../api/firebase'
 import { IFbFavouriteMovie, IFilmStatus } from '../../api/types/film'
+import { FilmPageSkeleton } from './FilmPageSkeleton'
 
 export const FilmPage = () => {
   const { slug } = useParams()
@@ -40,21 +41,25 @@ export const FilmPage = () => {
   const user = useTypedSelector(state => state.user.user)
   const [isCommentBlockShown, setCommentBlockShown] = useState(false)
   const [favouriteFilm, setFavouriteFilm] = useState<IFbFavouriteMovie | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const { setNotification } = useActions()
 
   useEffect(() => {
     if (!slug) return
-    getCast(slug).then(res => setCast(res))
-    getPosters(slug).then(res => setPosters(res))
-    getReview(slug).then(res => setReviews(res))
-    getSimilarMovies(slug).then(res => setSimilar(res))
-    getMovieDetails(slug).then(res => setDetails(res))
-    getMovieVideos(slug).then(vids => {
-      const youtubeVideos = vids.filter(v => v.site === 'YouTube')
-      setVideos(youtubeVideos)
-      const trailer = youtubeVideos.find(v => v.type === 'Trailer')
-      setTrailerKey(trailer?.key ?? youtubeVideos[0]?.key ?? null)
-    })
+    setIsLoading(true)
+    Promise.all([
+      getCast(slug).then(setCast),
+      getPosters(slug).then(setPosters),
+      getReview(slug).then(setReviews),
+      getSimilarMovies(slug).then(setSimilar),
+      getMovieDetails(slug).then(setDetails),
+      getMovieVideos(slug).then(vids => {
+        const youtubeVideos = vids.filter(v => v.site === 'YouTube')
+        setVideos(youtubeVideos)
+        const trailer = youtubeVideos.find(v => v.type === 'Trailer')
+        setTrailerKey(trailer?.key ?? youtubeVideos[0]?.key ?? null)
+      }),
+    ]).finally(() => setIsLoading(false))
 
     if (!user) return
     FirebaseApi.getFavouriteFilm({ userId: user.id, filmId: slug }).then(setFavouriteFilm)
@@ -118,6 +123,8 @@ export const FilmPage = () => {
     }
     await handleStatusToggle('favourite')
   }
+
+  if (isLoading) return <FilmPageSkeleton />
 
   return (
     <>

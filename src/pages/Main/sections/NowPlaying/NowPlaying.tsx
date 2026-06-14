@@ -8,10 +8,11 @@ import { genres } from '../../../../mock/categories'
 import { setActiveItem } from '../../../../utils/setActiveItem'
 import { ICategory } from '../../../../components/ui/Category/Category'
 import { useNavigate } from 'react-router-dom'
+import { NowPlayingSkeleton } from './NowPlayingSkeleton'
 
 export const NowPlaying = () => {
   const { fetchNowPlayingMovies, changeNowPlayingCategory } = useActions()
-  const { nowPlaying, nowPlayingCategory } = useTypedSelector(state => state.movies)
+  const { nowPlaying, nowPlayingCategory, isNowPlayingLoading } = useTypedSelector(state => state.movies)
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -25,6 +26,8 @@ export const NowPlaying = () => {
     if (movies.length > moviesLimit) movies.length = moviesLimit
     return movies
   }, [nowPlaying])
+
+  if (isNowPlayingLoading) return <NowPlayingSkeleton />
 
   const onCategoryClick = (item: ICategory<string>) => {
     changeNowPlayingCategory(item)

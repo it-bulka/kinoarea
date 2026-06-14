@@ -9,6 +9,7 @@ import { IDiscoverResult, MovieDBPageSize } from '../../api/types/responses'
 import { IMovies } from '../../api/types'
 import { Pagination } from '../../components/ui/Pagination/Pagination'
 import { scrollTop } from '../../utils/scrollTop'
+import { SearchResultSkeleton } from './SearchResultSkeleton'
 
 interface IOption {
   value: string
@@ -43,11 +44,13 @@ export const SearchResult = () => {
   const ref = useRef<HTMLInputElement>(null)
   const [pagesData, setPagesData] = useState<Omit<IDiscoverResult, 'results'> | null>(null)
   const [films, setFilms] = useState<IMovies>([])
+  const [isLoading, setIsLoading] = useState(true)
 
   const handleSelect = (selectedOptions: unknown) => setSortValue(selectedOptions as ISortOption)
   const handleSelectCategory = (selectedOptions: unknown) => setCategory(selectedOptions as ICategoryOption)
 
   const search = async (page: number = 1) => {
+    setIsLoading(true)
     const params: IParams = { page }
     if (sortValue && sortValue.value !== 'notchosen') params.sort_by = sortValue.value
     if (ref.current) params.with_keywords = ref.current.value
@@ -61,6 +64,7 @@ export const SearchResult = () => {
     const { results, ...rest } = data
     setFilms(results)
     setPagesData(rest)
+    setIsLoading(false)
   }
   const onSearch = async () => search()
   const onPaginationChange = async (page: number) => {
@@ -71,6 +75,8 @@ export const SearchResult = () => {
   useEffect(() => {
     search()
   }, [category, sortValue])
+
+  if (isLoading) return <SearchResultSkeleton />
 
   return (
     <section className={'container'}>

@@ -16,6 +16,7 @@ import { Button } from '../../components/ui/Button/Button'
 import { IOption } from '../../utils/getSelectedOption'
 import { usePaginateData } from '../../hooks/usePaginateData'
 import { getISODate } from '../../utils/getISODate'
+import { PremiereSkeleton } from './PremiereSkeleton'
 
 type MovieSchedule = Array<[string, IMovieRes[]]>
 type PageInfo = Omit<IDiscoverResult, 'results'>
@@ -23,6 +24,7 @@ export const Premiere = () => {
   const [startDate, setStartDate] = useState<Date | null>(null)
   const [endDate, setEndDate] = useState<Date | null>(null)
   const [sortValue, setSortValue] = useState<IOption[] | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const {
     data: movieSchedule,
     setData: setMovieSchedule,
@@ -72,19 +74,22 @@ export const Premiere = () => {
     }
     if (endDate) requestParams.params!['primary_release_date.lte'] = getISODate(endDate)
 
+    setIsLoading(true)
     getSearch(requestParams).then(res => {
       const { results, ...pages } = res
       const movies = getGroupedMovie(results)
       setMovieSchedule(movies)
-
       setPagesData(pages)
       scrollTop()
+      setIsLoading(false)
     })
   }
 
   useEffect(() => {
     setData()
   }, [])
+
+  if (isLoading) return <PremiereSkeleton />
 
   return (
     <div className={'py-6'}>

@@ -6,21 +6,28 @@ import { Pagination } from '../../components/ui/Pagination/Pagination'
 import { FirebaseApi } from '../../api/firebase'
 import { INews } from '../../api/types'
 import cls from './News.module.scss'
+import { NewsSkeleton } from './NewsSkeleton'
 
 const PAGE_SIZE = 10
 
 export const News = () => {
   const [allNews, setAllNews] = useState<INews[]>([])
   const [currentPage, setCurrentPage] = useState(1)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
-    FirebaseApi.getNews().then(setAllNews)
+    FirebaseApi.getNews().then(news => {
+      setAllNews(news)
+      setIsLoading(false)
+    })
   }, [])
 
   const pageNews = useMemo(
     () => allNews.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE),
     [allNews, currentPage]
   )
+
+  if (isLoading) return <NewsSkeleton />
 
   return (
     <section className={'container pt-6 pb-8 md:pb-10 lg:pb-9 2xl:pb-[71px]'}>

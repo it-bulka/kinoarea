@@ -6,19 +6,23 @@ import { PersonItem } from '../../components/ui/PersonItem/PersonItem'
 import { scrollTop } from '../../utils/scrollTop'
 import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
 import { useNavigate } from 'react-router-dom'
+import { ActorsSkeleton } from './ActorsSkeleton'
 
 export const Actors = () => {
   const [actors, setActors] = useState<IPerson[]>([])
   const [pagesData, setPagesData] = useState<Omit<IPersonResult, 'results'> | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
 
   const setData = (page?: number) => {
     const params = page ? { page } : undefined
+    setIsLoading(true)
     getPersons(params).then(res => {
       const { results, ...pages } = res
       setActors(results)
       setPagesData(pages)
       scrollTop()
+      setIsLoading(false)
     })
   }
   useEffect(() => {
@@ -26,6 +30,9 @@ export const Actors = () => {
   }, [])
 
   const onPaginationChange = (page: number) => setData(page)
+
+  if (isLoading) return <ActorsSkeleton />
+
   return (
     <section className={'container'}>
       <Typography variant={'h1'} type={TypographyTypes._TITLE}>

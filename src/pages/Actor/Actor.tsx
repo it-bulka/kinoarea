@@ -1,5 +1,4 @@
-import { type LoaderFunctionArgs, Outlet, useLoaderData, useNavigate, useRevalidator } from 'react-router-dom'
-import { getPersonFullInfo } from '../../api/movieDBApi'
+import { Outlet, useLoaderData, useNavigate, useRevalidator } from 'react-router-dom'
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
 import { getDate, setMovieDBPath } from '../../utils'
 import { IPersonFullInfo } from '../../api/types/responses'
@@ -19,6 +18,7 @@ import { Pagination } from '../../components/ui/Pagination/Pagination'
 import { useCallback, useEffect } from 'react'
 import type { IPersonCombinedCredits } from '../../api/types/responses'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
+import { ActorSkeleton } from './ActorSkeleton'
 
 const filmsPerPageAmount = 10
 interface ActorFilmsPagination {
@@ -35,6 +35,7 @@ export const Actor = () => {
   useEffect(() => {
     revalidator.revalidate()
   }, [language])
+
   const { isSeeMorePossible, setSeeMore, ref, isMatchedSize } = useSeeMore<HTMLDivElement>()
   const {
     data: filmsPerPage,
@@ -71,6 +72,7 @@ export const Actor = () => {
     setPagesData({ total_pages: pagesData!.total_pages, max_per_page: pagesData!.max_per_page, page })
   }
 
+  if (revalidator.state === 'loading') return <ActorSkeleton />
   if (!actor) return <div>Такого актора не найдено</div>
 
   const {
@@ -193,12 +195,4 @@ export const Actor = () => {
       </section>
     </div>
   )
-}
-
-export const loadActor = async ({ params }: LoaderFunctionArgs) => {
-  if (params.actorId) {
-    return await getPersonFullInfo(params.actorId)
-  }
-
-  return null
 }

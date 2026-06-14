@@ -14,6 +14,7 @@ import { setMovieDBPath } from '../../../../utils'
 import { notificationList } from '../../../../mock/notificationList'
 import { FirebaseApi } from '../../../../api/firebase'
 import { IFbFavouriteMovie, IFilmStatus, IMovieRes } from '../../../../api/types/film'
+import { NewTrailersSkeleton } from './NewTrailersSkeleton'
 
 const TRAILER_POOL_SIZE = 8
 
@@ -30,6 +31,7 @@ export const NewTrailers = () => {
   const { upcoming } = useTypedSelector(state => state.movies)
 
   const [filmStatus, setFilmStatus] = useState<IFbFavouriteMovie | null>(null)
+  const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
     fetchUpcomingMovies()
@@ -37,6 +39,7 @@ export const NewTrailers = () => {
 
   const movies = useMemo(() => {
     if (!upcoming || !upcoming.length) return null
+    setIsLoading(false)
     const [first, ...rest] = upcoming
     return { first, rest }
   }, [upcoming])
@@ -57,7 +60,7 @@ export const NewTrailers = () => {
 
   const trailers = useVideoTrailers(movieRefs)
 
-  if (!movies) return null
+  if (isLoading || !movies) return <NewTrailersSkeleton />
 
   const handleStatusToggle = async (status: IFilmStatus) => {
     if (!user) {

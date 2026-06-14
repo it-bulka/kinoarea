@@ -9,9 +9,10 @@ import { setActiveItem } from '../../../../utils/setActiveItem'
 import { useActions } from '../../../../hooks/useActions'
 import { getISODate } from '../../../../utils/getISODate'
 import { ICategory } from '../../../../components/ui/Category/Category'
+import { ProfitSkeleton } from './ProfitSkeleton'
 
 export const Profit = () => {
-  const { activeCategory, items } = useTypedSelector(state => state.profit)
+  const { activeCategory, items, isLoading } = useTypedSelector(state => state.profit)
   const { changeProfitActiveCategory, fetchProfitMovies } = useActions()
 
   const [startDate, setStartDate] = useState<Date | null>(null)
@@ -20,6 +21,8 @@ export const Profit = () => {
   useEffect(() => {
     fetchProfitMovies()
   }, [])
+
+  if (isLoading) return <ProfitSkeleton />
 
   const onCategoryChange = (item: ICategory) => {
     changeProfitActiveCategory(item)

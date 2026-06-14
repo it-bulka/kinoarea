@@ -7,15 +7,18 @@ import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 import { years } from '../../../../mock/categories'
 import { setActiveItem } from '../../../../utils/setActiveItem'
 import { ICategory } from '../../../../components/ui/Category/Category'
+import { PopularSkeleton } from './PopularSkeleton'
 
 export const Popular = () => {
   const { fetchPopularMovies, changePopularCategory } = useActions()
-  const { popular, popularCategory } = useTypedSelector(state => state.movies)
+  const { popular, popularCategory, isPopularLoading } = useTypedSelector(state => state.movies)
 
   useEffect(() => {
     fetchPopularMovies()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  if (isPopularLoading) return <PopularSkeleton />
 
   const onCategoryClick = (item: ICategory) => {
     changePopularCategory(item)

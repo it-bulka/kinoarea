@@ -10,11 +10,12 @@ import { persons } from '../../../../mock/categories'
 import { setActiveItem } from '../../../../utils/setActiveItem'
 import { ICategory } from '../../../../components/ui/Category/Category'
 import type { SwiperRef } from 'swiper/react'
+import { PersonsSkeleton } from './PersonsSkeleton'
 
 const startSlidePos = 2
 export const Persons = () => {
   const { fetchPopularPersons, changePersonActiveCategory } = useActions()
-  const { popular: popularPersons, activeCategory } = useTypedSelector(state => state.persons)
+  const { popular: popularPersons, activeCategory, loading } = useTypedSelector(state => state.persons)
 
   const [bigPersonsList, setBigPersonsList] = useState<IPerson[]>([])
   const [smallPersonsList, setSmallPersonsList] = useState<IPerson[]>([])
@@ -49,6 +50,8 @@ export const Persons = () => {
     fetchPopularPersons()
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
+
+  if (loading) return <PersonsSkeleton />
 
   const onCategoryChange = (item: ICategory) => {
     changePersonActiveCategory(item)
