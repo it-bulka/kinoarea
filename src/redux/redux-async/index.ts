@@ -15,6 +15,7 @@ import { fetchUserFriends, addUserFriend, removeUserFriend } from './userFriends
 import { fetchIncomingFriends, removeIncomingFriend, addIncomingFriend } from './incomingFriends'
 import { fetchUserFavouriteFilms } from './userFavouriteFilms'
 import { fetchUserFavouritePersons } from './userFavouritePersons'
+import { setLanguage } from '../actionsCreators/language'
 
 export default {
   ...MovieAsyncActions,
@@ -41,4 +42,5 @@ export default {
   addIncomingFriend,
   fetchUserFavouriteFilms,
   fetchUserFavouritePersons,
+  setLanguage,
 }

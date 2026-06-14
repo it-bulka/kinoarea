@@ -18,6 +18,8 @@ import {
   IPersonFullInfo,
 } from '../types/responses'
 
+import { getStoredLanguage } from '../../redux/actionsCreators/language'
+
 const token = import.meta.env.VITE_MOVIEDB_TOKEN
 
 const path = {
@@ -35,6 +37,11 @@ const movieDBAxious = axios.create({
     accept: 'application/json',
     Authorization: `Bearer ${token}`,
   },
+})
+
+movieDBAxious.interceptors.request.use(config => {
+  config.params = { language: getStoredLanguage(), ...config.params }
+  return config
 })
 
 movieDBAxious.interceptors.response.use(

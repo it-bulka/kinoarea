@@ -8,6 +8,7 @@ import { Mailing } from '../ui/Mailing/Mailing'
 import { ScrollTopArrow } from '../ui/ScrollTopArrow/ScrollTopArrow'
 import { ScrollRestoration } from '../ui/ScrollRestoration/ScrollRestoration'
 import { useActions } from '../../hooks/useActions'
+import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { Notification } from '../ui/modals/Notification/Notification'
 
 const isNavOpen = signal(false)
@@ -18,6 +19,7 @@ interface LayoutProps {
 }
 export const Layout = ({ children, noMailing = false }: LayoutProps) => {
   const { getLoggedUser } = useActions()
+  const currentLanguage = useTypedSelector(state => state.language.current)
   const onNavClose = useCallback(() => {
     isNavOpen.value = false
   }, [])
@@ -36,7 +38,7 @@ export const Layout = ({ children, noMailing = false }: LayoutProps) => {
         <Header onMenu={onMenuClick} />
         <Navigation isOpen={isNavOpen.value} onClose={onNavClose} />
         <main className={'grow'}>
-          {children || <Outlet />}
+          {children || <Outlet key={currentLanguage} />}
           {noMailing || <Mailing />}
         </main>
         <Footer />

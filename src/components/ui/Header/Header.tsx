@@ -16,6 +16,7 @@ import { SearchFilm } from '../SearchFilm/SearchFilm'
 import { scrollBody } from '../../../utils/scrollBody'
 import { useActions } from '../../../hooks/useActions'
 import { useNavigate } from 'react-router-dom'
+import type { LanguageCode } from '../../../redux/actionsTypes/language'
 
 interface HeaderProps {
   onMenu?: () => void
@@ -25,7 +26,8 @@ export const Header = ({ onMenu }: HeaderProps) => {
   const [isSearchShown, setSearchShown] = useState(false)
   const { user } = useTypedSelector(state => state.user)
   const authBy = useTypedSelector(state => state.authForm.authBy)
-  const { removeFetchedUser, addIncomingFriend } = useActions()
+  const currentLanguage = useTypedSelector(state => state.language.current)
+  const { removeFetchedUser, addIncomingFriend, setLanguage } = useActions()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -53,12 +55,18 @@ export const Header = ({ onMenu }: HeaderProps) => {
   const logOut = () => {
     removeFetchedUser()
   }
+
+  const handleLanguageToggle = () => {
+    const next: LanguageCode = currentLanguage === 'uk-UA' ? 'en-US' : 'uk-UA'
+    setLanguage(next)
+  }
+
   return (
     <header className={'flex py-[11px] container relative'}>
       <div className={'hidden xl:block lg:flex-1'}>
         <NavLinks className={`xl:flex xl:justify-between gap-0.5 xl:max-w-[760px] xl:m-auto xl:font-base`} />
       </div>
-      <div className={'flex gap-1'}>
+      <div className={'flex gap-1 items-center'}>
         <Button onClick={onMenu} variant={'icon'} className={'md:hidden'}>
           <BurgerIcon className={'fill-blue'} />
         </Button>
@@ -69,6 +77,14 @@ export const Header = ({ onMenu }: HeaderProps) => {
           </Button>
         </div>
         {isSearchShown && <SearchFilm className={'fixed inset-0'} onClose={closeSearch} />}
+
+        <button
+          onClick={handleLanguageToggle}
+          className={'text-xs font-semibold text-grayIcon hover:text-white transition-colors px-1'}
+          title={currentLanguage === 'uk-UA' ? 'Switch to English' : 'Перемкнути на українську'}
+        >
+          {currentLanguage === 'uk-UA' ? 'UA' : 'EN'}
+        </button>
       </div>
       <div className={'flex-1 flex justify-center items-center xl:order-first xl:justify-normal xl:grow-0'}>
         <div>

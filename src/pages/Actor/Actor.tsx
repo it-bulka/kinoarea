@@ -1,4 +1,4 @@
-import { type LoaderFunctionArgs, Outlet, useLoaderData, useNavigate } from 'react-router-dom'
+import { type LoaderFunctionArgs, Outlet, useLoaderData, useNavigate, useRevalidator } from 'react-router-dom'
 import { getPersonFullInfo } from '../../api/movieDBApi'
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
 import { getDate, setMovieDBPath } from '../../utils'
@@ -18,6 +18,7 @@ import { usePaginateData } from '../../hooks/usePaginateData'
 import { Pagination } from '../../components/ui/Pagination/Pagination'
 import { useCallback, useEffect } from 'react'
 import type { IPersonCombinedCredits } from '../../api/types/responses'
+import { useTypedSelector } from '../../hooks/useTypedSelector'
 
 const filmsPerPageAmount = 10
 interface ActorFilmsPagination {
@@ -28,6 +29,12 @@ interface ActorFilmsPagination {
 export const Actor = () => {
   const actor = useLoaderData() as IPersonFullInfo
   const lastSegment = useLastPathSegment()
+  const language = useTypedSelector(state => state.language.current)
+  const revalidator = useRevalidator()
+
+  useEffect(() => {
+    revalidator.revalidate()
+  }, [language])
   const { isSeeMorePossible, setSeeMore, ref, isMatchedSize } = useSeeMore<HTMLDivElement>()
   const {
     data: filmsPerPage,
