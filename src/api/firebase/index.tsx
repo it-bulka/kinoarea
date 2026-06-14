@@ -32,6 +32,7 @@ export enum COLLECTIONS {
   FILMS = 'films',
   PERSONS = 'persons',
   NEWS = 'news',
+  SUBSCRIPTIONS = 'subscriptions',
 }
 
 const getCollectionRef = (colName: COLLECTIONS) => collection(db, colName)
@@ -264,6 +265,12 @@ const getFavouritePersons = async ({ userId }: { userId: string }): Promise<IFbF
   return await getDocsInfo<IFbFavouritePerson>(colRef)
 }
 
+/* SUBSCRIPTIONS */
+
+const addSubscription = async (email: string): Promise<void> => {
+  await addDoc(getCollectionRef(COLLECTIONS.SUBSCRIPTIONS), { email })
+}
+
 /* STORAGE */
 
 const uploadProfileImg = async (id: string, file: Blob): Promise<string> => {
@@ -273,6 +280,7 @@ const uploadProfileImg = async (id: string, file: Blob): Promise<string> => {
 }
 
 export const FirebaseApi = {
+  addSubscription,
   getCollectionRef,
   getDocsInfo,
   getDocsInfoWithCol,
