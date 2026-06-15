@@ -7,12 +7,14 @@ import { Button } from '../../../../components/ui/Button/Button'
 import { FbPersonList } from '../../../../components/ui/FbPersonList/FbPersonList'
 import { endpoints } from '../../../../api'
 import cls from '../../Profile.module.scss'
+import { useTranslation } from 'react-i18next'
 
 export const Famous = () => {
   const { persons } = useTypedSelector(state => state.userFavouritePersons)
   const user = useTypedSelector(state => state.user.user)
   const { fetchUserFavouritePersons } = useActions()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (user) fetchUserFavouritePersons(user.id)
@@ -23,11 +25,11 @@ export const Famous = () => {
       <>
         <div className={cls.titleWrapper}>
           <Typography variant="h2" type={TypographyTypes._TITLE} className={'text-center'}>
-            Вы пока-что не добавили ни одной знаменитости в избранное
+            {t('famous.empty')}
           </Typography>
         </div>
         <Button variant="transparent" onClick={() => navigate(endpoints.actors)} className={'mx-auto'}>
-          Перейти к актёрам
+          {t('famous.goToActors')}
         </Button>
       </>
     )
@@ -37,9 +39,9 @@ export const Famous = () => {
     <>
       <div className={cls.titleWrapper}>
         <Typography variant="h2" type={TypographyTypes._TITLE}>
-          Избранные знаменитости
+          {t('famous.title')}
         </Typography>
-        <p>Всего: {persons.length}</p>
+        <p>{t('famous.total', { count: persons.length })}</p>
       </div>
       <FbPersonList list={persons} />
     </>

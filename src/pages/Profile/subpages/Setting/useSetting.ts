@@ -4,11 +4,10 @@ import { Timestamp } from 'firebase/firestore'
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 import type { IUser, SexType } from '../../../../api/types/responses'
 import { useActions } from '../../../../hooks/useActions'
-import { getSelectedValue } from '../../../../utils/getSelectedOption'
 import type { IOption } from '../../../../utils/getSelectedOption'
 import type { SocialMedias } from '../../../../api/types/socialMedias'
 import { ProfilePages } from '../../../../router/paths'
-import { sexOptions, type Fields, type SocialMediasType } from './constants'
+import type { Fields, SocialMediasType } from './constants'
 
 const initialInfo: Fields = { name: '', surname: '', about: '', sex: 'notchosen' }
 const initialSocials: SocialMediasType = { linkedin: '', youtube: '', instagram: '', twitter: '', facebook: '' }
@@ -48,7 +47,7 @@ export const useSetting = () => {
   }
 
   function handleSelect(selectedOptions: unknown) {
-    const sex = getSelectedValue(sexOptions, selectedOptions as IOption | IOption[])
+    const sex = (selectedOptions as IOption)?.value
     if (sex) setInfo(prev => ({ ...prev, sex: sex as SexType }))
   }
 

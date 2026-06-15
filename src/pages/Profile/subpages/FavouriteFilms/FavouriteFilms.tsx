@@ -7,12 +7,14 @@ import { Button } from '../../../../components/ui/Button/Button'
 import { FbFilmList } from '../../../../components/ui/FbFilmList/FbFilmList'
 import { endpoints } from '../../../../api'
 import cls from '../../Profile.module.scss'
+import { useTranslation } from 'react-i18next'
 
 export const FavouriteFilms = () => {
   const { films } = useTypedSelector(state => state.userFavouriteFilms)
   const user = useTypedSelector(state => state.user.user)
   const { fetchUserFavouriteFilms } = useActions()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (user) fetchUserFavouriteFilms(user.id, 'favourite')
@@ -23,11 +25,11 @@ export const FavouriteFilms = () => {
       <>
         <div className={cls.titleWrapper}>
           <Typography variant="h2" type={TypographyTypes._TITLE} className={'text-center'}>
-            Вы пока-что не добавили ни одного фильма в избранное
+            {t('favouriteFilms.empty')}
           </Typography>
         </div>
         <Button variant="transparent" onClick={() => navigate(endpoints.main)} className={'mx-auto'}>
-          Вернуться на главную страницу
+          {t('favouriteFilms.backToMain')}
         </Button>
       </>
     )
@@ -37,9 +39,9 @@ export const FavouriteFilms = () => {
     <>
       <div className={cls.titleWrapper}>
         <Typography variant="h2" type={TypographyTypes._TITLE}>
-          Избранные фильмы
+          {t('favouriteFilms.title')}
         </Typography>
-        <p>Всего: {films.length}</p>
+        <p>{t('favouriteFilms.total', { count: films.length })}</p>
       </div>
       <FbFilmList list={films} />
     </>

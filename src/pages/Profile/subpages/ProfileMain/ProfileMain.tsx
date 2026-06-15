@@ -11,6 +11,7 @@ import { GenreIds } from '../../../../mock/types'
 import { twMerge } from 'tailwind-merge'
 import type { SocialMedias } from '../../../../api/types/socialMedias'
 import cls from '../../Profile.module.scss'
+import { useTranslation } from 'react-i18next'
 
 import { ReactComponent as SettingsIcon } from '../../../../assets/images/general/settings.svg'
 import { ReactComponent as YoutubeIcon } from '../../../../assets/images/general/youtube.svg'
@@ -39,27 +40,28 @@ const socials: { id: number; name: SocialMedias }[] = [
 export const ProfileMain = () => {
   const { user } = useTypedSelector(state => state.user)
   const stats = useProfileStats(user?.id)
+  const { t } = useTranslation()
 
   const statsItems = useMemo(
     () => [
-      { id: 1, title: 'Друзья', amount: user?.friends?.length ?? 0, to: ProfilePages.friends },
-      { id: 2, title: 'Любимые\nфильмы', amount: stats.liked, to: ProfilePages.likes },
-      { id: 3, title: 'Избранное', amount: stats.favourite, to: ProfilePages.films },
-      { id: 4, title: 'Рецензии', amount: stats.reviews, to: ProfilePages.reviews },
-      { id: 5, title: 'Ожидаемые\nфильмы', amount: 0 },
+      { id: 1, title: t('profile.stats.friends'), amount: user?.friends?.length ?? 0, to: ProfilePages.friends },
+      { id: 2, title: t('profile.stats.likedFilms'), amount: stats.liked, to: ProfilePages.likes },
+      { id: 3, title: t('profile.stats.favourites'), amount: stats.favourite, to: ProfilePages.films },
+      { id: 4, title: t('profile.stats.reviews'), amount: stats.reviews, to: ProfilePages.reviews },
+      { id: 5, title: t('profile.stats.upcoming'), amount: 0 },
     ],
-    [user?.friends?.length, stats]
+    [user?.friends?.length, stats, t]
   )
 
   return (
     <>
       <div className={cls.titleWrapper}>
         <Typography variant={'h2'} type={TypographyTypes._TITLE}>
-          Ваш профиль
+          {t('profile.title')}
         </Typography>
         <Link className={cls.titleBtn} to={ProfilePages.setting}>
           <SettingsIcon className={'w-[14.8px] md:w-[18.2px]'} />
-          <span>Настройки</span>
+          <span>{t('profile.settings')}</span>
         </Link>
       </div>
 
@@ -91,19 +93,19 @@ export const ProfileMain = () => {
               md:text-15 md:text-start md:mt-3 md:mb-[22px]
               lg:mb-7 2xl:text-17 2xl:mt-4.5`}
           >
-            {user?.about || 'не указано'}
+            {user?.about || t('profile.notSpecified')}
           </p>
           <div>
-            <Descript title={'Пол'} descriptions={user?.sex || 'не указано'} />
+            <Descript title={t('profile.sex')} descriptions={user?.sex || t('profile.notSpecified')} />
             <Descript
-              title={'День рождения'}
-              descriptions={user?.birthday ? getDate(user.birthday.toDate()) : 'не указано'}
+              title={t('profile.birthday')}
+              descriptions={user?.birthday ? getDate(user.birthday.toDate()) : t('profile.notSpecified')}
             />
-            <Descript title={'Страна'} descriptions={user?.country || 'не указано'} />
-            <Descript title={'Город'} descriptions={user?.city || 'не указано'} />
+            <Descript title={t('profile.country')} descriptions={user?.country || t('profile.notSpecified')} />
+            <Descript title={t('profile.city')} descriptions={user?.city || t('profile.notSpecified')} />
             <Descript
-              title={'Любимые жанры:'}
-              descriptions={user?.genres ? getGenres(user.genres as GenreIds) : 'не указано'}
+              title={t('profile.favouriteGenres')}
+              descriptions={user?.genres ? getGenres(user.genres as GenreIds) : t('profile.notSpecified')}
             />
           </div>
         </div>

@@ -7,6 +7,7 @@ import clsProfile from '../../Profile.module.scss'
 import cls from './Friends.module.scss'
 import { IncomingFriend } from '../../../../components/ui/IncomingFriend/IncomingFriend'
 import { getCommonFriends } from '../../../../utils/getCommonFriends'
+import { useTranslation } from 'react-i18next'
 
 export const Friends = () => {
   const { friends } = useTypedSelector(state => state.userFriends)
@@ -14,6 +15,7 @@ export const Friends = () => {
   const incomingFriend = incomingFriends?.[0]
   const user = useTypedSelector(state => state.user.user)
   const { fetchUserFriends, fetchIncomingFriends, addUserFriend, removeIncomingFriend } = useActions()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (user?.friends) fetchUserFriends(user?.friends)
@@ -27,9 +29,9 @@ export const Friends = () => {
     <>
       <div className={clsProfile.titleWrapper}>
         <Typography variant="h2" type={TypographyTypes._TITLE}>
-          Ваши друзья
+          {t('friends.title')}
         </Typography>
-        <p>Всего: {friends.length}</p>
+        <p>{t('friends.total', { count: friends.length })}</p>
       </div>
       {incomingFriend && (
         <IncomingFriend

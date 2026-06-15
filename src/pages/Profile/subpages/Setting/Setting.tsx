@@ -1,3 +1,4 @@
+import { useMemo } from 'react'
 import { Typography, TypographyTypes } from '../../../../components/ui/Typography/Typography'
 import { ReactComponent as CheckedIcon } from '../../../../assets/images/general/checked.svg'
 import cls from '../../Profile.module.scss'
@@ -10,10 +11,15 @@ import { shortenFileName } from '../../../../utils/shortenFileName'
 import { twMerge } from 'tailwind-merge'
 import Avatar from '../../../../assets/images/general/avatar.svg'
 import { getSelectedOption } from '../../../../utils/getSelectedOption'
-import { sexOptions, socialBtns } from './constants'
+import { getSexOptions, getSocialBtns } from './constants'
 import { useSetting } from './useSetting'
+import { useTranslation } from 'react-i18next'
 
 export const Setting = () => {
+  const { t } = useTranslation()
+  const sexOptions = useMemo(() => getSexOptions(t), [t])
+  const socialBtns = useMemo(() => getSocialBtns(t), [t])
+
   const {
     info,
     socialMedias,
@@ -34,11 +40,11 @@ export const Setting = () => {
     <>
       <div className={cls.titleWrapper}>
         <Typography variant="h2" type={TypographyTypes._TITLE}>
-          Настройки профиля
+          {t('settings.title')}
         </Typography>
         <button className={cls.titleBtn} form="profile-form">
           <CheckedIcon className="w-[14.8px] md:w-[19px]" />
-          <span>Сохранить</span>
+          <span>{t('settings.save')}</span>
         </button>
       </div>
       <form className={cls.form} id="profile-form" onSubmit={submitForm}>
@@ -46,10 +52,16 @@ export const Setting = () => {
         {user?.img && !selectedImage && <img src={user?.img} alt={info.name} className={cls.img} />}
         {!user?.img && !selectedImage && <img src={Avatar} alt={'avatar'} className={twMerge(cls.img, 'avatar')} />}
         <div className={cls.inputsBlock}>
-          <Input name="profile-name" label="Имя" value={info.name} onChange={handleInput('name')} error={err.name} />
+          <Input
+            name="profile-name"
+            label={t('settings.name')}
+            value={info.name}
+            onChange={handleInput('name')}
+            error={err.name}
+          />
           <Input
             name="profile-surname"
-            label="Фамлия"
+            label={t('settings.surname')}
             value={info.surname || undefined}
             onChange={handleInput('surname')}
             error={err.surname}
@@ -59,9 +71,9 @@ export const Setting = () => {
             value={getSelectedOption(sexOptions, info?.sex || 'notchosen')}
             onChange={handleSelect}
           />
-          <DateInput date={date} onChange={setDate} placeholderText={'Укажите дату рождения'} />
+          <DateInput date={date} onChange={setDate} placeholderText={t('settings.birthday')} />
           <Textarea
-            placeholder="Информация о себе"
+            placeholder={t('settings.about')}
             className={cls.textarea}
             value={info.about}
             onChange={handleInput('about')}
@@ -71,11 +83,11 @@ export const Setting = () => {
           <FileInput
             data={
               <>
-                <span className={'text-white/60'}>Фото профиля: </span>
+                <span className={'text-white/60'}>{t('settings.photo')}</span>
                 <span>{shortenFileName(selectedImage?.name) || ''}</span>
               </>
             }
-            btnText="Загрузить"
+            btnText={t('settings.upload')}
             name="img"
             accept="image/*"
             onChange={handleImageUpload}
