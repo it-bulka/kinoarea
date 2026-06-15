@@ -4,12 +4,14 @@ import { IFilm } from '../../../api/types'
 import { RateBadge } from '../RateBadge/RateBadge'
 import { useNavigate } from 'react-router-dom'
 import { AbsentImg } from '../AbsentImg/AbsentImg'
+import { useTranslation } from 'react-i18next'
 interface FilmProps extends IFilm {
   className?: string
 }
 
 export const Film = ({ img, rating, title, genre, className, id }: FilmProps) => {
   const navigate = useNavigate()
+  const { t } = useTranslation()
   return (
     <div className={classnames([className])}>
       <div
@@ -23,7 +25,7 @@ export const Film = ({ img, rating, title, genre, className, id }: FilmProps) =>
             absolute inset-0 bg-blue bg-opacity-60 flex justify-center items-center transition-opacity`}
         >
           <Button variant={'white'} className={'py-7'} onClick={() => navigate(`/films/${id}`)}>
-            Смотреть фильм
+            {t('film.watchFilm')}
           </Button>
         </div>
       </div>

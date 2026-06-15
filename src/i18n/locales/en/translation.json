@@ -43,10 +43,20 @@
       "from": "From",
       "to": "To",
       "apply": "Apply"
+    },
+    "genres": {
+      "1": "All",
+      "2": "Action",
+      "3": "Adventure",
+      "4": "Comedy",
+      "5": "Sci-Fi",
+      "6": "Thriller",
+      "7": "Drama"
     }
   },
   "film": {
     "votes": "votes",
+    "watchFilm": "Watch Film",
     "watchTrailer": "Watch Trailer",
     "cast": "Main Cast:",
     "allActors": "All Actors",

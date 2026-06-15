@@ -29,6 +29,8 @@ export const NowPlaying = () => {
     return movies
   }, [nowPlaying])
 
+  const translatedGenres = useMemo(() => genres.map(g => ({ ...g, title: t(`main.genres.${g.id}`) })), [t])
+
   if (isNowPlayingLoading) return <NowPlayingSkeleton />
 
   const onCategoryClick = (item: ICategory<string>) => {
@@ -40,7 +42,7 @@ export const NowPlaying = () => {
     <section>
       <SectionHeader
         title={t('main.nowPlaying')}
-        categories={setActiveItem(genres, nowPlayingCategory.id)}
+        categories={setActiveItem(translatedGenres, nowPlayingCategory.id)}
         onCategoryClick={onCategoryClick}
       />
       <FilmList list={allMovies} />
