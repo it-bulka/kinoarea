@@ -20,6 +20,7 @@ export type IParams = {
   'primary_release_date.gte'?: string
   'primary_release_date.lte'?: string
   'vote_count.gte'?: number
+  region?: string
 }
 
 export type TVFilters = IParams

@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { SectionHeader } from '../../../../components/ui/SectionHeader/SectionHeader'
 import { IncomeList } from '../../../../components/ui/IncomeList/IncomeList'
 import { DateInput } from '../../../../components/ui/DateInput/DateInput'
@@ -12,6 +12,12 @@ import { ICategory } from '../../../../components/ui/Category/Category'
 import { ProfitSkeleton } from './ProfitSkeleton'
 import { useTranslation } from 'react-i18next'
 
+const PROFIT_REGIONS: Record<string, string | undefined> = {
+  '1': 'UA',
+  '2': undefined,
+  '3': 'US',
+}
+
 export const Profit = () => {
   const { activeCategory, items, isLoading } = useTypedSelector(state => state.profit)
   const { changeProfitActiveCategory, fetchProfitMovies } = useActions()
@@ -20,18 +26,22 @@ export const Profit = () => {
   const [startDate, setStartDate] = useState<Date | null>(null)
   const [endDate, setEndDate] = useState<Date | null>(null)
 
+  const translatedProfit = useMemo(() => profit.map(p => ({ ...p, title: t(`main.profit.regions.${p.id}`) })), [t])
+
   useEffect(() => {
-    fetchProfitMovies()
+    fetchProfitMovies({ region: PROFIT_REGIONS[String(activeCategory.id)] })
   }, [])
 
   if (isLoading) return <ProfitSkeleton />
 
   const onCategoryChange = (item: ICategory) => {
     changeProfitActiveCategory(item)
+    fetchProfitMovies({ region: PROFIT_REGIONS[String(item.id)] })
   }
 
   const onApplyFilter = () => {
     fetchProfitMovies({
+      region: PROFIT_REGIONS[String(activeCategory.id)],
       from: startDate ? getISODate(startDate) : undefined,
       to: endDate ? getISODate(endDate) : undefined,
     })
@@ -41,7 +51,7 @@ export const Profit = () => {
     <section className={'container'}>
       <SectionHeader
         title={t('main.profit.title')}
-        categories={setActiveItem(profit, activeCategory.id)}
+        categories={setActiveItem(translatedProfit, activeCategory.id)}
         onCategoryClick={onCategoryChange}
       />
       <div className={'flex flex-wrap items-center gap-3 my-4'}>
