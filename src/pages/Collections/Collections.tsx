@@ -1,7 +1,7 @@
 import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
 import { Button } from '../../components/ui/Button/Button'
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useState } from 'react'
 import { flushSync } from 'react-dom'
 import cls from './Collections.module.scss'
 import classnames from 'classnames'
@@ -13,6 +13,8 @@ import { Navigate, Outlet, useLocation, useNavigate, useParams } from 'react-rou
 import { ICategories } from '../../api/types/categories'
 import { useTranslation } from 'react-i18next'
 import { usePageParam } from '../../hooks/usePageParam'
+import { getSearch } from '../../api/movieDBApi'
+import { IGetSearchParams } from '../../api/types/requests'
 
 type CategoryTag = {
   id: string
@@ -41,6 +43,7 @@ export const Collections = () => {
   const [activeCategory, setActiveCategory] = useState<CategoryTag | null>(null)
   const [currentPage, setCurrentPage] = usePageParam()
   const [chosenCollection, setChosenCollection] = useState<ICategories | null>()
+  const [posterMap, setPosterMap] = useState<Record<string, string | null>>({})
   const { slug } = useParams<Record<'slug', CategoriesTypes>>()
   const navigate = useNavigate()
   const location = useLocation()
@@ -59,6 +62,28 @@ export const Collections = () => {
 
     return list.slice(start, end)
   }, [list, currentPage])
+
+  useEffect(() => {
+    let cancelled = false
+    const fetchPosters = async () => {
+      const entries = await Promise.all(
+        listPerPage.map(async item => {
+          const options: IGetSearchParams = {
+            type: 'movie',
+            params: { ...item.params, page: 1 },
+          }
+          if (item.category) options.category = item.category
+          const data = await getSearch(options)
+          return [item.id, data?.results[0]?.poster_path ?? null] as [string, string | null]
+        })
+      )
+      if (!cancelled) setPosterMap(Object.fromEntries(entries))
+    }
+    fetchPosters()
+    return () => {
+      cancelled = true
+    }
+  }, [listPerPage])
 
   const changePage = useCallback(
     (pageNum: number) => {
@@ -85,7 +110,15 @@ export const Collections = () => {
   )
 
   if (slug && slugs.includes(slug) && chosenCollection) {
-    return <Outlet context={{ title: chosenCollection.title, params: chosenCollection.params }} />
+    return (
+      <Outlet
+        context={{
+          title: t(chosenCollection.title),
+          params: chosenCollection.params,
+          category: chosenCollection.category,
+        }}
+      />
+    )
   }
 
   if (slug && location.state) {
@@ -116,7 +149,7 @@ export const Collections = () => {
           </Button>
         ))}
       </div>
-      <CollectionsList list={listPerPage} onCategoryClick={onCategoryClick} />
+      <CollectionsList list={listPerPage} onCategoryClick={onCategoryClick} posterMap={posterMap} />
       <Pagination
         totalCount={list.length}
         currentPage={currentPage}

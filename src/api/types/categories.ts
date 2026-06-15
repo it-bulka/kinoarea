@@ -1,5 +1,5 @@
 import { CategoriesTypes } from '../../mock/categories'
-import { IParams } from './requests'
+import { CATEGORY, IParams } from './requests'
 
 export interface ICategories {
   id: string
@@ -7,4 +7,5 @@ export interface ICategories {
   amount: number
   types: CategoriesTypes
   params: Partial<IParams>
+  category?: CATEGORY
 }
