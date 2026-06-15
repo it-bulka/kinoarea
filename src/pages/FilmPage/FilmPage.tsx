@@ -27,6 +27,7 @@ import { IconBtn } from '../../components/ui/IconBtn/IconBtn'
 import { FirebaseApi } from '../../api/firebase'
 import { IFbFavouriteMovie, IFilmStatus } from '../../api/types/film'
 import { FilmPageSkeleton } from './FilmPageSkeleton'
+import { useTranslation } from 'react-i18next'
 
 export const FilmPage = () => {
   const { slug } = useParams()
@@ -43,6 +44,7 @@ export const FilmPage = () => {
   const [favouriteFilm, setFavouriteFilm] = useState<IFbFavouriteMovie | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const { setNotification } = useActions()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (!slug) return
@@ -153,7 +155,9 @@ export const FilmPage = () => {
                 />
                 <div className={'w-[37%] flex flex-col items-center gap-2 md:w-auto'}>
                   <RateBadge rating={details.vote_average} />
-                  <p className={'text-xs text-white/60 text-center'}>{details.vote_count.toLocaleString()} голосів</p>
+                  <p className={'text-xs text-white/60 text-center'}>
+                    {details.vote_count.toLocaleString()} {t('film.votes')}
+                  </p>
                 </div>
               </div>
               <div>
@@ -161,7 +165,7 @@ export const FilmPage = () => {
                 <Button variant={'transparent'} className={cls.playBtn} onClick={handlePlay}>
                   <>
                     <PlayIcon />
-                    <span>Смотреть трейлер</span>
+                    <span>{t('film.watchTrailer')}</span>
                   </>
                 </Button>
               </div>
@@ -196,9 +200,9 @@ export const FilmPage = () => {
 
         <section>
           <SectionHeader
-            title={'В главных ролях:'}
+            title={t('film.cast')}
             type={SectionHeaderType.ARROW}
-            linkTitle={'Все актёры'}
+            linkTitle={t('film.allActors')}
             className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
           />
           <CastList list={cast} />
@@ -206,9 +210,9 @@ export const FilmPage = () => {
 
         <section>
           <SectionHeader
-            title={'Постеры к фильму'}
+            title={t('film.posters')}
             type={SectionHeaderType.ARROW}
-            linkTitle={'Все постеры'}
+            linkTitle={t('film.allPosters')}
             className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
           />
           <PostersList list={posters} title={''} />
@@ -219,7 +223,7 @@ export const FilmPage = () => {
             type={TypographyTypes._TITLE}
             className={'mx-auto mt-9 mb-[18px] md:mt-[52px] md:mb-9 2xl:mt-[73px] 2xl:mb-[42px] w-max'}
           >
-            Похожие фильмы
+            {t('film.similar')}
           </Typography>
           <FilmSlider slides={similar} name={`film-${slug}`} />
           <div className={'flex justify-center items-center mt-8'}>
@@ -230,10 +234,10 @@ export const FilmPage = () => {
         <section>
           <div className={'mb-5 mt-24 md:flex md:justify-between'}>
             <Typography variant={'h3'} type={TypographyTypes._TITLE} className={'mx-auto w-max mb-[54px] md:m-0'}>
-              Рецензии к фильму
+              {t('film.reviews')}
             </Typography>
             <Button className={'mx-auto md:m-0'} onClick={addComment}>
-              {isCommentBlockShown ? 'Спрятать добавление рецензии' : 'Добавить рецензию'}
+              {isCommentBlockShown ? t('film.hideReview') : t('film.addReview')}
             </Button>
           </div>
           {user && isCommentBlockShown && (

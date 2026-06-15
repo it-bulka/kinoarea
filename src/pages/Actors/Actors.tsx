@@ -7,12 +7,14 @@ import { scrollTop } from '../../utils/scrollTop'
 import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
 import { useNavigate } from 'react-router-dom'
 import { ActorsSkeleton } from './ActorsSkeleton'
+import { useTranslation } from 'react-i18next'
 
 export const Actors = () => {
   const [actors, setActors] = useState<IPerson[]>([])
   const [pagesData, setPagesData] = useState<Omit<IPersonResult, 'results'> | null>(null)
   const [isLoading, setIsLoading] = useState(true)
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   const setData = (page?: number) => {
     const params = page ? { page } : undefined
@@ -36,7 +38,7 @@ export const Actors = () => {
   return (
     <section className={'container'}>
       <Typography variant={'h1'} type={TypographyTypes._TITLE}>
-        Actors
+        {t('actor.title')}
       </Typography>
       {actors.map(actor => (
         <PersonItem

@@ -2,6 +2,7 @@ import { ReactComponent as PlayIcon } from '../../../../assets/images/general/pl
 import { IMovieVideo } from '../../../../api/types/responses'
 import { Typography, TypographyTypes } from '../../../../components/ui/Typography/Typography'
 import cls from './FilmVideos.module.scss'
+import { useTranslation } from 'react-i18next'
 
 const getYoutubeThumbnail = (key: string) => `https://img.youtube.com/vi/${key}/mqdefault.jpg`
 
@@ -11,12 +12,13 @@ interface FilmVideosProps {
 }
 
 export const FilmVideos = ({ videos, onVideoSelect }: FilmVideosProps) => {
+  const { t } = useTranslation()
   if (!videos.length) return null
 
   return (
     <>
       <Typography variant="h3" type={TypographyTypes._TITLE} className="mx-auto mb-[18px] md:mb-9 2xl:mb-[42px] w-max">
-        Трейлери та відео
+        {t('film.videos')}
       </Typography>
       <div className={cls.videosGrid}>
         {videos.map(video => (
