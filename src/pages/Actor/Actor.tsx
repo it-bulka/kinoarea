@@ -1,4 +1,5 @@
 import { Outlet, useLoaderData, useNavigate, useRevalidator } from 'react-router-dom'
+import { usePageParam } from '../../hooks/usePageParam'
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
 import { getDate, setMovieDBPath } from '../../utils'
 import { IPersonFullInfo } from '../../api/types/responses'
@@ -42,8 +43,8 @@ export const Actor = () => {
     setData: setFilmsPerPage,
     pagesData,
     setPagesData,
-    onPaginationChange,
   } = usePaginateData<IPersonCombinedCredits[], ActorFilmsPagination>()
+  const [currentPage, setCurrentPage] = usePageParam()
   const navigate = useNavigate()
 
   useEffect(() => {
@@ -53,7 +54,7 @@ export const Actor = () => {
     const filmsAmount = films.length
     const max_per_page = filmsPerPageAmount
     const total_pages = Math.ceil(filmsAmount / max_per_page)
-    const startPage = 1
+    const startPage = currentPage
     setPagesData({ total_pages, page: startPage, max_per_page })
     setFilms(startPage)
   }, [actor])
@@ -68,6 +69,7 @@ export const Actor = () => {
     [actor.combined_credits.cast, setFilmsPerPage]
   )
   const switchFilms = (page: number) => {
+    setCurrentPage(page)
     setFilms(page)
     setPagesData({ total_pages: pagesData!.total_pages, max_per_page: pagesData!.max_per_page, page })
   }
@@ -181,10 +183,10 @@ export const Actor = () => {
         {pagesData && (
           <Pagination
             totalCount={combined_credits?.cast.length}
-            currentPage={pagesData.page}
+            currentPage={currentPage}
             siblingCount={pagesData.total_pages >= 5 ? 2 : undefined}
             pageSize={filmsPerPageAmount}
-            onPageChange={(pageNum: number) => onPaginationChange(pageNum, switchFilms)}
+            onPageChange={switchFilms}
             className={'mx-auto mt-4 md:mt-8 ld:mt-9 2xl:mt-11'}
           />
         )}

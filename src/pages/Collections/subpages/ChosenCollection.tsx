@@ -9,11 +9,14 @@ import { IDiscoverResult } from '../../../api/types/responses'
 import { scrollTop } from '../../../utils/scrollTop'
 import { CATEGORY, IGetSearchParams, IParams } from '../../../api/types/requests'
 import { CollectionsSkeleton } from '../CollectionsSkeleton'
+import { usePageParam } from '../../../hooks/usePageParam'
+import { useTranslation } from 'react-i18next'
 
 export const ChosenCollection = () => {
   const { title, params, category } = useOutletContext() as { title: string; params?: IParams; category?: CATEGORY }
+  const { t } = useTranslation()
   const [films, setFilms] = useState<IDiscoverResult>()
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = usePageParam()
   const [isLoading, setIsLoading] = useState(true)
 
   const fetch = async (page: number = 1) => {
@@ -28,7 +31,7 @@ export const ChosenCollection = () => {
     setIsLoading(false)
   }
   useEffect(() => {
-    fetch()
+    fetch(currentPage)
   }, [])
 
   const changePage = (page: number) => {
@@ -42,11 +45,11 @@ export const ChosenCollection = () => {
   return (
     <section className={'container pb-9 lg:pb-10 2xl:pb-[70px]'}>
       <Typography variant={'h1'} type={TypographyTypes._TITLE}>
-        Подборки фильмов
+        {t('collections.title')}
       </Typography>
       <Breadcrumbs lastCrumb={title} />
 
-      <p className={'py-3'}>Всего найдено: {films?.total_results}</p>
+      <p className={'py-3'}>{t('collections.total', { count: films?.total_results ?? 0 })}</p>
       <ResultList list={films?.results || []} />
 
       <Pagination

@@ -1,7 +1,7 @@
 import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
 import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
 import { Button } from '../../components/ui/Button/Button'
-import { useMemo, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { flushSync } from 'react-dom'
 import cls from './Collections.module.scss'
 import classnames from 'classnames'
@@ -12,6 +12,7 @@ import { scrollTop } from '../../utils/scrollTop'
 import { Navigate, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
 import { ICategories } from '../../api/types/categories'
 import { useTranslation } from 'react-i18next'
+import { usePageParam } from '../../hooks/usePageParam'
 
 type CategoryTag = {
   id: string
@@ -38,7 +39,7 @@ export const Collections = () => {
     [t]
   )
   const [activeCategory, setActiveCategory] = useState<CategoryTag | null>(null)
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = usePageParam()
   const [chosenCollection, setChosenCollection] = useState<ICategories | null>()
   const { slug } = useParams<Record<'slug', CategoriesTypes>>()
   const navigate = useNavigate()
@@ -59,20 +60,29 @@ export const Collections = () => {
     return list.slice(start, end)
   }, [list, currentPage])
 
-  const changePage = (pageNum: number) => {
-    setCurrentPage(pageNum)
-    scrollTop()
-  }
+  const changePage = useCallback(
+    (pageNum: number) => {
+      setCurrentPage(pageNum)
+      scrollTop()
+    },
+    [setCurrentPage]
+  )
 
-  const onCategoryTagClick = (category: CategoryTag) => {
-    setActiveCategory(category)
-    setCurrentPage(1)
-  }
+  const onCategoryTagClick = useCallback(
+    (category: CategoryTag) => {
+      setActiveCategory(category)
+      setCurrentPage(1)
+    },
+    [setCurrentPage]
+  )
 
-  const onCategoryClick = (category: ICategories) => {
-    flushSync(() => setChosenCollection(category))
-    navigate(category.types)
-  }
+  const onCategoryClick = useCallback(
+    (category: ICategories) => {
+      flushSync(() => setChosenCollection(category))
+      navigate(category.types)
+    },
+    [navigate]
+  )
 
   if (slug && slugs.includes(slug) && chosenCollection) {
     return <Outlet context={{ title: chosenCollection.title, params: chosenCollection.params }} />

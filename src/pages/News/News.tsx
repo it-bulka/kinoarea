@@ -8,12 +8,13 @@ import { INews } from '../../api/types'
 import cls from './News.module.scss'
 import { NewsSkeleton } from './NewsSkeleton'
 import { useTranslation } from 'react-i18next'
+import { usePageParam } from '../../hooks/usePageParam'
 
 const PAGE_SIZE = 10
 
 export const News = () => {
   const [allNews, setAllNews] = useState<INews[]>([])
-  const [currentPage, setCurrentPage] = useState(1)
+  const [currentPage, setCurrentPage] = usePageParam()
   const [isLoading, setIsLoading] = useState(true)
   const { t } = useTranslation()
 
@@ -58,7 +59,7 @@ export const News = () => {
           currentPage={currentPage}
           siblingCount={2}
           pageSize={PAGE_SIZE}
-          onPageChange={(page: number) => setCurrentPage(page)}
+          onPageChange={setCurrentPage}
           className={'mx-auto mt-5 sm:mt-[30.59px] md:mt-10 lg:mt-[58.60px]  2xl:mt-[71px]'}
         />
       )}
