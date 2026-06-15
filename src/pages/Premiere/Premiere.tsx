@@ -1,27 +1,22 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getSearch } from '../../api/movieDBApi'
 import { IMovieRes } from '../../api/types'
-import { getDate } from '../../utils'
-import { Pagination } from '../../components/ui/Pagination/Pagination'
-import { IDiscoverResult, MovieDBPageSize } from '../../api/types/responses'
 import { scrollTop } from '../../utils/scrollTop'
 import type { IGetSearchParams } from '../../api/types/requests'
 import { IOption } from '../../utils/getSelectedOption'
 import { usePaginateData } from '../../hooks/usePaginateData'
 import { getISODate } from '../../utils/getISODate'
-import { PremiereSkeleton } from './PremiereSkeleton'
-import { Schedule } from '../../components/Schedule/Schedule'
 import { usePageParam } from '../../hooks/usePageParam'
 import { PremiereFilters } from './PremiereFilters'
-
-type MovieSchedule = Array<[string, IMovieRes[]]>
-type PageInfo = Omit<IDiscoverResult, 'results'>
+import { PremiereSchedule } from './PremiereSchedule'
+import type { MovieSchedule, PageInfo } from './types'
 
 export const Premiere = () => {
   const [startDate, setStartDate] = useState<Date | null>(null)
   const [endDate, setEndDate] = useState<Date | null>(null)
   const [sortValue, setSortValue] = useState<IOption[] | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const [isDirty, setIsDirty] = useState(false)
   const [currentPage, setCurrentPage] = usePageParam()
   const {
     data: movieSchedule,
@@ -76,6 +71,7 @@ export const Premiere = () => {
         setPagesData(pages)
         scrollTop()
         setIsLoading(false)
+        setIsDirty(false)
       })
     },
     [startDate, endDate, genres, tomorrowDate, getGroupedMovie, setMovieSchedule, setPagesData]
@@ -83,6 +79,21 @@ export const Premiere = () => {
 
   useEffect(() => {
     fetchData(currentPage)
+  }, [])
+
+  const handleStartDateChange = useCallback((date: Date | null) => {
+    setStartDate(date)
+    setIsDirty(true)
+  }, [])
+
+  const handleEndDateChange = useCallback((date: Date | null) => {
+    setEndDate(date)
+    setIsDirty(true)
+  }, [])
+
+  const handleSortChange = useCallback((options: IOption[] | null) => {
+    setSortValue(options)
+    setIsDirty(true)
   }, [])
 
   const handleConfirm = useCallback(() => {
@@ -98,8 +109,6 @@ export const Premiere = () => {
     [setCurrentPage, fetchData]
   )
 
-  if (isLoading) return <PremiereSkeleton />
-
   return (
     <div className={'py-6'}>
       <PremiereFilters
@@ -107,31 +116,19 @@ export const Premiere = () => {
         endDate={endDate}
         tomorrowDate={tomorrowDate}
         sortValue={sortValue}
-        onStartDateChange={setStartDate}
-        onEndDateChange={setEndDate}
-        onSortChange={setSortValue}
+        onStartDateChange={handleStartDateChange}
+        onEndDateChange={handleEndDateChange}
+        onSortChange={handleSortChange}
         onConfirm={handleConfirm}
+        isConfirmDisabled={!isDirty}
       />
-
-      {movieSchedule?.map(item => {
-        const date = item[0]
-        return (
-          <section key={date} className={'container mt-7 md:mt-10 2xl:mt-16'}>
-            <Schedule period={getDate(date)} films={item[1]} />
-          </section>
-        )
-      })}
-
-      {pagesData && pagesData.total_pages > 1 && (
-        <Pagination
-          totalCount={pagesData.total_pages}
-          currentPage={currentPage}
-          siblingCount={pagesData.total_pages >= 5 ? 2 : undefined}
-          pageSize={MovieDBPageSize}
-          onPageChange={handlePageChange}
-          className={'mx-auto mt-4 md:mt-8 ld:mt-9 2xl:mt-11'}
-        />
-      )}
+      <PremiereSchedule
+        schedule={movieSchedule}
+        pagesData={pagesData}
+        currentPage={currentPage}
+        isLoading={isLoading}
+        onPageChange={handlePageChange}
+      />
     </div>
   )
 }
