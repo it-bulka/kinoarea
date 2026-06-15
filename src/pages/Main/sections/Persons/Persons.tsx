@@ -11,6 +11,7 @@ import { setActiveItem } from '../../../../utils/setActiveItem'
 import { ICategory } from '../../../../components/ui/Category/Category'
 import type { SwiperRef } from 'swiper/react'
 import { PersonsSkeleton } from './PersonsSkeleton'
+import { useTranslation } from 'react-i18next'
 
 const startSlidePos = 2
 export const Persons = () => {
@@ -51,6 +52,8 @@ export const Persons = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  const { t } = useTranslation()
+
   if (loading) return <PersonsSkeleton />
 
   const onCategoryChange = (item: ICategory) => {
@@ -64,7 +67,7 @@ export const Persons = () => {
     <section>
       <div className={'flex-between'}>
         <SectionHeader
-          title={'Популярные персоны'}
+          title={t('main.popularPersons')}
           categories={setActiveItem(persons, activeCategory.id)}
           onCategoryClick={onCategoryChange}
         />

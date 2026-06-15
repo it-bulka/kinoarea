@@ -8,10 +8,12 @@ import { years } from '../../../../mock/categories'
 import { setActiveItem } from '../../../../utils/setActiveItem'
 import { ICategory } from '../../../../components/ui/Category/Category'
 import { PopularSkeleton } from './PopularSkeleton'
+import { useTranslation } from 'react-i18next'
 
 export const Popular = () => {
   const { fetchPopularMovies, changePopularCategory } = useActions()
   const { popular, popularCategory, isPopularLoading } = useTypedSelector(state => state.movies)
+  const { t } = useTranslation()
 
   useEffect(() => {
     fetchPopularMovies()
@@ -34,7 +36,7 @@ export const Popular = () => {
   return (
     <section>
       <SectionHeader
-        title={'Популярные фильмы'}
+        title={t('main.popular')}
         categories={setActiveItem(years, popularCategory.id)}
         onCategoryClick={onCategoryClick}
       />

@@ -9,11 +9,13 @@ import { setActiveItem } from '../../../../utils/setActiveItem'
 import { ICategory } from '../../../../components/ui/Category/Category'
 import { useNavigate } from 'react-router-dom'
 import { NowPlayingSkeleton } from './NowPlayingSkeleton'
+import { useTranslation } from 'react-i18next'
 
 export const NowPlaying = () => {
   const { fetchNowPlayingMovies, changeNowPlayingCategory } = useActions()
   const { nowPlaying, nowPlayingCategory, isNowPlayingLoading } = useTypedSelector(state => state.movies)
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   useEffect(() => {
     fetchNowPlayingMovies()
@@ -37,7 +39,7 @@ export const NowPlaying = () => {
   return (
     <section>
       <SectionHeader
-        title={'Сейчас в кино'}
+        title={t('main.nowPlaying')}
         categories={setActiveItem(genres, nowPlayingCategory.id)}
         onCategoryClick={onCategoryClick}
       />
@@ -47,11 +49,11 @@ export const NowPlaying = () => {
         className={'block mt-7 mb-8 mx-auto md:mt-8 md:mb-6 lg:mb-12 2xl:mt-12 2xl:mb-[54px]'}
         onClick={() =>
           navigate('collections/category', {
-            state: { title: 'Сейчас в кино', category: 'now_playing' },
+            state: { title: t('main.nowPlaying'), category: 'now_playing' },
           })
         }
       >
-        Все новинки
+        {t('main.allNew')}
       </Button>
     </section>
   )

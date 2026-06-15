@@ -15,6 +15,7 @@ import { notificationList } from '../../../../mock/notificationList'
 import { FirebaseApi } from '../../../../api/firebase'
 import { IFbFavouriteMovie, IFilmStatus, IMovieRes } from '../../../../api/types/film'
 import { NewTrailersSkeleton } from './NewTrailersSkeleton'
+import { useTranslation } from 'react-i18next'
 
 const TRAILER_POOL_SIZE = 8
 
@@ -26,6 +27,7 @@ const toFbFilm = (m: IMovieRes): Omit<IFbFavouriteMovie, 'status'> => ({
 })
 
 export const NewTrailers = () => {
+  const { t } = useTranslation()
   const user = useTypedSelector(state => state.user.user)
   const { fetchUpcomingMovies, setNotification } = useActions()
   const { upcoming } = useTypedSelector(state => state.movies)
@@ -78,11 +80,11 @@ export const NewTrailers = () => {
   return (
     <section>
       <SectionHeader
-        title={'Новые трейлеры'}
+        title={t('main.newTrailers')}
         type={SectionHeaderType.ARROW}
-        linkTitle={'Новые трейлеры'}
+        linkTitle={t('main.newTrailers')}
         moveToViaArrow={'collections/category'}
-        state={{ title: 'Сейчас в кино', category: 'up_coming' }}
+        state={{ title: t('main.nowPlaying'), category: 'up_coming' }}
         className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
       />
       <div>

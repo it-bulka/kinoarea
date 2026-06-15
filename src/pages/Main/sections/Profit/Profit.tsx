@@ -10,10 +10,12 @@ import { useActions } from '../../../../hooks/useActions'
 import { getISODate } from '../../../../utils/getISODate'
 import { ICategory } from '../../../../components/ui/Category/Category'
 import { ProfitSkeleton } from './ProfitSkeleton'
+import { useTranslation } from 'react-i18next'
 
 export const Profit = () => {
   const { activeCategory, items, isLoading } = useTypedSelector(state => state.profit)
   const { changeProfitActiveCategory, fetchProfitMovies } = useActions()
+  const { t } = useTranslation()
 
   const [startDate, setStartDate] = useState<Date | null>(null)
   const [endDate, setEndDate] = useState<Date | null>(null)
@@ -38,7 +40,7 @@ export const Profit = () => {
   return (
     <section className={'container'}>
       <SectionHeader
-        title={'Кассовые сборы'}
+        title={t('main.profit.title')}
         categories={setActiveItem(profit, activeCategory.id)}
         onCategoryClick={onCategoryChange}
       />
@@ -46,18 +48,18 @@ export const Profit = () => {
         <DateInput
           date={startDate}
           onChange={setStartDate}
-          placeholderText={'Від'}
+          placeholderText={t('main.profit.from')}
           wrapperClassName={'flex-1 min-w-[120px]'}
         />
         <span className={'text-white/60'}>—</span>
         <DateInput
           date={endDate}
           onChange={setEndDate}
-          placeholderText={'До'}
+          placeholderText={t('main.profit.to')}
           wrapperClassName={'flex-1 min-w-[120px]'}
         />
         <Button variant={'transparent'} onClick={onApplyFilter}>
-          Застосувати
+          {t('main.profit.apply')}
         </Button>
       </div>
       <IncomeList list={items} />
