@@ -11,6 +11,7 @@ import { Pagination } from '../../components/ui/Pagination/Pagination'
 import { scrollTop } from '../../utils/scrollTop'
 import { SearchResultSkeleton } from './SearchResultSkeleton'
 import { useTranslation } from 'react-i18next'
+import { usePageParam } from '../../hooks/usePageParam'
 
 interface IOption {
   value: string
@@ -51,29 +52,22 @@ export const SearchResult = () => {
   const [pagesData, setPagesData] = useState<Omit<IDiscoverResult, 'results'> | null>(null)
   const [films, setFilms] = useState<IMovies>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [currentPage, setCurrentPage] = usePageParam()
 
   const category = categoryOptions.find(o => o.value === categoryValue) ?? categoryOptions[0]
   const selectedSort = sortOptions.find(o => o.value === sortValue) ?? null
 
-  const handleSelect = (selectedOptions: unknown) => {
-    const opt = selectedOptions as ISortOption | null
-    setSortValue(opt?.value ?? null)
-  }
-  const handleSelectCategory = (selectedOptions: unknown) => {
-    const opt = selectedOptions as { value: MOVIETV }
-    setCategoryValue(opt.value)
-  }
-
-  const search = async (page: number = 1) => {
+  const search = async (
+    page: number = 1,
+    category: MOVIETV = categoryValue,
+    sort: MovieSort | 'notchosen' | null = sortValue
+  ) => {
     setIsLoading(true)
     const params: IParams = { page }
-    if (sortValue && sortValue !== 'notchosen') params.sort_by = sortValue
+    if (sort && sort !== 'notchosen') params.sort_by = sort
     if (ref.current) params.with_keywords = ref.current.value
 
-    const data = await MovieDBAPI.getSearch({
-      type: categoryValue,
-      params,
-    })
+    const data = await MovieDBAPI.getSearch({ type: category, params })
 
     if (!data) return
     const { results, ...rest } = data
@@ -81,15 +75,36 @@ export const SearchResult = () => {
     setPagesData(rest)
     setIsLoading(false)
   }
-  const onSearch = async () => search()
-  const onPaginationChange = async (page: number) => {
+
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    search(currentPage)
+  }, [])
+
+  const handleSelectCategory = (selectedOptions: unknown) => {
+    const newCategory = (selectedOptions as { value: MOVIETV }).value
+    setCategoryValue(newCategory)
+    setCurrentPage(1)
+    search(1, newCategory)
+  }
+
+  const handleSelect = (selectedOptions: unknown) => {
+    const newSort = (selectedOptions as ISortOption | null)?.value ?? null
+    setSortValue(newSort)
+    setCurrentPage(1)
+    search(1, categoryValue, newSort)
+  }
+
+  const onSearch = () => {
+    setCurrentPage(1)
+    search(1)
+  }
+
+  const onPaginationChange = (page: number) => {
+    setCurrentPage(page)
     search(page)
     scrollTop()
   }
-
-  useEffect(() => {
-    search()
-  }, [categoryValue, sortValue])
 
   if (isLoading) return <SearchResultSkeleton />
 
@@ -123,13 +138,13 @@ export const SearchResult = () => {
       </div>
 
       <ResultList list={films} />
-      {pagesData?.page && pagesData?.total_pages > 1 && (
+      {pagesData && pagesData.total_pages > 1 && (
         <Pagination
-          totalCount={pagesData?.total_pages || 0}
-          currentPage={pagesData?.page}
-          siblingCount={pagesData?.total_pages >= 5 ? 2 : undefined}
+          totalCount={pagesData.total_pages}
+          currentPage={currentPage}
+          siblingCount={pagesData.total_pages >= 5 ? 2 : undefined}
           pageSize={MovieDBPageSize}
-          onPageChange={(pageNum: number) => onPaginationChange(pageNum)}
+          onPageChange={onPaginationChange}
           className={'mx-auto mt-4 md:mt-8 ld:mt-9 2xl:mt-11'}
         />
       )}
