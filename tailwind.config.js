@@ -88,8 +88,8 @@ export default {
         'card-4': 'repeat(auto-fit, minmax(20%, 1fr))',
       },
       content: {
-        burger: 'url("./src/assets/images/general/burger-mini.svg")',
-        breadcrumbs: 'url("./src/assets/images/general/breadcrumb-arrow.svg")',
+        burger: 'url("/src/assets/images/general/burger-mini.svg")',
+        breadcrumbs: 'url("/src/assets/images/general/breadcrumb-arrow.svg")',
       },
       fontFamily: {
         q: ['Qanelas Regular', 'sans-serif'],
