@@ -155,7 +155,9 @@
   "news": {
     "title": "News",
     "loading": "Loading...",
-    "notFound": "News not found"
+    "notFound": "News not found",
+    "upcoming": "Upcoming Releases",
+    "trending": "Trending This Week"
   },
   "notFound": {
     "subtitle": "No movies:(",

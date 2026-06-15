@@ -1,6 +1,6 @@
 import axios, { type AxiosResponse } from 'axios'
 import { IGenre, IMovieRes } from '../types'
-import { IGetSearchParams, CATEGORY, MOVIETV } from '../types/requests'
+import { IGetSearchParams, IParams, CATEGORY, MOVIETV } from '../types/requests'
 import {
   ICastRes,
   ICreditsRes,
@@ -25,6 +25,7 @@ const token = import.meta.env.VITE_MOVIEDB_TOKEN
 const path = {
   search: (type: MOVIETV, category: CATEGORY) => `${type}/${category}`,
   discover: (type: MOVIETV) => `discover/${type}`,
+  trending: (timeWindow: 'day' | 'week') => `trending/movie/${timeWindow}`,
   movie: (id: string) => `movie/${id}`,
   persons: 'person/popular',
   person: (id: string) => `person/${id}`,
@@ -115,6 +116,14 @@ export const getSimilarMovies = async (id: string): Promise<IMovieRes[]> => {
 export const getMovieVideos = async (id: string): Promise<IMovieVideo[]> => {
   const { data } = await movieDBAxious.get<IMovieVideosRes>(path.movie(id) + '/videos')
   return data.results
+}
+
+export const getTrendingMovies = async (
+  timeWindow: 'day' | 'week' = 'week',
+  params?: Pick<IParams, 'page'>
+): Promise<IDiscoverResult> => {
+  const { data } = await movieDBAxious.get(path.trending(timeWindow), { params })
+  return data
 }
 
 export const getSearchedItem = async (value?: string, page: number = 1): Promise<ISearchResult | undefined> => {
