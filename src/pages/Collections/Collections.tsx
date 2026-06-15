@@ -2,7 +2,7 @@ import { Navigate, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import { CollectionsList } from '../../components/ui/CollectionsList/CollectionsList'
 import { Pagination } from '../../components/ui/Pagination/Pagination'
-import { CollectionsHero } from './CollectionsHero'
+import { PageHero } from '../../components/ui/PageHero/PageHero'
 import { TagButton } from './CollectionsTagButton'
 import { useCollectionsFilter, PAGE_SIZE } from './hooks/useCollectionsFilter'
 import { useCollectionNavigation } from './hooks/useCollectionNavigation'
@@ -36,7 +36,7 @@ export const Collections = () => {
 
   return (
     <section className="container pb-9 lg:pb-10 2xl:pb-[70px]">
-      <CollectionsHero title={t('collections.title')} description={t('collections.description')} />
+      <PageHero title={t('collections.title')} description={t('collections.description')} />
 
       <Outlet />
 
