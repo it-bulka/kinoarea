@@ -1,7 +1,7 @@
 import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
 import { ResultList } from '../../components/ui/ResultList/ResultList'
 import { CustomSelect } from '../../components/ui/Select/Select'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { SearchBar } from '../../components/ui/SearchBar/SearchBar'
 import { IParams, MovieSort, MOVIETV } from '../../api/types/requests'
 import { MovieDBAPI } from '../../api/movieDBApi'
@@ -10,53 +10,68 @@ import { IMovies } from '../../api/types'
 import { Pagination } from '../../components/ui/Pagination/Pagination'
 import { scrollTop } from '../../utils/scrollTop'
 import { SearchResultSkeleton } from './SearchResultSkeleton'
+import { useTranslation } from 'react-i18next'
 
 interface IOption {
   value: string
   label: string
 }
 
-interface ICategoryOption extends IOption {
-  value: MOVIETV
-}
-
-const categoryOptions: ICategoryOption[] = [
-  { value: 'movie', label: 'Фильмы' },
-  { value: 'tv', label: 'Сериалы' },
-]
-
 interface ISortOption extends IOption {
   value: MovieSort | 'notchosen'
 }
-const sortOptions: ISortOption[] = [
-  { value: 'notchosen', label: 'не сортировать' },
-  { value: 'popularity.desc', label: 'сначала популярние' },
-  { value: 'popularity.asc', label: 'сначала не популярности' },
-  { value: 'revenue.desc', label: 'большие сборы' },
-  { value: 'revenue.asc', label: 'малые сборы' },
-  { value: 'primary_release_date.desc', label: 'сначала новые' },
-  { value: 'primary_release_date.asc', label: 'сначала старые' },
-]
 
 export const SearchResult = () => {
-  const [category, setCategory] = useState<ICategoryOption>(categoryOptions[0])
-  const [sortValue, setSortValue] = useState<ISortOption | null>(null)
+  const { t } = useTranslation()
+
+  const categoryOptions = useMemo(
+    () => [
+      { value: 'movie' as MOVIETV, label: t('search.category.movie') },
+      { value: 'tv' as MOVIETV, label: t('search.category.tv') },
+    ],
+    [t]
+  )
+
+  const sortOptions = useMemo<ISortOption[]>(
+    () => [
+      { value: 'notchosen', label: t('search.sort.none') },
+      { value: 'popularity.desc', label: t('search.sort.popularDesc') },
+      { value: 'popularity.asc', label: t('search.sort.popularAsc') },
+      { value: 'revenue.desc', label: t('search.sort.revenueDesc') },
+      { value: 'revenue.asc', label: t('search.sort.revenueAsc') },
+      { value: 'primary_release_date.desc', label: t('search.sort.newestFirst') },
+      { value: 'primary_release_date.asc', label: t('search.sort.oldestFirst') },
+    ],
+    [t]
+  )
+
+  const [categoryValue, setCategoryValue] = useState<MOVIETV>('movie')
+  const [sortValue, setSortValue] = useState<MovieSort | 'notchosen' | null>(null)
   const ref = useRef<HTMLInputElement>(null)
   const [pagesData, setPagesData] = useState<Omit<IDiscoverResult, 'results'> | null>(null)
   const [films, setFilms] = useState<IMovies>([])
   const [isLoading, setIsLoading] = useState(true)
 
-  const handleSelect = (selectedOptions: unknown) => setSortValue(selectedOptions as ISortOption)
-  const handleSelectCategory = (selectedOptions: unknown) => setCategory(selectedOptions as ICategoryOption)
+  const category = categoryOptions.find(o => o.value === categoryValue) ?? categoryOptions[0]
+  const selectedSort = sortOptions.find(o => o.value === sortValue) ?? null
+
+  const handleSelect = (selectedOptions: unknown) => {
+    const opt = selectedOptions as ISortOption | null
+    setSortValue(opt?.value ?? null)
+  }
+  const handleSelectCategory = (selectedOptions: unknown) => {
+    const opt = selectedOptions as { value: MOVIETV }
+    setCategoryValue(opt.value)
+  }
 
   const search = async (page: number = 1) => {
     setIsLoading(true)
     const params: IParams = { page }
-    if (sortValue && sortValue.value !== 'notchosen') params.sort_by = sortValue.value
+    if (sortValue && sortValue !== 'notchosen') params.sort_by = sortValue
     if (ref.current) params.with_keywords = ref.current.value
 
     const data = await MovieDBAPI.getSearch({
-      type: category.value,
+      type: categoryValue,
       params,
     })
 
@@ -74,7 +89,7 @@ export const SearchResult = () => {
 
   useEffect(() => {
     search()
-  }, [category, sortValue])
+  }, [categoryValue, sortValue])
 
   if (isLoading) return <SearchResultSkeleton />
 
@@ -84,10 +99,10 @@ export const SearchResult = () => {
       <div className={'md:flex'}>
         <div className={'md:basis-2/3'}>
           <Typography variant={'h1'} type={TypographyTypes._TITLE}>
-            Результаты поиска
+            {t('search.title')}
           </Typography>
           <h3 className={'text-15 font-q-600 md:text-xl 2xl:text-3xl'}>
-            {ref.current?.value} ({pagesData?.total_results ? pagesData.total_results : 0} результатов)
+            {ref.current?.value} ({t('search.results', { count: pagesData?.total_results ?? 0 })})
           </h3>
           <p className={'text-sm font-q-600 md:text-17 2xl:text-2xl'}>{category.label}:</p>
         </div>
@@ -98,7 +113,12 @@ export const SearchResult = () => {
             onChange={handleSelectCategory}
             isClearable={false}
           />
-          <CustomSelect options={sortOptions} value={sortValue} onChange={handleSelect} placeholder={'Отсортировать'} />
+          <CustomSelect
+            options={sortOptions}
+            value={selectedSort}
+            onChange={handleSelect}
+            placeholder={t('search.sortPlaceholder')}
+          />
         </div>
       </div>
 

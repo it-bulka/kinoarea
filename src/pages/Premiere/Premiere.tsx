@@ -17,6 +17,7 @@ import { IOption } from '../../utils/getSelectedOption'
 import { usePaginateData } from '../../hooks/usePaginateData'
 import { getISODate } from '../../utils/getISODate'
 import { PremiereSkeleton } from './PremiereSkeleton'
+import { useTranslation } from 'react-i18next'
 
 type MovieSchedule = Array<[string, IMovieRes[]]>
 type PageInfo = Omit<IDiscoverResult, 'results'>
@@ -25,6 +26,7 @@ export const Premiere = () => {
   const [endDate, setEndDate] = useState<Date | null>(null)
   const [sortValue, setSortValue] = useState<IOption[] | null>(null)
   const [isLoading, setIsLoading] = useState(true)
+  const { t } = useTranslation()
   const {
     data: movieSchedule,
     setData: setMovieSchedule,
@@ -100,43 +102,45 @@ export const Premiere = () => {
             variant={'h1'}
             type={TypographyTypes._TITLE}
           >
-            График премьер фильмов
+            {t('premiere.title')}
           </Typography>
           <Breadcrumbs className={'flex-center mt-1 mb-2 md:justify-start md:mb-1.5 lg:mb-2 2xl:mb-3.5'} />
           <p className={'text-13 font-q-500 text-center md:text-start md:text-15 2xl:text-lg'}>
-            Также как дальнейшее развитие различных форм деятельности, в своём классическом представлении, допускает
-            внедрение первоочередных требований. Современные технологии достигли такого уровня, что внедрение
-            современных методик предполагает независимые способы реализации стандартных подходов. Сторонники
-            тоталитаризма в науке могут быть объявлены нарушающими общечеловеческие нормы этики и морали.
+            {t('premiere.description')}
           </p>
         </div>
         <div className={'my-[21.5px]'}>
-          <Typography className={'text-center md:text-left'}>Chose period</Typography>
+          <Typography className={'text-center md:text-left'}>{t('premiere.period')}</Typography>
           <div className={'flex md:w-1/2 lg:w-2/5'}>
             <DateInput
               date={startDate || tomorrowDate}
               onChange={setStartDate}
-              placeholderText={'Start from'}
+              placeholderText={t('premiere.startDate')}
               wrapperClassName={'flex-1'}
             />
             <span className={'px-3 lg:flex-[0.5] flex-center'}>-</span>
-            <DateInput date={endDate} onChange={setEndDate} placeholderText={'End'} wrapperClassName={'flex-1'} />
+            <DateInput
+              date={endDate}
+              onChange={setEndDate}
+              placeholderText={t('premiere.endDate')}
+              wrapperClassName={'flex-1'}
+            />
           </div>
         </div>
         <div className={'my-[21.5px]'}>
-          <Typography className={'text-center md:text-left'}>Chose genres</Typography>
+          <Typography className={'text-center md:text-left'}>{t('premiere.genres')}</Typography>
           <CustomSelect
             options={genresOptions}
             value={sortValue}
             onChange={selectedOptions => setSortValue(selectedOptions as IOption[])}
-            placeholder={'Show all genres'}
+            placeholder={t('premiere.allGenres')}
             className={'md:w-1/2 lg:w-2/5'}
             isMulti
             withCustomOptions
           />
         </div>
         <Button className={'ml-auto'} onClick={() => setData()}>
-          Подтвердить параметры
+          {t('premiere.confirm')}
         </Button>
       </section>
 
