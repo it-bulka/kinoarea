@@ -1,0 +1,265 @@
+{
+  "nav": {
+    "premiere": "Premiere",
+    "films": "Films",
+    "actors": "Actors",
+    "news": "News",
+    "collections": "Collections",
+    "myProfile": "My Profile"
+  },
+  "header": {
+    "logout": "Log out",
+    "login": "Log in",
+    "switchToEn": "Switch to Ukrainian"
+  },
+  "footer": {
+    "copyright": "2020 © Kinoarea. All rights reserved",
+    "privacy": "Privacy Policy"
+  },
+  "breadcrumbs": {
+    "/": "Home",
+    "/premiere": "Premiere",
+    "/films": "Films",
+    "/news": "News",
+    "/collections": "Collections",
+    "/collections/tv": "TV Series",
+    "/collections/category": "Directions",
+    "/collections/cast": "By Actors",
+    "/collections/year": "Years",
+    "/collections/genres": "Genres",
+    "/actors": "Actors"
+  },
+  "main": {
+    "nowPlaying": "Now Playing",
+    "allNew": "All New Releases",
+    "popular": "Popular Films",
+    "upcoming": "Upcoming Releases",
+    "latestNews": "Latest News",
+    "allNews": "All News",
+    "newTrailers": "New Trailers",
+    "popularPersons": "Popular Persons",
+    "profit": {
+      "title": "Box Office",
+      "from": "From",
+      "to": "To",
+      "apply": "Apply"
+    }
+  },
+  "film": {
+    "votes": "votes",
+    "watchTrailer": "Watch Trailer",
+    "cast": "Main Cast:",
+    "allActors": "All Actors",
+    "posters": "Movie Posters",
+    "allPosters": "All Posters",
+    "similar": "Similar Movies",
+    "reviews": "Movie Reviews",
+    "addReview": "Add Review",
+    "hideReview": "Hide Review Form",
+    "videos": "Trailers & Videos",
+    "details": {
+      "year": "Year",
+      "country": "Country",
+      "tagline": "Tagline",
+      "production": "Production",
+      "genres": "Genres",
+      "budget": "Budget",
+      "revenue": "Revenue",
+      "runtime": "Runtime"
+    }
+  },
+  "actor": {
+    "title": "Actors",
+    "notFound": "Actor not found",
+    "readMore": "Read More",
+    "showLess": "Show Less",
+    "alsoKnownAs": "Also known as",
+    "birthday": "Date of Birth",
+    "birthPlace": "Place of Birth",
+    "career": "Career",
+    "films": "Films",
+    "filmsCount": "Total films found: {{count}}",
+    "noFilms": "No films to display",
+    "role": "Role: {{character}}",
+    "photo": "Photos",
+    "allPhotos": "All Photos",
+    "images": {
+      "back": "Back",
+      "total": "Total found: {{count}} photos"
+    }
+  },
+  "search": {
+    "title": "Search Results",
+    "results": "{{count}} results",
+    "sortPlaceholder": "Sort",
+    "sort": {
+      "none": "No sorting",
+      "popularDesc": "Most popular first",
+      "popularAsc": "Least popular first",
+      "revenueDesc": "High revenue",
+      "revenueAsc": "Low revenue",
+      "newestFirst": "Newest first",
+      "oldestFirst": "Oldest first"
+    },
+    "category": {
+      "movie": "Movies",
+      "tv": "TV Shows"
+    }
+  },
+  "premiere": {
+    "title": "Film Premiere Schedule",
+    "description": "Stay up to date with the film premiere schedule and don't miss a single new release.",
+    "period": "Choose period",
+    "startDate": "Start from",
+    "endDate": "End",
+    "genres": "Choose genres",
+    "allGenres": "All genres",
+    "confirm": "Confirm parameters"
+  },
+  "collections": {
+    "title": "Film Collections",
+    "description": "Explore the best film collections from Kinoarea.",
+    "total": "Total found: {{count}}",
+    "tags": {
+      "all": "Kinoarea",
+      "tv": "TV Series",
+      "directions": "Directions",
+      "cast": "By Actors",
+      "revenue": "Revenue",
+      "awards": "Awards",
+      "years": "Years",
+      "genres": "Genres"
+    }
+  },
+  "news": {
+    "title": "News",
+    "loading": "Loading...",
+    "notFound": "News not found"
+  },
+  "notFound": {
+    "subtitle": "No movies:(",
+    "message": "This page may not exist, or it has been moved.",
+    "home": "Back to Home",
+    "search": "Search the site"
+  },
+  "profile": {
+    "title": "Your Profile",
+    "settings": "Settings",
+    "notSpecified": "not specified",
+    "sex": "Gender",
+    "birthday": "Birthday",
+    "country": "Country",
+    "city": "City",
+    "favouriteGenres": "Favorite genres:",
+    "stats": {
+      "friends": "Friends",
+      "likedFilms": "Liked\nFilms",
+      "favourites": "Favourites",
+      "reviews": "Reviews",
+      "upcoming": "Upcoming\nFilms"
+    }
+  },
+  "settings": {
+    "title": "Profile Settings",
+    "save": "Save",
+    "name": "Name",
+    "surname": "Surname",
+    "birthday": "Specify date of birth",
+    "about": "About yourself",
+    "photo": "Profile photo: ",
+    "upload": "Upload",
+    "gender": {
+      "male": "Male",
+      "female": "Female",
+      "others": "Other",
+      "notchosen": "Don't specify"
+    },
+    "social": {
+      "linkedin": "link to linkedin",
+      "youtube": "link to youtube",
+      "instagram": "link to instagram",
+      "twitter": "link to twitter",
+      "facebook": "link to facebook"
+    }
+  },
+  "auth": {
+    "login": {
+      "title": "Log In",
+      "loginLabel": "Login, email or phone",
+      "passwordLabel": "Your password",
+      "submit": "Log In",
+      "register": "Register"
+    },
+    "register": {
+      "title": "Register",
+      "name": "Name",
+      "surname": "Surname",
+      "login": "Create a login",
+      "password": "Create a password",
+      "repeatPassword": "Repeat password",
+      "tel": "Phone number or e-mail",
+      "privacy": "I agree to the ",
+      "privacyLink": "privacy policy",
+      "personalData": "I agree to the processing of personal data",
+      "submit": "Register"
+    }
+  },
+  "friends": {
+    "title": "Your Friends",
+    "total": "Total: {{count}}",
+    "online": "Online",
+    "request": "{{name}} wants to add you as a friend ({{count}} common friends)",
+    "accept": "Accept",
+    "decline": "Decline",
+    "block": "Block"
+  },
+  "reviews": {
+    "title": "Your Reviews",
+    "total": "Total: {{count}}",
+    "empty": "You haven't added any reviews yet",
+    "backToMain": "Back to main page"
+  },
+  "favouriteFilms": {
+    "title": "Favourite Films",
+    "total": "Total: {{count}}",
+    "empty": "You haven't added any films to favourites",
+    "backToMain": "Back to main page"
+  },
+  "likes": {
+    "title": "Liked Films",
+    "total": "Total: {{count}}",
+    "empty": "You haven't liked any films yet",
+    "backToMain": "Back to main page"
+  },
+  "famous": {
+    "title": "Favourite Celebrities",
+    "total": "Total: {{count}}",
+    "empty": "You haven't added any celebrities to favourites",
+    "goToActors": "Go to Actors"
+  },
+  "mailing": {
+    "title": "Subscribe to Email Newsletter",
+    "description": "If you want to stay up to date with the latest movie news — fill out the form below and subscribe to our free email newsletter!",
+    "emailPlaceholder": "Enter your email address",
+    "subscribe": "Subscribe",
+    "privacy": "I agree to the ",
+    "privacyLink": "privacy policy"
+  },
+  "comment": {
+    "myProfile": "My Profile",
+    "preview": "Preview",
+    "backToEdit": "Back to Editing",
+    "send": "Send"
+  },
+  "notifications": {
+    "userAbsent": "Log in or register to like films",
+    "userAbsentComment": "Log in or register to write reviews",
+    "userAbsentFavourite": "Log in or register to add films to favourites",
+    "commentSent": "Your review has been successfully added",
+    "subscriptionSent": "You have successfully subscribed to the newsletter"
+  },
+  "common": {
+    "ok": "OK",
+    "showMore": "Show more"
+  }
+}

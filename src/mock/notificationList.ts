@@ -1,7 +1,7 @@
 export const notificationList = {
-  userAbsent: 'Ввойдите или зарегистрируйтесь для того чтобы ставить лайки',
-  userAbsentComment: 'Ввойдите или зарегистрируйтесь для того чтобы ставлять отзывы',
-  userAbsentFavourite: 'Ввойдите или зарегистрируйтесь для того чтобы добавлять фильмы в категорию "любимые"',
-  commentSent: 'Ваша рецензія успішно додана',
-  subscriptionSent: 'Ви успішно підписалися на розсилку',
+  userAbsent: 'notifications.userAbsent',
+  userAbsentComment: 'notifications.userAbsentComment',
+  userAbsentFavourite: 'notifications.userAbsentFavourite',
+  commentSent: 'notifications.commentSent',
+  subscriptionSent: 'notifications.subscriptionSent',
 }
