@@ -1,115 +1,21 @@
-import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
-import { Button } from '../../components/ui/Button/Button'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { flushSync } from 'react-dom'
-import cls from './Collections.module.scss'
-import classnames from 'classnames'
-import { CollectionsList } from '../../components/ui/CollectionsList/CollectionsList'
-import { categories_2, CategoriesTypes } from '../../mock/categories'
-import { Pagination } from '../../components/ui/Pagination/Pagination'
-import { scrollTop } from '../../utils/scrollTop'
-import { Navigate, Outlet, useLocation, useNavigate, useParams } from 'react-router-dom'
-import { ICategories } from '../../api/types/categories'
+import { Navigate, Outlet } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
-import { usePageParam } from '../../hooks/usePageParam'
-import { getSearch } from '../../api/movieDBApi'
-import { IGetSearchParams } from '../../api/types/requests'
-
-type CategoryTag = {
-  id: string
-  title: string
-  type: CategoriesTypes | 'all'
-}
-
-const pageSize = 5
-const slugs: CategoriesTypes[] = ['genres', 'category', 'cast', 'year', 'tv']
+import { CollectionsList } from '../../components/ui/CollectionsList/CollectionsList'
+import { Pagination } from '../../components/ui/Pagination/Pagination'
+import { CollectionsHero } from './CollectionsHero'
+import { TagButton } from './CollectionsTagButton'
+import { useCollectionsFilter, PAGE_SIZE } from './hooks/useCollectionsFilter'
+import { useCollectionNavigation } from './hooks/useCollectionNavigation'
+import { usePosterMap } from './hooks/usePosterMap'
 
 export const Collections = () => {
   const { t } = useTranslation()
-  const categoriesTags = useMemo<CategoryTag[]>(
-    () => [
-      { id: '1', title: t('collections.tags.all'), type: 'all' },
-      { id: '2', title: t('collections.tags.tv'), type: 'tv' },
-      { id: '3', title: t('collections.tags.directions'), type: 'category' },
-      { id: '4', title: t('collections.tags.cast'), type: 'cast' },
-      { id: '5', title: t('collections.tags.revenue'), type: 'all' },
-      { id: '6', title: t('collections.tags.awards'), type: 'all' },
-      { id: '7', title: t('collections.tags.years'), type: 'year' },
-      { id: '8', title: t('collections.tags.genres'), type: 'genres' },
-    ],
-    [t]
-  )
-  const [activeCategory, setActiveCategory] = useState<CategoryTag | null>(null)
-  const [currentPage, setCurrentPage] = usePageParam()
-  const [chosenCollection, setChosenCollection] = useState<ICategories | null>()
-  const [posterMap, setPosterMap] = useState<Record<string, string | null>>({})
-  const { slug } = useParams<Record<'slug', CategoriesTypes>>()
-  const navigate = useNavigate()
-  const location = useLocation()
-  const effectiveCategory = activeCategory ?? categoriesTags[0]
+  const { categoriesTags, effectiveCategory, list, listPerPage, currentPage, changePage, onCategoryTagClick } =
+    useCollectionsFilter()
+  const { chosenCollection, slug, location, onCategoryClick, isValidSlug } = useCollectionNavigation()
+  const posterMap = usePosterMap(listPerPage)
 
-  const list = useMemo(() => {
-    const data = categories_2.filter(item => item.types.includes(effectiveCategory.type))
-
-    if (!data.length) return categories_2
-    return data
-  }, [effectiveCategory])
-
-  const listPerPage = useMemo(() => {
-    const start = (currentPage - 1) * pageSize
-    const end = currentPage * pageSize
-
-    return list.slice(start, end)
-  }, [list, currentPage])
-
-  useEffect(() => {
-    let cancelled = false
-    const fetchPosters = async () => {
-      const entries = await Promise.all(
-        listPerPage.map(async item => {
-          const options: IGetSearchParams = {
-            type: 'movie',
-            params: { ...item.params, page: 1 },
-          }
-          if (item.category) options.category = item.category
-          const data = await getSearch(options)
-          return [item.id, data?.results[0]?.poster_path ?? null] as [string, string | null]
-        })
-      )
-      if (!cancelled) setPosterMap(Object.fromEntries(entries))
-    }
-    fetchPosters()
-    return () => {
-      cancelled = true
-    }
-  }, [listPerPage])
-
-  const changePage = useCallback(
-    (pageNum: number) => {
-      setCurrentPage(pageNum)
-      scrollTop()
-    },
-    [setCurrentPage]
-  )
-
-  const onCategoryTagClick = useCallback(
-    (category: CategoryTag) => {
-      setActiveCategory(category)
-      setCurrentPage(1)
-    },
-    [setCurrentPage]
-  )
-
-  const onCategoryClick = useCallback(
-    (category: ICategories) => {
-      flushSync(() => setChosenCollection(category))
-      navigate(category.types)
-    },
-    [navigate]
-  )
-
-  if (slug && slugs.includes(slug) && chosenCollection) {
+  if (slug && isValidSlug && chosenCollection) {
     return (
       <Outlet
         context={{
@@ -126,37 +32,34 @@ export const Collections = () => {
     return <Outlet context={{ title, category }} />
   }
 
-  if (slug && !slugs.includes(slug) && !chosenCollection && !location.state) return <Navigate to={'/collections'} />
+  if (slug && !isValidSlug && !chosenCollection && !location.state) return <Navigate to="/collections" />
 
   return (
-    <section className={'container pb-9 lg:pb-10 2xl:pb-[70px]'}>
-      <Typography variant={'h1'} type={TypographyTypes._TITLE}>
-        {t('collections.title')}
-      </Typography>
-      <Breadcrumbs />
+    <section className="container pb-9 lg:pb-10 2xl:pb-[70px]">
+      <CollectionsHero title={t('collections.title')} description={t('collections.description')} />
 
       <Outlet />
-      <Typography className={'mt-2.5 mb-5'}>{t('collections.description')}</Typography>
 
-      <div className={'flex-center flex-wrap'}>
-        {categoriesTags.map(category => (
-          <Button
-            key={category.id}
-            className={classnames([cls.btn], { [cls.notActive]: category.id !== effectiveCategory.id })}
-            onClick={() => onCategoryTagClick(category)}
-          >
-            {category.title}
-          </Button>
+      <div className="flex-center flex-wrap gap-2 md:gap-3 mb-6">
+        {categoriesTags.map(tag => (
+          <TagButton
+            key={tag.id}
+            tag={tag}
+            isActive={tag.id === effectiveCategory.id}
+            onTagClick={onCategoryTagClick}
+          />
         ))}
       </div>
+
       <CollectionsList list={listPerPage} onCategoryClick={onCategoryClick} posterMap={posterMap} />
+
       <Pagination
         totalCount={list.length}
         currentPage={currentPage}
         siblingCount={2}
-        pageSize={pageSize}
+        pageSize={PAGE_SIZE}
         onPageChange={changePage}
-        className={'mx-auto'}
+        className="mx-auto"
       />
     </section>
   )
