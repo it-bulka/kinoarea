@@ -1,21 +1,12 @@
-.newsList {
+.notActive {
+  @apply bg-transparent shadow-none;
+  color: rgba(255, 255, 255, 0.45);
 
-
-  @media screen and (min-width: 768px) and (max-width: 999px) {
-    & > *:nth-child(14n+5),
-    & > *:nth-child(14n+6),
-    & > *:nth-child(14n+11),
-    & > *:nth-child(14n+12), {
-      grid-column: span 2;
-    }
+  &:hover {
+    color: rgba(255, 255, 255, 0.85);
   }
+}
 
-  @media screen and (min-width: 1000px) {
-    & > *:nth-child(17n+4),
-    & > *:nth-child(17n+7),
-    & > *:nth-child(17n+11),
-    & > *:nth-child(17n+14), {
-      grid-column: span 2;
-    }
-  }
+.tagBtn {
+  @apply text-sm md:text-15 2xl:text-[21px] transition-colors duration-200;
 }
