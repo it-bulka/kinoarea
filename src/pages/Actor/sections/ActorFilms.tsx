@@ -13,7 +13,7 @@ export interface ActorFilmsPagination {
 const filmsPerPageAmount = 10
 
 interface ActorFilmsProps {
-  films: IPersonCombinedCredits[] | undefined
+  films: IPersonCombinedCredits[] | null
   totalCount: number
   pagesData: ActorFilmsPagination | null
   currentPage: number

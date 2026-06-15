@@ -10,10 +10,10 @@ import Avatar from '../../../assets/images/general/avatar.svg'
 
 interface ActorBioProps {
   name: string
-  profile_path: string | null
+  profile_path: string
   biography: string
   also_known_as: string[]
-  birthday: string | null
+  birthday: Date | null
   place_of_birth: string | null
   known_for_department: string
 }
