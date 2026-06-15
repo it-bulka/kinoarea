@@ -38,11 +38,22 @@
     "allNews": "All News",
     "newTrailers": "New Trailers",
     "popularPersons": "Popular Persons",
+    "allTime": "All Time",
+    "persons": {
+      "1": "Per Year",
+      "2": "Per Month",
+      "3": "Per Week"
+    },
     "profit": {
       "title": "Box Office",
       "from": "From",
       "to": "To",
-      "apply": "Apply"
+      "apply": "Apply",
+      "regions": {
+        "1": "Ukraine",
+        "2": "World",
+        "3": "USA & Canada"
+      }
     },
     "genres": {
       "1": "All",

@@ -1,7 +1,7 @@
 import { SectionHeader } from '../../../../components/ui/SectionHeader/SectionHeader'
 import { FilmSlider } from '../../../../components/ui/sliders/FilmSlider/FilmSlider'
 import { SliderNav } from '../../../../components/ui/sliders/SliderNav/SliderNav'
-import { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useActions } from '../../../../hooks/useActions'
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 import { years } from '../../../../mock/categories'
@@ -14,6 +14,8 @@ export const Popular = () => {
   const { fetchPopularMovies, changePopularCategory } = useActions()
   const { popular, popularCategory, isPopularLoading } = useTypedSelector(state => state.movies)
   const { t } = useTranslation()
+
+  const translatedYears = useMemo(() => years.map(y => (y.id === '1' ? { ...y, title: t('main.allTime') } : y)), [t])
 
   useEffect(() => {
     fetchPopularMovies()
@@ -37,7 +39,7 @@ export const Popular = () => {
     <section>
       <SectionHeader
         title={t('main.popular')}
-        categories={setActiveItem(years, popularCategory.id)}
+        categories={setActiveItem(translatedYears, popularCategory.id)}
         onCategoryClick={onCategoryClick}
       />
       <FilmSlider slides={popular} name={'films'} />

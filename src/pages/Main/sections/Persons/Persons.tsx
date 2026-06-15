@@ -2,7 +2,7 @@ import { SectionHeader } from '../../../../components/ui/SectionHeader/SectionHe
 import { SliderNav } from '../../../../components/ui/sliders/SliderNav/SliderNav'
 import { PersonSlider } from '../../../../components/ui/sliders/PersonSlider/PersonSlider'
 import { PersonsRating } from '../../../../components/ui/PersonsRating/PersonsRating'
-import { useEffect, useRef, useState } from 'react'
+import { memo, useEffect, useMemo, useRef, useState } from 'react'
 import { useActions } from '../../../../hooks/useActions'
 import { IPerson } from '../../../../api/types'
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
@@ -14,7 +14,7 @@ import { PersonsSkeleton } from './PersonsSkeleton'
 import { useTranslation } from 'react-i18next'
 
 const startSlidePos = 2
-export const Persons = () => {
+const PersonsComponent = () => {
   const { fetchPopularPersons, changePersonActiveCategory } = useActions()
   const { popular: popularPersons, activeCategory, loading } = useTypedSelector(state => state.persons)
 
@@ -53,6 +53,7 @@ export const Persons = () => {
   }, [])
 
   const { t } = useTranslation()
+  const translatedPersons = useMemo(() => persons.map(p => ({ ...p, title: t(`main.persons.${p.id}`) })), [t])
 
   if (loading) return <PersonsSkeleton />
 
@@ -68,7 +69,7 @@ export const Persons = () => {
       <div className={'flex-between'}>
         <SectionHeader
           title={t('main.popularPersons')}
-          categories={setActiveItem(persons, activeCategory.id)}
+          categories={setActiveItem(translatedPersons, activeCategory.id)}
           onCategoryClick={onCategoryChange}
         />
         <SliderNav sliderName={'persons'} className={'slider-nav mt-[46px]'} />
@@ -88,3 +89,6 @@ export const Persons = () => {
     </section>
   )
 }
+
+export const Persons = memo(PersonsComponent)
+Persons.displayName = 'Persons'
