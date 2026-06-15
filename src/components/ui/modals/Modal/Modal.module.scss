@@ -17,7 +17,6 @@
 .content {
   @apply absolute bg-darkBlue-5 pt-10 pb-14 px-5 top-1/2 left-1/2
   max-h-[90vh] overflow-hidden modal-content-transform rounded-10
-  w-[90%] md:min-w-[60%] md:max-w-[80%] xl:max-w-[1000px]
   shadow-dark shadow-xl
 
 }

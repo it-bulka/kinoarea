@@ -16,6 +16,7 @@ export interface ModalProps {
   close: () => void
   isOpened: boolean
   overlay?: 'on' | 'off'
+  size?: 'fit' | 'max'
   getSimulateCloseCb?: (cb: SimulateCloseCb) => void
 }
 
@@ -26,6 +27,7 @@ export const Modal: FC<ModalProps> = ({
   close,
   isOpened,
   overlay = 'on',
+  size = 'fit',
   contentClassName,
   getSimulateCloseCb,
 }) => {
@@ -81,7 +83,14 @@ export const Modal: FC<ModalProps> = ({
         })}
       >
         <div className={cls.overlay + ' ' + cls[overlay]} onClick={closeHandler}>
-          <div className={`${cls.content} ${contentClassName}`} onClick={onContentClick}>
+          <div
+            className={twMerge(
+              cls.content,
+              size === 'max' ? 'w-[90vw] md:min-w-[60%] md:max-w-[80%] xl:max-w-[1000px]' : 'w-fit',
+              contentClassName
+            )}
+            onClick={onContentClick}
+          >
             <button className={cls.closeBtn} onClick={closeHandler}>
               <CloseIcon className={twMerge('stroke-white', cls.icon)} />
             </button>

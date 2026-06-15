@@ -7,7 +7,7 @@ type MovieModalProps = Omit<ModalProps, 'children'> & {
 
 export const MovieModal = ({ close, isOpened, videoKey }: MovieModalProps) => {
   return (
-    <Modal close={close} isOpened={isOpened} className={cls.modal} contentClassName={cls.modalContent}>
+    <Modal close={close} isOpened={isOpened} className={cls.modal} contentClassName={cls.modalContent} size={'max'}>
       {videoKey ? (
         <iframe
           title="trailer"
