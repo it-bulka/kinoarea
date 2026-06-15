@@ -20,6 +20,7 @@ import { useCallback, useEffect } from 'react'
 import type { IPersonCombinedCredits } from '../../api/types/responses'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { ActorSkeleton } from './ActorSkeleton'
+import { useTranslation } from 'react-i18next'
 
 const filmsPerPageAmount = 10
 interface ActorFilmsPagination {
@@ -32,6 +33,7 @@ export const Actor = () => {
   const lastSegment = useLastPathSegment()
   const language = useTypedSelector(state => state.language.current)
   const revalidator = useRevalidator()
+  const { t } = useTranslation()
 
   useEffect(() => {
     revalidator.revalidate()
@@ -122,8 +124,13 @@ export const Actor = () => {
             {!isMatchedSize && isSeeMorePossible && (
               <div className={'flex justify-between items-start flex-col sm:flex-row'}>
                 <span className={'leading-[0px]'}>...</span>
-                <Button onClick={() => setSeeMore(false)} variant={'white'} className={'mt-5 self-center sm:self-auto'}>
-                  Читать полностью
+                <Button
+                  onClick={() => setSeeMore(false)}
+                  variant={'white'}
+                  size={'sm'}
+                  className={'mt-5 self-center sm:self-auto'}
+                >
+                  {t('actor.readMore')}
                 </Button>
               </div>
             )}
@@ -132,9 +139,10 @@ export const Actor = () => {
                 <Button
                   onClick={() => setSeeMore(true)}
                   variant={'transparent'}
+                  size={'sm'}
                   className={'mt-5 self-center sm:self-auto'}
                 >
-                  Уменьшить текст
+                  {t('actor.showLess')}
                 </Button>
               </div>
             )}

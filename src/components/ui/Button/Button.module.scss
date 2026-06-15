@@ -43,3 +43,9 @@
   lg:text-lg lg:pt-4 lg:pb-[15px] lg:px-[46px]
   2xl:text-lg 2xl:pt-[21px] 2xl:pb-5 2xl:px-[62px]
 }
+
+.sm {
+  @apply px-[18px] py-3.5 text-sm
+  lg:px-4 lg:py-3
+  2xl:px-[42px] 2xl:py-5 2xl:text-base
+}
