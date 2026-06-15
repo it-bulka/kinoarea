@@ -107,7 +107,11 @@
     "images": {
       "back": "Back",
       "total": "Total found: {{count}} photos"
-    }
+    },
+    "knownForFilms": "Known Movies",
+    "knownForTV": "Known TV Shows",
+    "popularity": "Popularity",
+    "profile": "Actor Profile"
   },
   "search": {
     "title": "Search Results",
