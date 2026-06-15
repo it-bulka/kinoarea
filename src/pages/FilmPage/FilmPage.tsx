@@ -26,8 +26,12 @@ import { notificationList } from '../../mock/notificationList'
 import { IconBtn } from '../../components/ui/IconBtn/IconBtn'
 import { FirebaseApi } from '../../api/firebase'
 import { IFbFavouriteMovie, IFilmStatus } from '../../api/types/film'
-import { FilmPageSkeleton } from './FilmPageSkeleton'
 import { useTranslation } from 'react-i18next'
+import { FilmHeroSkeleton } from './sections/FilmHeroSkeleton'
+import { FilmCastSkeleton } from './sections/FilmCastSkeleton'
+import { FilmPostersSkeleton } from './sections/FilmPostersSkeleton'
+import { FilmSimilarSkeleton } from './sections/FilmSimilarSkeleton'
+import { FilmReviewsSkeleton } from './sections/FilmReviewsSkeleton'
 
 export const FilmPage = () => {
   const { slug } = useParams()
@@ -126,77 +130,83 @@ export const FilmPage = () => {
     await handleStatusToggle('favourite')
   }
 
-  if (isLoading) return <FilmPageSkeleton />
-
   return (
     <>
-      <div
-        style={{ backgroundImage: `url(${setMovieDBPath(details?.backdrop_path || details?.poster_path)})` }}
-        className={'bg-no-repeat bg-cover bg-top absolute w-full aspect-[3/4] left-0 -z-1 opacity-40 '}
-      />
+      {details && (
+        <div
+          style={{ backgroundImage: `url(${setMovieDBPath(details?.backdrop_path || details?.poster_path)})` }}
+          className={'bg-no-repeat bg-cover bg-top absolute w-full aspect-[3/4] left-0 -z-1 opacity-40 '}
+        />
+      )}
       <div
         className={
           'container pt-[24px] pb-6 md:pt-9 md:pb-[42px] lg:pt-7 lg:pb-14 2xl:pt-16 2zl:pb-[69px] relative z-10'
         }
       >
-        {details && (
-          <section className={'md:flex md:flex-row-reverse md:justify-end md:gap-[17px] lg:gap-8 2xl:gap-[54px]'}>
-            <div>
-              <div className={'w-full mb-3 md:mb-4'}>
-                <Breadcrumbs lastCrumb={details.title} />
-                <h3 className={'text-32 font-q-900 mb-1 md:text-40 md:my-[3px] 2xl:text-60'}>{details.title}</h3>
-                <p className={'text-2xl font-q-500 2xl:text-2xl'}>{details.original_title}</p>
+        {isLoading || !details ? (
+          <FilmHeroSkeleton />
+        ) : (
+          <>
+            <section className={'md:flex md:flex-row-reverse md:justify-end md:gap-[17px] lg:gap-8 2xl:gap-[54px]'}>
+              <div>
+                <div className={'w-full mb-3 md:mb-4'}>
+                  <Breadcrumbs lastCrumb={details.title} />
+                  <h3 className={'text-32 font-q-900 mb-1 md:text-40 md:my-[3px] 2xl:text-60'}>{details.title}</h3>
+                  <p className={'text-2xl font-q-500 2xl:text-2xl'}>{details.original_title}</p>
+                </div>
+                <div className={'flex'}>
+                  <img
+                    src={setMovieDBPath(details.poster_path)}
+                    alt={'film'}
+                    className={'rounded-10 w-[63%] object-cover aspect-[230/310] md:hidden'}
+                  />
+                  <div className={'w-[37%] flex flex-col items-center gap-2 md:w-auto'}>
+                    <RateBadge rating={details.vote_average} />
+                    <p className={'text-xs text-white/60 text-center'}>
+                      {details.vote_count.toLocaleString()} {t('film.votes')}
+                    </p>
+                  </div>
+                </div>
+                <div>
+                  <div className={'mt-4 mb-11 md:my-4'}>{details.overview}</div>
+                  <Button variant={'transparent'} className={cls.playBtn} onClick={handlePlay}>
+                    <>
+                      <PlayIcon />
+                      <span>{t('film.watchTrailer')}</span>
+                    </>
+                  </Button>
+                </div>
               </div>
-              <div className={'flex'}>
+
+              <div>
                 <img
                   src={setMovieDBPath(details.poster_path)}
                   alt={'film'}
-                  className={'rounded-10 w-[63%] object-cover aspect-[230/310] md:hidden'}
+                  className={'hidden rounded-10 object-cover aspect-[230/310] md:block md:max-w-[297px]'}
                 />
-                <div className={'w-[37%] flex flex-col items-center gap-2 md:w-auto'}>
-                  <RateBadge rating={details.vote_average} />
-                  <p className={'text-xs text-white/60 text-center'}>
-                    {details.vote_count.toLocaleString()} {t('film.votes')}
-                  </p>
+                <div className={'flex items-center text-white gap-1 text-0.5rem'}>
+                  <IconBtn type={'like'} isActive={!!favouriteFilm?.status?.includes('liked')} onClick={onLikeClick} />
+                  <IconBtn
+                    type={'dislike'}
+                    isActive={!!favouriteFilm?.status?.includes('disliked')}
+                    onClick={onDislikeClick}
+                  />
+                  <IconBtn
+                    type={'heart'}
+                    isActive={!!favouriteFilm?.status?.includes('favourite')}
+                    onClick={onFavouriteClick}
+                  />
                 </div>
               </div>
-              <div>
-                <div className={'mt-4 mb-11 md:my-4'}>{details.overview}</div>
-                <Button variant={'transparent'} className={cls.playBtn} onClick={handlePlay}>
-                  <>
-                    <PlayIcon />
-                    <span>{t('film.watchTrailer')}</span>
-                  </>
-                </Button>
-              </div>
-            </div>
 
-            <div>
-              <img
-                src={setMovieDBPath(details.poster_path)}
-                alt={'film'}
-                className={'hidden rounded-10 object-cover aspect-[230/310] md:block md:max-w-[297px]'}
-              />
-              <div className={'flex items-center text-white gap-1 text-0.5rem'}>
-                <IconBtn type={'like'} isActive={!!favouriteFilm?.status?.includes('liked')} onClick={onLikeClick} />
-                <IconBtn
-                  type={'dislike'}
-                  isActive={!!favouriteFilm?.status?.includes('disliked')}
-                  onClick={onDislikeClick}
-                />
-                <IconBtn
-                  type={'heart'}
-                  isActive={!!favouriteFilm?.status?.includes('favourite')}
-                  onClick={onFavouriteClick}
-                />
-              </div>
-            </div>
+              <MovieModal close={() => setModalOpen(false)} isOpened={isModalOpen} videoKey={trailerKey} />
+            </section>
 
-            <MovieModal close={() => setModalOpen(false)} isOpened={isModalOpen} videoKey={trailerKey} />
-          </section>
+            <section>
+              <Description {...details} />
+            </section>
+          </>
         )}
-
-        <section>{details && <Description {...details} />}</section>
 
         <section>
           <SectionHeader
@@ -205,7 +215,7 @@ export const FilmPage = () => {
             linkTitle={t('film.allActors')}
             className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
           />
-          <CastList list={cast} />
+          {isLoading ? <FilmCastSkeleton /> : <CastList list={cast} />}
         </section>
 
         <section>
@@ -215,8 +225,9 @@ export const FilmPage = () => {
             linkTitle={t('film.allPosters')}
             className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
           />
-          <PostersList list={posters} title={''} />
+          {isLoading ? <FilmPostersSkeleton /> : <PostersList list={posters} title={''} />}
         </section>
+
         <section>
           <Typography
             variant={'h3'}
@@ -225,10 +236,16 @@ export const FilmPage = () => {
           >
             {t('film.similar')}
           </Typography>
-          <FilmSlider slides={similar} name={`film-${slug}`} />
-          <div className={'flex justify-center items-center mt-8'}>
-            <SliderNav sliderName={`film-${slug}`} />
-          </div>
+          {isLoading ? (
+            <FilmSimilarSkeleton />
+          ) : (
+            <>
+              <FilmSlider slides={similar} name={`film-${slug}`} />
+              <div className={'flex justify-center items-center mt-8'}>
+                <SliderNav sliderName={`film-${slug}`} />
+              </div>
+            </>
+          )}
         </section>
 
         <section>
@@ -246,14 +263,18 @@ export const FilmPage = () => {
               userName={user.name}
               userSurname={user.surname || ''}
               userId={user.id}
-              movie={{ id: details?.id || '', name: details?.title || '', poster: details?.poster_path || '' }}
+              movie={{
+                id: details?.id || '',
+                name: details?.title || '',
+                poster: details?.poster_path || '',
+              }}
               className={'mb-4'}
             />
           )}
-          <ReviewsList list={reviews} />
+          {isLoading ? <FilmReviewsSkeleton /> : <ReviewsList list={reviews} />}
         </section>
 
-        {videos.length > 0 && (
+        {!isLoading && videos.length > 0 && (
           <section className={'rounded-10 pt-4 px-3.5 pb-8 lg:py-10 lg:px-5'}>
             <FilmVideos videos={videos} onVideoSelect={handleVideoSelect} />
           </section>
