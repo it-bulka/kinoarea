@@ -1,7 +1,31 @@
 .notActive {
-  @apply bg-transparent shadow-none
+  @apply bg-transparent shadow-none;
+  color: rgba(255, 255, 255, 0.45);
+
+  &:hover {
+    color: rgba(255, 255, 255, 0.85);
+  }
 }
 
 .tagBtn {
-  @apply text-sm md:text-15 2xl:text-[21px]
+  @apply text-sm md:text-15 2xl:text-[21px] transition-colors duration-200;
+}
+
+.heroBg {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(54, 87, 203, 0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(54, 87, 203, 0.07) 1px, transparent 1px);
+  background-size: 40px 40px;
+  animation: heroBgDrift 22s linear infinite;
+}
+
+@keyframes heroBgDrift {
+  0% {
+    background-position: 0 0;
+  }
+  100% {
+    background-position: 40px 40px;
+  }
 }
