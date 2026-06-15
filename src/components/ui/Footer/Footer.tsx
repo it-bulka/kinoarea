@@ -6,8 +6,10 @@ import { ReactComponent as FacebookIcon } from '../../../assets/images/general/f
 import { ReactComponent as TwitterIcon } from '../../../assets/images/general/icons8-twitter.svg'
 import { ReactComponent as YoutubeIcon } from '../../../assets/images/general/youtube.svg'
 import { scrollTop } from '../../../utils/scrollTop'
+import { useTranslation } from 'react-i18next'
 
 export const Footer = () => {
+  const { t } = useTranslation()
   return (
     <footer className={'bg-dark pt-6 pb-[30px] md:pt-[34px] md:pb-[36px] lg:pt-10 2xl:pt-[50px] 2xl:pt-[61px]'}>
       <div className={'container'}>
@@ -25,9 +27,9 @@ export const Footer = () => {
           onClick={() => scrollTop()}
         />
         <div className={'flex flex-col gap-2 text-13 text-gray-light/72 text-center lg:gap-6'}>
-          <p>2020 © Kinoarea. Все права защищены</p>
+          <p>{t('footer.copyright')}</p>
           <p>
-            <Link to={'/'}>Политика конфиденциальности</Link>
+            <Link to={'/'}>{t('footer.privacy')}</Link>
           </p>
         </div>
       </div>

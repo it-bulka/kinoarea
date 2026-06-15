@@ -17,6 +17,7 @@ import { scrollBody } from '../../../utils/scrollBody'
 import { useActions } from '../../../hooks/useActions'
 import { useNavigate } from 'react-router-dom'
 import type { LanguageCode } from '../../../redux/actionsTypes/language'
+import { useTranslation } from 'react-i18next'
 
 interface HeaderProps {
   onMenu?: () => void
@@ -29,6 +30,7 @@ export const Header = ({ onMenu }: HeaderProps) => {
   const currentLanguage = useTypedSelector(state => state.language.current)
   const { removeFetchedUser, addIncomingFriend, setLanguage } = useActions()
   const navigate = useNavigate()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (!user) return
@@ -81,7 +83,7 @@ export const Header = ({ onMenu }: HeaderProps) => {
         <button
           onClick={handleLanguageToggle}
           className={'text-xs font-semibold text-grayIcon hover:text-white transition-colors px-1'}
-          title={currentLanguage === 'uk-UA' ? 'Switch to English' : 'Перемкнути на українську'}
+          title={t('header.switchToEn')}
         >
           {currentLanguage === 'uk-UA' ? 'UA' : 'EN'}
         </button>
@@ -99,9 +101,9 @@ export const Header = ({ onMenu }: HeaderProps) => {
       </div>
       <div className={'lg:ml-6'}>
         {user ? (
-          <Button onClick={() => logOut()}>Выйти</Button>
+          <Button onClick={() => logOut()}>{t('header.logout')}</Button>
         ) : (
-          <Button onClick={() => setRegisterModalOpen(true)}>Войти</Button>
+          <Button onClick={() => setRegisterModalOpen(true)}>{t('header.login')}</Button>
         )}
       </div>
       <AuthModal isOpened={isRegisterOpen} close={() => setRegisterModalOpen(false)} />

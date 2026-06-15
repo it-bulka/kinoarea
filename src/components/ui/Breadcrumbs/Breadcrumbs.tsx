@@ -1,27 +1,12 @@
 import { Link, useLocation, useParams } from 'react-router-dom'
-
-export const PAGES: { [key: string]: string } = {
-  '/': 'Главная',
-  '/premiere': 'Афиша',
-  '/films': 'Фильмы',
-  '/news': 'Новости',
-
-  /* collections */
-  '/collections': 'Подборки',
-  '/collections/tv': 'Сериалы',
-  '/collections/category': 'Направления',
-  '/collections/cast': 'По акторам',
-  '/collections/year': 'Годы',
-  '/collections/genres': 'Жанры',
-
-  '/actors': 'Акторы',
-}
+import { useTranslation } from 'react-i18next'
 
 interface BreadcrumbsProps {
   className?: string
   lastCrumb?: string
 }
 export const Breadcrumbs = ({ className, lastCrumb }: BreadcrumbsProps) => {
+  const { t } = useTranslation()
   const locations = useLocation()
   const { slug } = useParams()
   let current = ''
@@ -40,10 +25,10 @@ export const Breadcrumbs = ({ className, lastCrumb }: BreadcrumbsProps) => {
       {crumbs.map(item => (
         <li
           key={item}
-          className={`text-darkBlue-4 [&:not(:last-of-type):after]:content-breadcrumbs 
+          className={`text-darkBlue-4 [&:not(:last-of-type):after]:content-breadcrumbs
              [&:not(:last-of-type):after]:pl-2 [&:not(:last-of-type)]:pr-2 last-of-type:text-white [&:not(:last-of-type):hover]:underline`}
         >
-          <Link to={item}>{PAGES[item] || lastCrumb || slug}</Link>
+          <Link to={item}>{t(`breadcrumbs.${item}`, lastCrumb || slug || item)}</Link>
         </li>
       ))}
     </ul>
