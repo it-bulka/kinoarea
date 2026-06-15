@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 import { FirebaseApi } from '../../../api/firebase'
 import { useActions } from '../../../hooks/useActions'
 import { notificationList } from '../../../mock/notificationList'
+import { useTranslation } from 'react-i18next'
 
 const isValidEmail = (val: string) => /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(val)
 
@@ -17,6 +18,7 @@ export const Mailing = () => {
   const [agreed, setAgreed] = useState(false)
   const [submitting, setSubmitting] = useState(false)
   const { setNotification } = useActions()
+  const { t } = useTranslation()
 
   const canSubmit = isValidEmail(email) && agreed && !submitting
 
@@ -47,15 +49,14 @@ export const Mailing = () => {
               className={`text-25 font-q-900 text-center max-w-[209px] mx-auto
                 md:max-w-full md:text-35 2xl:mt-[51px] 2xl:text-50`}
             >
-              Підпишіться на E-mail розсилку
+              {t('mailing.title')}
             </h3>
             <p
               className={`mt-[21px] mb-[29px] mx-auto text-base font-q-500 text-center
                 md:my-6 md:max-w-[542px]
                 2xl:max-w-[704px] 2xl:mt-[26px] 2xl:mb-[34px] 2xl:text-22`}
             >
-              Якщо хочете бути в курсі останніх новин та новинок кіно — заповніть форму нижче та оформіть безкоштовну
-              E-mail розсилку!
+              {t('mailing.description')}
             </p>
 
             <form
@@ -68,7 +69,7 @@ export const Mailing = () => {
                   type={'email'}
                   value={email}
                   onChange={e => setEmail(e.target.value)}
-                  placeholder={'Введіть свою E-mail адресу'}
+                  placeholder={t('mailing.emailPlaceholder')}
                   className={`${classes.input} text-gray-2 placeholder:text-gray-2/60 md:flex-1`}
                 />
                 <button
@@ -76,16 +77,16 @@ export const Mailing = () => {
                   disabled={!canSubmit}
                   className={`${classes.input} bg-yellowish font-q-700 text-dark md:w-[164px] disabled:opacity-50 disabled:cursor-not-allowed`}
                 >
-                  {submitting ? '...' : 'Підписатися'}
+                  {submitting ? '...' : t('mailing.subscribe')}
                 </button>
               </div>
               <div className={'max-w-[272px]  mt-5 md:flex md:max-w-full'}>
                 <Checkbox
                   label={
                     <span>
-                      Погоджуюся з умовами{' '}
+                      {t('mailing.privacy')}
                       <Link to={'/'} className={'text-yellowish'}>
-                        політики конфіденційності
+                        {t('mailing.privacyLink')}
                       </Link>
                     </span>
                   }

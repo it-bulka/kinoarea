@@ -8,6 +8,7 @@ import { useActions } from '../../../hooks/useActions'
 import { Timestamp } from 'firebase/firestore'
 import { twMerge } from 'tailwind-merge'
 import { notificationList } from '../../../mock/notificationList'
+import { useTranslation } from 'react-i18next'
 
 interface CommentProps extends Pick<IUserReview, 'movie' | 'userId'> {
   userImg: string
@@ -21,6 +22,7 @@ export const Comment = ({ userId, userImg, userName, userSurname, movie, classNa
   const [showPreview, setShowPreview] = useState(false)
   const [editorKey, setEditorKey] = useState(0)
   const { setUserReview, setNotification } = useActions()
+  const { t } = useTranslation()
 
   const comment = {
     userId,
@@ -62,7 +64,7 @@ export const Comment = ({ userId, userImg, userName, userSurname, movie, classNa
               </div>
               <div>
                 <p className={'font-q-700 text-25 md:text-3xl md:mb-2.5'}>{userName}</p>
-                <p className={'font-q-500 text-15md:text-18 '}>Мой профиль</p>
+                <p className={'font-q-500 text-15md:text-18 '}>{t('comment.myProfile')}</p>
               </div>
             </div>
             <div className={'mt-5 mb-8 md:mt-9 md:mb-[27px]'}>
@@ -77,10 +79,10 @@ export const Comment = ({ userId, userImg, userName, userSurname, movie, classNa
             onClick={() => setShowPreview(prev => !prev)}
             disabled={!editorValRef.current}
           >
-            {showPreview ? 'Вернуться к редактированию' : 'Предварительный просмотр'}
+            {showPreview ? t('comment.backToEdit') : t('comment.preview')}
           </Button>
           <Button variant={'yellow'} onClick={() => sendMessage(editorValRef.current)}>
-            Отправить
+            {t('comment.send')}
           </Button>
         </div>
       </div>

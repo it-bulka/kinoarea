@@ -8,6 +8,7 @@ import { ISearchMovieResult, ISearchResult } from '../../../api/types/responses'
 import { setMovieDBPath } from '../../../utils'
 import { Button } from '../Button/Button'
 import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
 
 interface SearchFilmProps {
   className?: string
@@ -19,6 +20,7 @@ export const SearchFilm = ({ className, onClose }: SearchFilmProps) => {
   const [searched, setSearched] = useState<ISearchMovieResult[]>([])
   const [pages, setPages] = useState<Pick<ISearchResult, 'page' | 'total_pages'>>({ page: 0, total_pages: 0 })
   const navigate = useNavigate()
+  const { t } = useTranslation()
   const handleSearch = async () => {
     const finded = await getSearchedItem(ref.current?.value)
 
@@ -98,7 +100,7 @@ export const SearchFilm = ({ className, onClose }: SearchFilmProps) => {
           {pages.page < pages.total_pages && (
             <div className={'pt-4 shadow-lg shadow-dark'}>
               <Button variant={'transparent'} onClick={handleMoreClick} className={'mx-auto'}>
-                Показать еще
+                {t('common.showMore')}
               </Button>
             </div>
           )}
