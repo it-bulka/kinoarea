@@ -5,6 +5,7 @@ import { Input } from '../../../ui/Input/Input'
 import { Typography, TypographyTypes } from '../../../ui/Typography/Typography'
 import { Button } from '../../../ui/Button/Button'
 import { useActions } from '../../../../hooks/useActions'
+import { useTranslation } from 'react-i18next'
 
 interface LoginFormProps {
   onRegisterClick: () => void
@@ -18,6 +19,7 @@ export const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
     resolver: yupResolver(loginSchema),
   })
   const { fetchUser } = useActions()
+  const { t } = useTranslation()
 
   const onSubmit: SubmitHandler<ILoginFields> = async data => {
     const { login, password } = data
@@ -27,15 +29,20 @@ export const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={'form'}>
       <Typography variant={'h2'} type={TypographyTypes._TITLE} className={'mb-[34px] text-center'}>
-        Войти
+        {t('auth.login.title')}
       </Typography>
-      <Input register={register} name={'login'} error={errors?.login?.message} label={'Логин, почта или телефон'} />
-      <Input register={register} name={'password'} error={errors?.password?.message} label={'Ваш пароль'} />
+      <Input register={register} name={'login'} error={errors?.login?.message} label={t('auth.login.loginLabel')} />
+      <Input
+        register={register}
+        name={'password'}
+        error={errors?.password?.message}
+        label={t('auth.login.passwordLabel')}
+      />
       <Button variant={'yellow'} type={'submit'} className={'w-full'}>
-        Войти
+        {t('auth.login.submit')}
       </Button>
       <button onClick={onRegisterClick} className={'form_link'}>
-        Зарегистрироваться
+        {t('auth.login.register')}
       </button>
     </form>
   )

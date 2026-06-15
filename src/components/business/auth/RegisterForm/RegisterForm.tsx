@@ -7,15 +7,8 @@ import { Button } from '../../../ui/Button/Button'
 import { Checkbox } from '../../../ui/Checkbox/Checkbox'
 import { Link } from 'react-router-dom'
 import { useActions } from '../../../../hooks/useActions'
+import { useTranslation } from 'react-i18next'
 
-const fields: { id: string; name: RegisterFields & string; label: string }[] = [
-  { id: '1', name: 'name', label: 'Имя' },
-  { id: '2', name: 'surname', label: 'Фамилия' },
-  { id: '3', name: 'login', label: 'Придумайте логин' },
-  { id: '4', name: 'password', label: 'Придумайте пароль' },
-  { id: '5', name: 'repeatPassword', label: 'Повторите пароль' },
-  { id: '6', name: 'tel', label: 'Номер телефона или e-mail' },
-]
 export const RegisterForm = () => {
   const {
     register,
@@ -26,6 +19,16 @@ export const RegisterForm = () => {
     resolver: yupResolver(registerSchemas),
   })
   const { createUser, setAuthBy } = useActions()
+  const { t } = useTranslation()
+
+  const fields: { id: string; name: RegisterFields & string; label: string }[] = [
+    { id: '1', name: 'name', label: t('auth.register.name') },
+    { id: '2', name: 'surname', label: t('auth.register.surname') },
+    { id: '3', name: 'login', label: t('auth.register.login') },
+    { id: '4', name: 'password', label: t('auth.register.password') },
+    { id: '5', name: 'repeatPassword', label: t('auth.register.repeatPassword') },
+    { id: '6', name: 'tel', label: t('auth.register.tel') },
+  ]
 
   const onSubmit: SubmitHandler<IRegisterFields> = data => {
     const { name, surname, password, login } = data
@@ -35,7 +38,7 @@ export const RegisterForm = () => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} className={'form'}>
       <Typography variant={'h2'} type={TypographyTypes._TITLE} className={'mb:3 text-center md_h:mb-6'}>
-        Зарегистрироваться
+        {t('auth.register.title')}
       </Typography>
       {fields.map(field => (
         <Input
@@ -55,9 +58,9 @@ export const RegisterForm = () => {
             <Checkbox
               label={
                 <p>
-                  Соглашаюсь на условия{' '}
+                  {t('auth.register.privacy')}
                   <Link to={'/'} className={'text-yellowish'}>
-                    политики конфиденциальности
+                    {t('auth.register.privacyLink')}
                   </Link>
                 </p>
               }
@@ -74,7 +77,7 @@ export const RegisterForm = () => {
           defaultValue={true}
           render={({ field }) => (
             <Checkbox
-              label={'Соглашаюсь на обработку персональных данных'}
+              label={t('auth.register.personalData')}
               isChecked={!!field.value}
               onChange={field.onChange}
               name={'personal_data'}
@@ -83,7 +86,7 @@ export const RegisterForm = () => {
         />
       </div>
       <Button variant={'yellow'} type={'submit'} className={'w-full'}>
-        Зарегистрироваться
+        {t('auth.register.submit')}
       </Button>
     </form>
   )
