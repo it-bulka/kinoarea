@@ -1,140 +1,55 @@
-import { Breadcrumbs } from '../../components/ui/Breadcrumbs/Breadcrumbs'
-import { ReactComponent as PlayIcon } from '../../assets/images/general/play-btn.svg'
-import cls from './FilmPage.module.scss'
 import { useParams } from 'react-router-dom'
-import { useCallback, useEffect, useMemo, useState } from 'react'
-import { getCast, getMovieDetails, getMovieVideos, getPosters, getReview, getSimilarMovies } from '../../api/movieDBApi'
-import { ICastRes, IMovieDetailsRes, IMovieVideo, IPoster, IReview } from '../../api/types/responses'
+import { useTranslation } from 'react-i18next'
 import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
 import { CastList } from '../../components/ui/CastList/CastList'
 import { PostersList } from '../../components/ui/PostersList/PostersList'
 import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
 import { FilmSlider } from '../../components/ui/sliders/FilmSlider/FilmSlider'
 import { SliderNav } from '../../components/ui/sliders/SliderNav/SliderNav'
-import { IMovieRes } from '../../api/types'
 import { ReviewsList } from '../../components/ui/ReviewsList/ReviewsList'
 import { Button } from '../../components/ui/Button/Button'
-import { setMovieDBPath } from '../../utils'
-import { StarRating } from '../../components/ui/StarRating/StarRating'
-import { Description } from './sections/Descriotion/Description'
-import { FilmVideos } from './sections/FilmVideos/FilmVideos'
-import { MovieModal } from '../../components/ui/modals/MovieModal/MovieModal'
 import { Comment } from '../../components/ui/Comment/Comment'
-import { useTypedSelector } from '../../hooks/useTypedSelector'
-import { useActions } from '../../hooks/useActions'
-import { notificationList } from '../../mock/notificationList'
-import { IconBtn } from '../../components/ui/IconBtn/IconBtn'
-import { FirebaseApi } from '../../api/firebase'
-import { IFbFavouriteMovie, IFilmStatus } from '../../api/types/film'
-import { useTranslation } from 'react-i18next'
+import { FilmVideos } from './sections/FilmVideos/FilmVideos'
+import { FilmHero } from './sections/FilmHero/FilmHero'
 import { FilmHeroSkeleton } from './sections/FilmHeroSkeleton'
 import { FilmCastSkeleton } from './sections/FilmCastSkeleton'
 import { FilmPostersSkeleton } from './sections/FilmPostersSkeleton'
 import { FilmSimilarSkeleton } from './sections/FilmSimilarSkeleton'
 import { FilmReviewsSkeleton } from './sections/FilmReviewsSkeleton'
+import { useFilmPage } from './hooks/useFilmPage'
+import { setMovieDBPath } from '../../utils'
+import { Paths } from '../../router/paths'
 
 export const FilmPage = () => {
   const { slug } = useParams()
-  const [details, setDetails] = useState<IMovieDetailsRes | null>(null)
-  const [cast, setCast] = useState<ICastRes[]>([])
-  const [posters, setPosters] = useState<IPoster[]>([])
-  const [reviews, setReviews] = useState<IReview[]>([])
-  const [similar, setSimilar] = useState<IMovieRes[]>([])
-  const [isModalOpen, setModalOpen] = useState(false)
-  const [trailerKey, setTrailerKey] = useState<string | null>(null)
-  const [videos, setVideos] = useState<IMovieVideo[]>([])
-  const user = useTypedSelector(state => state.user.user)
-  const [isCommentBlockShown, setCommentBlockShown] = useState(false)
-  const [favouriteFilm, setFavouriteFilm] = useState<IFbFavouriteMovie | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const { setNotification } = useActions()
   const { t } = useTranslation()
-
-  useEffect(() => {
-    if (!slug) return
-    setIsLoading(true)
-    Promise.all([
-      getCast(slug).then(setCast),
-      getPosters(slug).then(setPosters),
-      getReview(slug).then(setReviews),
-      getSimilarMovies(slug).then(setSimilar),
-      getMovieDetails(slug).then(setDetails),
-      getMovieVideos(slug).then(vids => {
-        const youtubeVideos = vids.filter(v => v.site === 'YouTube')
-        setVideos(youtubeVideos)
-        const trailer = youtubeVideos.find(v => v.type === 'Trailer')
-        setTrailerKey(trailer?.key ?? youtubeVideos[0]?.key ?? null)
-      }),
-    ]).finally(() => setIsLoading(false))
-
-    if (!user) return
-    FirebaseApi.getFavouriteFilm({ userId: user.id, filmId: slug }).then(setFavouriteFilm)
-  }, [slug])
-
-  const handlePlay = () => setModalOpen(true)
-
-  const handleVideoSelect = useCallback((key: string) => {
-    setTrailerKey(key)
-    setModalOpen(true)
-  }, [])
-
-  const addComment = () => {
-    if (user) {
-      setCommentBlockShown(prev => !prev)
-      return
-    }
-    setNotification(notificationList.userAbsentComment)
-  }
-
-  const film: Omit<IFbFavouriteMovie, 'status'> | null = useMemo(() => {
-    return (
-      details && {
-        id: details?.id,
-        poster_path: details?.poster_path,
-        name: details?.title,
-        original_name: details?.original_title,
-      }
-    )
-  }, [details])
-
-  const handleStatusToggle = useCallback(
-    async (filmStatus: IFilmStatus): Promise<void> => {
-      if (!film || !user) return
-      const updated = await FirebaseApi.toggleFilmStatus({ userId: user.id, film, filmStatus })
-      setFavouriteFilm(updated)
-    },
-    [film, user]
-  )
-
-  const onLikeClick = async () => {
-    if (!user) {
-      setNotification(notificationList.userAbsent)
-      return
-    }
-    await handleStatusToggle('liked')
-  }
-
-  const onDislikeClick = async () => {
-    if (!user) {
-      setNotification(notificationList.userAbsent)
-      return
-    }
-    await handleStatusToggle('disliked')
-  }
-
-  const onFavouriteClick = async () => {
-    if (!user) {
-      setNotification(notificationList.userAbsentFavourite)
-      return
-    }
-    await handleStatusToggle('favourite')
-  }
+  const {
+    details,
+    cast,
+    posters,
+    reviews,
+    similar,
+    videos,
+    isLoading,
+    isModalOpen,
+    trailerKey,
+    favouriteFilm,
+    isCommentBlockShown,
+    user,
+    handlePlay,
+    closeModal,
+    handleVideoSelect,
+    addComment,
+    onLikeClick,
+    onDislikeClick,
+    onFavouriteClick,
+  } = useFilmPage(slug)
 
   return (
     <>
       {details && (
         <div
-          style={{ backgroundImage: `url(${setMovieDBPath(details?.backdrop_path || details?.poster_path)})` }}
+          style={{ backgroundImage: `url(${setMovieDBPath(details.backdrop_path || details.poster_path)})` }}
           className={'bg-no-repeat bg-cover bg-top absolute w-full aspect-[3/4] left-0 -z-1 opacity-40'}
         />
       )}
@@ -146,70 +61,17 @@ export const FilmPage = () => {
         {isLoading || !details ? (
           <FilmHeroSkeleton />
         ) : (
-          <>
-            <section className={'md:flex md:flex-row-reverse md:justify-end md:gap-[17px] lg:gap-8 2xl:gap-[54px]'}>
-              <div>
-                <div className={'w-full mb-3 md:mb-4'}>
-                  <Breadcrumbs lastCrumb={details.title} />
-                  <h3 className={'text-32 font-playfair font-bold mb-1 md:text-40 md:my-[3px] 2xl:text-60'}>
-                    {details.title}
-                  </h3>
-                  <p className={'text-2xl font-inter font-medium text-text-muted 2xl:text-2xl'}>
-                    {details.original_title}
-                  </p>
-                </div>
-                <div className={'flex'}>
-                  <img
-                    src={setMovieDBPath(details.poster_path)}
-                    alt={'film'}
-                    className={'rounded-10 w-[63%] object-cover aspect-[230/310] md:hidden'}
-                  />
-                  <div className={'w-[37%] flex flex-col items-center gap-2 md:w-auto'}>
-                    <StarRating rating={details.vote_average} size="lg" />
-                    <p className={'text-xs text-white/60 text-center'}>
-                      {details.vote_count.toLocaleString()} {t('film.votes')}
-                    </p>
-                  </div>
-                </div>
-                <div>
-                  <div className={'mt-4 mb-11 md:my-4'}>{details.overview}</div>
-                  <Button variant={'transparent'} className={cls.playBtn} onClick={handlePlay}>
-                    <>
-                      <PlayIcon />
-                      <span>{t('film.watchTrailer')}</span>
-                    </>
-                  </Button>
-                </div>
-              </div>
-
-              <div>
-                <img
-                  src={setMovieDBPath(details.poster_path)}
-                  alt={'film'}
-                  className={'hidden rounded-10 object-cover aspect-[230/310] md:block md:max-w-[297px]'}
-                />
-                <div className={'flex items-center text-white gap-1 text-0.5rem'}>
-                  <IconBtn type={'like'} isActive={!!favouriteFilm?.status?.includes('liked')} onClick={onLikeClick} />
-                  <IconBtn
-                    type={'dislike'}
-                    isActive={!!favouriteFilm?.status?.includes('disliked')}
-                    onClick={onDislikeClick}
-                  />
-                  <IconBtn
-                    type={'heart'}
-                    isActive={!!favouriteFilm?.status?.includes('favourite')}
-                    onClick={onFavouriteClick}
-                  />
-                </div>
-              </div>
-
-              <MovieModal close={() => setModalOpen(false)} isOpened={isModalOpen} videoKey={trailerKey} />
-            </section>
-
-            <section>
-              <Description {...details} />
-            </section>
-          </>
+          <FilmHero
+            details={details}
+            isModalOpen={isModalOpen}
+            trailerKey={trailerKey}
+            favouriteFilm={favouriteFilm}
+            onPlay={handlePlay}
+            onCloseModal={closeModal}
+            onLike={onLikeClick}
+            onDislike={onDislikeClick}
+            onFavourite={onFavouriteClick}
+          />
         )}
 
         <section>
@@ -217,6 +79,7 @@ export const FilmPage = () => {
             title={t('film.cast')}
             type={SectionHeaderType.ARROW}
             linkTitle={t('film.allActors')}
+            moveToViaArrow={Paths.film.actors(slug!)}
             className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
           />
           {isLoading ? <FilmCastSkeleton /> : <CastList list={cast} />}
