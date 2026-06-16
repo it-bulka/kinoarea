@@ -3,7 +3,7 @@ import { Skeleton } from '../../components/ui/Skeleton/Skeleton'
 const GRID_ITEMS = 10
 
 const FilmCardSkeleton = () => (
-  <div className="relative rounded-xl overflow-hidden bg-darkBlue-2 aspect-[2/3]">
+  <div className="relative rounded-xl overflow-hidden bg-noir-card aspect-[2/3]">
     <Skeleton className="absolute inset-0 w-full h-full" />
   </div>
 )

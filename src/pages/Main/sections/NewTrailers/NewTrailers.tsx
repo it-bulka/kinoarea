@@ -101,10 +101,10 @@ export const NewTrailers = () => {
             {movies.first.title || movies.first.name}
           </Typography>
           <div className={'flex gap-4 md:w-full md:justify-between '}>
-            <LinkedInIcon className={'fill-grayIcon hover:fill-white w-4 max-h-4'} />
-            <InstagramIcon className={'fill-grayIcon hover:fill-white w-4 max-h-4'} />
-            <FacebookIcon className={'fill-grayIcon hover:fill-white  w-4 max-h-4'} />
-            <TwitterIcon className={'fill-grayIcon hover:fill-white w-4 max-h-4 '} />
+            <LinkedInIcon className={'fill-text-muted hover:fill-gold w-4 max-h-4'} />
+            <InstagramIcon className={'fill-text-muted hover:fill-gold w-4 max-h-4'} />
+            <FacebookIcon className={'fill-text-muted hover:fill-gold  w-4 max-h-4'} />
+            <TwitterIcon className={'fill-text-muted hover:fill-gold w-4 max-h-4 '} />
           </div>
         </div>
         <div className={'flex items-center text-white gap-1 text-0.5rem'}>

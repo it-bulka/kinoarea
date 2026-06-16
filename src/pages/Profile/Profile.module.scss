@@ -6,7 +6,7 @@
 }
 
 .titleBtn {
-  @apply flex items-center justify-between gap-2.5 rounded-5 bg-darkBlue py-2.5 pl-[11px] pr-[9px] text-xs font-q-500
+  @apply flex items-center justify-between gap-2.5 rounded-5 bg-noir-soft py-2.5 pl-[11px] pr-[9px] text-xs font-inter font-medium
   md:gap-3.5 md:pt-[12.16px] md:pb-[12.65px] md:pl-[13.24px] md:pr-[12.7px] md:text-base
   2xl:pt-[15.16px] 2xl:pb-[18.19px] 2xl:pl-[23.24px] 2xl:pr-[22.23px]
 }

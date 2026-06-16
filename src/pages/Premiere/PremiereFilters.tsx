@@ -46,7 +46,7 @@ export const PremiereFilters = memo(
             {t('premiere.title')}
           </Typography>
           <Breadcrumbs className={'flex-center mt-1 mb-2 md:justify-start md:mb-1.5 lg:mb-2 2xl:mb-3.5'} />
-          <p className={'text-13 font-q-500 text-center md:text-start md:text-15 2xl:text-lg'}>
+          <p className={'text-13 font-inter font-medium text-center md:text-start md:text-15 2xl:text-lg'}>
             {t('premiere.description')}
           </p>
         </div>

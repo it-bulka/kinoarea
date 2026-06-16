@@ -45,10 +45,10 @@ export const Profile = () => {
             key={item.id}
             className={twMerge(
               classnames(
-                `aspect-square rounded-10 bg-darkBlue-5 flex-center p-2 flex-1 [&>svg]:w-[29%] [&>svg]:min-w-[14.7px] 
+                `aspect-square rounded-10 bg-noir-card flex-center p-2 flex-1 [&>svg]:w-[29%] [&>svg]:min-w-[14.7px]
                 md:[&>svg]:min-w-[26.4px]
                 md:[&>svg]:min-w-[21.9px]`,
-                { 'bg-blue': checkActive(item.path) }
+                { 'bg-gold': checkActive(item.path) }
               )
             )}
             to={item.path}
@@ -59,7 +59,7 @@ export const Profile = () => {
       </div>
       <div
         className={`
-          rounded-10 bg-darkBlue-5 px-2 pr-[15px] pl-2 flex-1 
+          rounded-10 bg-noir-card px-2 pr-[15px] pl-2 flex-1
           md:pt-4.5 md:pb-6 md:pr-4 md:pl-5 
           lg:pb-[38px]
           2xl:pt-[32px] 2xl:pb-[68px] 2xl:pr-[42px] 2xl:pl-[54px] `}

@@ -35,7 +35,7 @@ export const ActorBio = ({
       <div>
         <div className={'w-full mb-3 md:mb-4'}>
           <Breadcrumbs lastCrumb={name} />
-          <h3 className={'text-32 font-q-900 mb-1 md:text-40 md:my-[3px] 2xl:text-60'}>{name}</h3>
+          <h3 className={'text-32 font-playfair font-bold mb-1 md:text-40 md:my-[3px] 2xl:text-60'}>{name}</h3>
         </div>
         <div>
           <img

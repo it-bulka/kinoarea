@@ -151,8 +151,12 @@ export const FilmPage = () => {
               <div>
                 <div className={'w-full mb-3 md:mb-4'}>
                   <Breadcrumbs lastCrumb={details.title} />
-                  <h3 className={'text-32 font-q-900 mb-1 md:text-40 md:my-[3px] 2xl:text-60'}>{details.title}</h3>
-                  <p className={'text-2xl font-q-500 2xl:text-2xl'}>{details.original_title}</p>
+                  <h3 className={'text-32 font-playfair font-bold mb-1 md:text-40 md:my-[3px] 2xl:text-60'}>
+                    {details.title}
+                  </h3>
+                  <p className={'text-2xl font-inter font-medium text-text-muted 2xl:text-2xl'}>
+                    {details.original_title}
+                  </p>
                 </div>
                 <div className={'flex'}>
                   <img

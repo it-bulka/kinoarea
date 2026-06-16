@@ -16,11 +16,11 @@ export const InfoItem = ({ amount, title, to }: InfoItemProps) => {
 
   if (to) {
     return (
-      <Link to={to} className={'text-[#323A55] px-1 hover:text-blue transition-colors'}>
+      <Link to={to} className={'text-text-muted px-1 hover:text-gold transition-colors'}>
         {inner}
       </Link>
     )
   }
 
-  return <div className={'text-[#323A55] px-1'}>{inner}</div>
+  return <div className={'text-text-muted px-1'}>{inner}</div>
 }

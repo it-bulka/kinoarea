@@ -81,7 +81,7 @@ export const ProfileMain = () => {
                 key={item.id}
                 to={user?.links?.[item.name] || ''}
                 className={
-                  'rounded-full border-[1px] border-border-blue w-[26.27px] h-[26.27px] flex-center text-gray [&>svg]:w-[50%] [&>svg]:max-h-[50%]'
+                  'rounded-full border-[1px] border-noir-border w-[26.27px] h-[26.27px] flex-center text-text-muted hover:text-gold hover:border-gold transition-colors [&>svg]:w-[50%] [&>svg]:max-h-[50%]'
                 }
               >
                 {socialsMedia[item.name]}
@@ -112,7 +112,9 @@ export const ProfileMain = () => {
       </div>
 
       <div
-        className={'flex-center flex-wrap font-q-700 text-xs text-center whitespace-wrap md:text-15 md:justify-between'}
+        className={
+          'flex-center flex-wrap font-inter font-bold text-xs text-center whitespace-wrap md:text-15 md:justify-between'
+        }
       >
         {statsItems.map(item => (
           <InfoItem key={item.id} title={item.title} amount={item.amount} to={item.to} />

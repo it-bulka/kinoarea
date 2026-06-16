@@ -25,7 +25,7 @@ export const Main = () => {
         <News />
       </div>
 
-      <div className={'bg-dark'}>
+      <div className={'bg-noir'}>
         <Upcoming />
         <Profit />
       </div>

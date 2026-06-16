@@ -116,10 +116,10 @@ export const SearchResult = () => {
           <Typography variant={'h1'} type={TypographyTypes._TITLE}>
             {t('search.title')}
           </Typography>
-          <h3 className={'text-15 font-q-600 md:text-xl 2xl:text-3xl'}>
+          <h3 className={'text-15 font-inter font-semibold md:text-xl 2xl:text-3xl'}>
             {ref.current?.value} ({t('search.results', { count: pagesData?.total_results ?? 0 })})
           </h3>
-          <p className={'text-sm font-q-600 md:text-17 2xl:text-2xl'}>{category.label}:</p>
+          <p className={'text-sm font-inter font-semibold md:text-17 2xl:text-2xl'}>{category.label}:</p>
         </div>
         <div className={'md:basis-1/3'}>
           <CustomSelect

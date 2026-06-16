@@ -22,12 +22,12 @@ export const Images = memo(({ list, title }: ImagesProps) => {
 
   return (
     <>
-      <h3 className={'font-q-600 text-base md:mb-4 lg:mb-7'}>{title}</h3>
+      <h3 className={'font-inter font-semibold text-base md:mb-4 lg:mb-7'}>{title}</h3>
       <div className={'grid grid-cols-2 gap-2 md:grid-cols-4 md:gap-1.5 lg:gap-2 2xl:gap-[22px]'}>
         {photos?.list?.map((item, order) => (
           <div key={order} className={'relative overflow-hidden rounded-10'}>
             {photos?.othersAmount && order === maxAmount - 1 && (
-              <div className={'absolute inset-0 bg-blue/60 flex flex-center font-q-700 text-4xl'}>
+              <div className={'absolute inset-0 bg-gold/50 flex flex-center font-inter font-bold text-4xl'}>
                 <p>+{photos?.othersAmount}</p>
               </div>
             )}
