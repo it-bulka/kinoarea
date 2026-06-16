@@ -11,7 +11,7 @@ export const Navigation = ({ isOpen, onClose }: NavigationProps) => {
   return (
     <nav
       className={classnames(
-        `fixed top-0 bottom-0 left-0 right-0 bg-darkBlue/80 pt-9 transition-[right] duration-500 overflow-hidden z-50
+        `fixed top-0 bottom-0 left-0 right-0 bg-noir/95 pt-9 transition-[right] duration-500 overflow-hidden z-50
         md:static md:pt-6 md:pb-9
         lg:pb-8 
         xl:hidden`,

@@ -1,12 +1,6 @@
 import { Button } from '../Button/Button'
-import classnames from 'classnames'
-import cls from './Header.module.scss'
 import { ReactComponent as BurgerIcon } from '@/assets/images/general/burger.svg'
 import { ReactComponent as SearchIcon } from '@/assets/images/general/search.svg'
-import { ReactComponent as LinkedInIcon } from '@/assets/images/general/linkedin-in.svg'
-import { ReactComponent as InstagramIcon } from '@/assets/images/general/instagram.svg'
-import { ReactComponent as FacebookIcon } from '@/assets/images/general/facebook-f.svg'
-import { ReactComponent as TwitterIcon } from '@/assets/images/general/icons8-twitter.svg'
 import { Logo } from '../Logo/Logo'
 import { NavLinks } from '../NavLinks/NavLinks'
 import { AuthModal } from '../modals/AuthModal/AuthModal'
@@ -22,6 +16,7 @@ import { useTranslation } from 'react-i18next'
 interface HeaderProps {
   onMenu?: () => void
 }
+
 export const Header = ({ onMenu }: HeaderProps) => {
   const [isRegisterOpen, setRegisterModalOpen] = useState(false)
   const [isSearchShown, setSearchShown] = useState(false)
@@ -39,7 +34,6 @@ export const Header = ({ onMenu }: HeaderProps) => {
 
     if (authBy === 'register') {
       navigate('/profile/settings')
-      /* Default friends */
       addIncomingFriend(user.id, ['kinoarea', 'admin'])
     }
   }, [user])
@@ -54,58 +48,49 @@ export const Header = ({ onMenu }: HeaderProps) => {
     setSearchShown(false)
   }
 
-  const logOut = () => {
-    removeFetchedUser()
-  }
-
   const handleLanguageToggle = () => {
     const next: LanguageCode = currentLanguage === 'uk-UA' ? 'en-US' : 'uk-UA'
     setLanguage(next)
   }
 
   return (
-    <header className={'flex py-[11px] container relative'}>
-      <div className={'hidden xl:block lg:flex-1'}>
-        <NavLinks className={`xl:flex xl:justify-between gap-0.5 xl:max-w-[760px] xl:m-auto xl:font-base`} />
-      </div>
-      <div className={'flex gap-1 items-center'}>
-        <Button onClick={onMenu} variant={'icon'} className={'md:hidden'}>
-          <BurgerIcon className={'fill-blue'} />
+    <header className="flex items-center justify-between py-3 container border-b border-noir-border">
+      {/* Logo — far left */}
+      <Logo />
+
+      {/* Nav links — desktop only */}
+      <NavLinks className="hidden xl:flex items-center gap-7" />
+
+      {/* Controls — far right */}
+      <div className="flex items-center gap-2">
+        <Button onClick={onMenu} variant="icon" className="xl:hidden">
+          <BurgerIcon />
         </Button>
 
-        <div className={'relative'}>
-          <Button onClick={openSearch} variant={'icon'}>
-            <SearchIcon />
-          </Button>
-        </div>
-        {isSearchShown && <SearchFilm className={'fixed inset-0'} onClose={closeSearch} />}
+        <Button onClick={openSearch} variant="icon">
+          <SearchIcon />
+        </Button>
 
         <button
           onClick={handleLanguageToggle}
-          className={'text-xs font-semibold text-grayIcon hover:text-white transition-colors px-1'}
+          className="text-xs font-inter font-semibold text-text-muted hover:text-gold transition-colors px-1"
           title={t('header.switchToEn')}
         >
           {currentLanguage === 'uk-UA' ? 'UA' : 'EN'}
         </button>
-      </div>
-      <div className={'flex-1 flex justify-center items-center xl:order-first xl:justify-normal xl:grow-0'}>
-        <div>
-          <Logo classes={'mb-2'} />
-          <div className={classnames('flex gap-0.5 md:w-full md:justify-between ', cls.socials)}>
-            <LinkedInIcon className={'fill-grayIcon hover:fill-white'} />
-            <InstagramIcon className={'fill-grayIcon hover:fill-white'} />
-            <FacebookIcon className={'fill-grayIcon hover:fill-white'} />
-            <TwitterIcon className={'fill-grayIcon hover:fill-white'} />
-          </div>
-        </div>
-      </div>
-      <div className={'lg:ml-6'}>
+
         {user ? (
-          <Button onClick={() => logOut()}>{t('header.logout')}</Button>
+          <Button onClick={() => removeFetchedUser()} variant="ghost" size="sm">
+            {t('header.logout')}
+          </Button>
         ) : (
-          <Button onClick={() => setRegisterModalOpen(true)}>{t('header.login')}</Button>
+          <Button onClick={() => setRegisterModalOpen(true)} variant="primary" size="sm">
+            {t('header.login')}
+          </Button>
         )}
       </div>
+
+      {isSearchShown && <SearchFilm className="fixed inset-0" onClose={closeSearch} />}
       <AuthModal isOpened={isRegisterOpen} close={() => setRegisterModalOpen(false)} />
     </header>
   )

@@ -22,11 +22,11 @@ export const NavLinks = ({ className, onClick }: LinksProps) => {
   ] as const
 
   return (
-    <ul className={classnames('font-bold text-white', [className])}>
+    <ul className={classnames('font-inter font-medium text-sm text-text-muted', [className])}>
       {navLinks.map(({ id, path, title }) => {
         if (!user && path === endpoints.profile) return null
         return (
-          <Link to={path} key={id} onClick={onClick}>
+          <Link to={path} key={id} onClick={onClick} className="hover:text-gold transition-colors duration-200">
             {title}
           </Link>
         )

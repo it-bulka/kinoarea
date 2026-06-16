@@ -34,7 +34,7 @@ export const Layout = ({ children, noMailing = false }: LayoutProps) => {
 
   return (
     <ScrollRestoration>
-      <div className="App bg-darkBlue flex flex-col min-h-screen">
+      <div className="App bg-noir flex flex-col min-h-screen">
         <Header onMenu={onMenuClick} />
         <Navigation isOpen={isNavOpen.value} onClose={onNavClose} />
         <main className={'grow'}>
