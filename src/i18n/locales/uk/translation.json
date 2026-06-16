@@ -86,7 +86,10 @@
       "genres": "Жанри",
       "budget": "Бюджет",
       "revenue": "Збори",
-      "runtime": "Час"
+      "runtime": "Час",
+      "status": "Статус",
+      "languages": "Мови",
+      "minUnit": "хв"
     }
   },
   "actor": {

@@ -86,7 +86,10 @@
       "genres": "Genres",
       "budget": "Budget",
       "revenue": "Revenue",
-      "runtime": "Runtime"
+      "runtime": "Runtime",
+      "status": "Status",
+      "languages": "Languages",
+      "minUnit": "min"
     }
   },
   "actor": {
