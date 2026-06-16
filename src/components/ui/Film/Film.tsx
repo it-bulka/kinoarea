@@ -21,8 +21,8 @@ export const Film = ({ img, rating, title, genre, className, id }: FilmProps) =>
         {!!img || <AbsentImg className={'absolute inset-0'} />}
         {!!rating && <RateBadge rating={rating} className={'absolute top-2.5 right-2.5'} />}
         <div
-          className={`group-hover/film:opacity-100 opacity-0 
-            absolute inset-0 bg-blue bg-opacity-60 flex justify-center items-center transition-opacity`}
+          className={`group-hover/film:opacity-100 opacity-0
+            absolute inset-0 bg-gold/50 flex justify-center items-center transition-opacity`}
         >
           <Button variant={'white'} className={'py-7'} onClick={() => navigate(`/films/${id}`)}>
             {t('film.watchFilm')}
@@ -30,7 +30,7 @@ export const Film = ({ img, rating, title, genre, className, id }: FilmProps) =>
         </div>
       </div>
       <h3 className={'text-base text-white font-bold 2xl:text-lg 2xl:py-2.5'}>{title}</h3>
-      <p className={'text-xs text-yellowish font-normal 2xl:text-base'}>{genre}</p>
+      <p className={'text-xs text-gold-light font-normal 2xl:text-base'}>{genre}</p>
     </div>
   )
 }

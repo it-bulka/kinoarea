@@ -48,9 +48,9 @@ export const CastList = memo(({ list }: CastListProps) => {
             alt={item.name}
             className={'rounded-[5px] aspect-square object-cover mb-1.5 md:mb-4'}
           />
-          <h5 className={'text-sm font-q-700 md:text-lg'}>{item.name}</h5>
-          <p className={'text-xs text-white/70 my-[3px] md:text-15 md:my-3'}>{item.original_name}</p>
-          <p className={'text-xs text-yellowish  md:text-base'}>{item.character}</p>
+          <h5 className={'text-sm font-inter font-bold md:text-lg'}>{item.name}</h5>
+          <p className={'text-xs text-text-muted my-[3px] md:text-15 md:my-3'}>{item.original_name}</p>
+          <p className={'text-xs text-gold-light md:text-base'}>{item.character}</p>
         </div>
       ))}
     </div>

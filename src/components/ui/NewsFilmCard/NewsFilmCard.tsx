@@ -28,7 +28,7 @@ export const NewsFilmCard = memo(({ item, onClick }: NewsFilmCardProps) => {
     <div
       role="button"
       tabIndex={0}
-      className="news-film-card group relative overflow-hidden rounded-xl cursor-pointer bg-darkBlue-2 aspect-[2/3] transition-all duration-500 hover:shadow-[0_8px_40px_rgba(54,87,203,0.45)] hover:scale-[1.03] hover:-translate-y-1"
+      className="news-film-card group relative overflow-hidden rounded-xl cursor-pointer bg-noir-card aspect-[2/3] transition-all duration-500 hover:shadow-[0_8px_40px_rgba(212,165,116,0.35)] hover:scale-[1.03] hover:-translate-y-1"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
@@ -42,9 +42,9 @@ export const NewsFilmCard = memo(({ item, onClick }: NewsFilmCardProps) => {
         <AbsentImg className="absolute inset-0 w-full h-full" />
       )}
 
-      <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/10 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-noir/90 via-noir/10 to-transparent" />
 
-      <div className="absolute inset-0 bg-blue/50 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-center">
+      <div className="absolute inset-0 bg-gold/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex-center">
         <Button variant="white">{t('collections.browse')}</Button>
       </div>
 
@@ -53,7 +53,9 @@ export const NewsFilmCard = memo(({ item, onClick }: NewsFilmCardProps) => {
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 z-10 p-3 md:p-4">
-        <h3 className="text-sm md:text-base font-q-700 text-white leading-tight line-clamp-2">{title}</h3>
+        <h3 className="text-sm md:text-base font-playfair font-bold text-text-base leading-tight line-clamp-2">
+          {title}
+        </h3>
         {year && <p className="text-[11px] text-white/50 mt-0.5">{year}</p>}
       </div>
     </div>

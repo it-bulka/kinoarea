@@ -36,7 +36,7 @@ export const CollectionCard = memo(({ item, posterUrl, onClick }: CollectionCard
     <div
       role="button"
       tabIndex={0}
-      className="collection-card group relative overflow-hidden rounded-xl cursor-pointer bg-darkBlue-2 aspect-[4/3] transition-all duration-500 hover:shadow-[0_8px_40px_rgba(54,87,203,0.45)] hover:scale-[1.03] hover:-translate-y-1"
+      className="collection-card group relative overflow-hidden rounded-xl cursor-pointer bg-noir-card aspect-[4/3] transition-all duration-500 hover:shadow-[0_8px_40px_rgba(212,165,116,0.35)] hover:scale-[1.03] hover:-translate-y-1"
       onClick={handleClick}
       onKeyDown={handleKeyDown}
     >
@@ -52,13 +52,15 @@ export const CollectionCard = memo(({ item, posterUrl, onClick }: CollectionCard
         </div>
       )}
 
-      <div className="absolute inset-0 bg-gradient-to-t from-dark/90 via-dark/30 to-transparent" />
+      <div className="absolute inset-0 bg-gradient-to-t from-noir/90 via-noir/30 to-transparent" />
 
       <div className="relative z-10 h-full flex flex-col justify-end p-4 md:p-5 lg:p-6">
-        <span className="text-[11px] font-q-600 uppercase tracking-widest text-yellowish mb-2">
+        <span className="text-[11px] font-inter font-semibold uppercase tracking-widest text-gold-light mb-2">
           {t(`collections.typeLabel.${item.types as CategoriesTypes}`)}
         </span>
-        <h3 className="text-base md:text-lg lg:text-xl font-q-700 text-white leading-tight mb-1">{t(item.title)}</h3>
+        <h3 className="text-base md:text-lg lg:text-xl font-playfair font-bold text-text-base leading-tight mb-1">
+          {t(item.title)}
+        </h3>
         <p className="text-xs text-white/60 mb-4 line-clamp-2 hidden md:block">{description}</p>
         <div className="self-start opacity-0 translate-y-2 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-300 pointer-events-none">
           <Button size="md" className="text-sm">

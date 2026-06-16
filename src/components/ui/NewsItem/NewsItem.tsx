@@ -27,7 +27,7 @@ export const NewsItem = ({ id, img, date, seen, comments, title, className }: Ne
           md:pl-[18px] md:pr-[14px]`}
       >
         <p className={'flex-1 text-13 flex items-end text-gray-3'}>Новость</p>
-        <div className={`flex items-center text-15 font-q-700 mt-1 mb-3.5 md:mb-3`}>
+        <div className={`flex items-center text-15 font-inter font-bold mt-1 mb-3.5 md:mb-3`}>
           <p>{getDate(date)}</p>
           <p className={'pl-4 pr-2.5 flex-center gap-1'}>
             <EyeIcon className={'w-[18px]'} />
@@ -37,7 +37,7 @@ export const NewsItem = ({ id, img, date, seen, comments, title, className }: Ne
             <CommentIcon className={'w-[13.12px]'} /> {comments}
           </p>
         </div>
-        <h4 className={'text-lg font-q-900 font-black'}>{title}</h4>
+        <h4 className={'text-lg font-playfair font-bold'}>{title}</h4>
       </div>
     </Link>
   )

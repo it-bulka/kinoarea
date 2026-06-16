@@ -10,7 +10,7 @@ interface PersonsRatingProps {
 export const PersonsRating = ({ list, className, shift = 0 }: PersonsRatingProps) => {
   return (
     <ul
-      className={`rounded-[10px] pt-2 pb-3 pl-5 pr-3.5 bg-darkBlue-2 grid grid-cols-1 divide-y-[2px] divide-darkBlue mt-2.5 
+      className={`rounded-[10px] pt-2 pb-3 pl-5 pr-3.5 bg-noir-card grid grid-cols-1 divide-y divide-noir-border mt-2.5
         lg:mt-0 ${className}`}
     >
       {list.map((item, order) => (

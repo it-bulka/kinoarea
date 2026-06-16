@@ -16,7 +16,7 @@ export const NewsBigCard = ({ id, title, date, seen, comments, details, img, cla
         2xl:pr-[87px] 2xl:pl-[221px] 2xl:pt-[52px] 2xl:pb-14 2xl:aspect-[5/3] `}
       style={{ backgroundImage: `url(${img})` }}
     >
-      <div className={'flex items-center text-xs font-q-700 md:text-15'}>
+      <div className={'flex items-center text-xs font-inter font-bold md:text-15'}>
         <p>{getDate(date)}</p>
         <p className={'pl-1.5 pr-2.5 flex-center gap-1'}>
           <EyeIcon className={'w-17 h-17'} />
@@ -27,7 +27,7 @@ export const NewsBigCard = ({ id, title, date, seen, comments, details, img, cla
         </p>
       </div>
       <div>
-        <p className={'text-lg/[20px] font-q-900 mb-5 md:text-3xl lg:text-4xl 2xl:text-[45px]'}>
+        <p className={'text-lg/[20px] font-playfair font-bold mb-5 md:text-3xl lg:text-4xl 2xl:text-[45px]'}>
           <Link to={`/news/${id}`}>{title}</Link>
         </p>
         <p className={'hidden md:block'}>{details}</p>
