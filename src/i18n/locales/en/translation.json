@@ -110,6 +110,7 @@
     },
     "knownForFilms": "Known Movies",
     "knownForTV": "Known TV Shows",
+    "knownFor": "Known for:",
     "popularity": "Popularity",
     "profile": "Actor Profile"
   },
