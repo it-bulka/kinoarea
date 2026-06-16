@@ -2,7 +2,7 @@ import { memo, useCallback } from 'react'
 import { useTranslation } from 'react-i18next'
 import { IMovieRes } from '../../../api/types'
 import { setMovieDBPath } from '../../../utils'
-import { RateBadge } from '../RateBadge/RateBadge'
+import { StarRating } from '../StarRating/StarRating'
 import { Button } from '../Button/Button'
 import { AbsentImg } from '../AbsentImg/AbsentImg'
 
@@ -48,8 +48,8 @@ export const NewsFilmCard = memo(({ item, onClick }: NewsFilmCardProps) => {
         <Button variant="white">{t('collections.browse')}</Button>
       </div>
 
-      <div className="absolute top-2.5 right-2.5 z-10">
-        <RateBadge rating={item.vote_average} />
+      <div className="absolute top-2.5 right-2.5 z-10 bg-noir/80 backdrop-blur-sm rounded-md px-2 py-0.5">
+        <StarRating rating={item.vote_average} />
       </div>
 
       <div className="absolute bottom-0 left-0 right-0 z-10 p-3 md:p-4">

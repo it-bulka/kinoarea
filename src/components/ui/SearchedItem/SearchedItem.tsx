@@ -1,7 +1,7 @@
 import { memo, KeyboardEvent } from 'react'
 import { twMerge } from 'tailwind-merge'
 import { AbsentImg } from '../AbsentImg/AbsentImg'
-import { getRating } from '../../../utils/getRating'
+import { StarRating } from '../StarRating/StarRating'
 
 interface SearchedFilmProps {
   img: string
@@ -47,16 +47,7 @@ const SearchedItemBase = ({ img, title, rate, genre, originalName, className, on
           {genre && <p className={'text-xs text-gold-light'}>{genre}</p>}
         </div>
 
-        {rate != null && rate > 0 && (
-          <div className={'flex items-center gap-1 flex-shrink-0'} aria-label={`Rating: ${getRating(rate)}`}>
-            <span className={'text-gold text-xs leading-none'} aria-hidden="true">
-              ★
-            </span>
-            <span className={'text-sm font-inter font-medium text-gold'} aria-hidden="true">
-              {getRating(rate)}
-            </span>
-          </div>
-        )}
+        {rate != null && <StarRating rating={rate} className={'flex-shrink-0'} />}
       </div>
     </li>
   )

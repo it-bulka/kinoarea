@@ -1,9 +1,9 @@
 import { KeyboardEvent } from 'react'
 import { useTranslation } from 'react-i18next'
 import { setMovieDBPath } from '../../../utils'
-import { getRating } from '../../../utils/getRating'
 import { getGenres } from '../../../utils/getGenres'
 import { AbsentImg } from '../AbsentImg/AbsentImg'
+import { StarRating } from '../StarRating/StarRating'
 import { ReactComponent as ArrowRightIcon } from '../../../assets/images/general/arrow-right.svg'
 import type { GenreIds } from '../../../mock/types'
 
@@ -70,10 +70,7 @@ export const MovieItem = ({
           </div>
 
           <div className={'flex items-center mt-2 gap-2'}>
-            <div className={'flex items-center gap-1'}>
-              <span className={'text-gold text-xs leading-none'}>★</span>
-              <span className={'text-sm font-inter font-medium text-gold'}>{rating > 0 ? getRating(rating) : '—'}</span>
-            </div>
+            <StarRating rating={rating} />
             <button
               className={
                 'ml-auto flex items-center gap-1.5 px-3 py-1.5 border border-gold/60 text-gold text-xs font-inter font-medium rounded-lg hover:bg-gold/10 hover:border-gold transition-all duration-200'

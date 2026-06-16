@@ -1,6 +1,6 @@
 import classnames from 'classnames'
 import { IFilm } from '../../../api/types'
-import { RateBadge } from '../RateBadge/RateBadge'
+import { StarRating } from '../StarRating/StarRating'
 import { useNavigate } from 'react-router-dom'
 import { AbsentImg } from '../AbsentImg/AbsentImg'
 import { useTranslation } from 'react-i18next'
@@ -20,7 +20,11 @@ export const Film = ({ img, rating, title, genre, className, id }: FilmProps) =>
         style={{ backgroundImage: `url(${img})` }}
       >
         {!!img || <AbsentImg className={'absolute inset-0'} />}
-        {!!rating && <RateBadge rating={rating} className={'absolute top-2.5 right-2.5'} />}
+        {!!rating && (
+          <div className={'absolute top-2.5 right-2.5 z-10 bg-noir/80 backdrop-blur-sm rounded-md px-2 py-0.5'}>
+            <StarRating rating={rating} />
+          </div>
+        )}
         <div
           className={`group-hover/film:opacity-100 opacity-0
             absolute inset-0 bg-noir/70 backdrop-blur-sm flex justify-center items-center transition-opacity duration-300`}
