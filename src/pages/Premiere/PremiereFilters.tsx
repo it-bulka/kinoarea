@@ -52,27 +52,27 @@ export const PremiereFilters = memo(
         </p>
 
         <div className={'flex flex-wrap items-end gap-4 mt-5 md:gap-6 md:mt-6'}>
-          <div className={'flex-shrink-0'}>
-            <p className={'text-xs font-inter font-medium text-text-muted mb-2'}>{t('premiere.period')}</p>
+          <div className={'w-full md:w-auto md:flex-shrink-0'}>
+            <p className={'text-sm font-inter font-medium text-text-base mb-2'}>{t('premiere.period')}</p>
             <div className={'flex items-center gap-2'}>
               <DateInput
                 date={startDate || tomorrowDate}
                 onChange={onStartDateChange}
                 placeholderText={t('premiere.startDate')}
-                wrapperClassName={'w-[138px] md:w-[155px]'}
+                wrapperClassName={'flex-1 md:w-[155px] md:flex-none'}
               />
               <span className={'text-text-muted text-sm select-none'}>—</span>
               <DateInput
                 date={endDate}
                 onChange={onEndDateChange}
                 placeholderText={t('premiere.endDate')}
-                wrapperClassName={'w-[138px] md:w-[155px]'}
+                wrapperClassName={'flex-1 md:w-[155px] md:flex-none'}
               />
             </div>
           </div>
 
           <div className={'flex-1 min-w-[200px] md:max-w-[360px]'}>
-            <p className={'text-xs font-inter font-medium text-text-muted mb-2'}>{t('premiere.genres')}</p>
+            <p className={'text-sm font-inter font-medium text-text-base mb-2'}>{t('premiere.genres')}</p>
             <CustomSelect
               options={genresOptions}
               value={sortValue}

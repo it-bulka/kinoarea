@@ -10,12 +10,11 @@ interface PaginationProps extends IPagination {
 }
 
 const classes = {
-  item: `w-[50px] h-[50px] rounded-10 bg-noir-card flex-center
-          md:w-[73px] md:h-[73px] md:gap-[7px]`,
+  item: 'w-9 h-9 rounded-10 bg-noir-card flex-center text-sm md:w-11 md:h-11',
   itemActive: 'bg-gold text-noir',
   arrowDisabled: 'text-gray bg-transparent',
   arrowIcon: 'fill-currentColor',
-  dot: 'flex-center md:w-[73px] md:h-[73px]',
+  dot: 'flex-center w-9 h-9 md:w-11 md:h-11',
 }
 export const Pagination: FC<PaginationProps> = ({
   className = '',
