@@ -139,7 +139,8 @@
     "endDate": "End",
     "genres": "Choose genres",
     "allGenres": "All genres",
-    "confirm": "Confirm parameters"
+    "confirm": "Confirm parameters",
+    "topPremieres": "Top Premieres"
   },
   "collections": {
     "title": "Film Collections",

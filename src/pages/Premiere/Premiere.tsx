@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useMemo, useState } from 'react'
 import { getSearch } from '../../api/movieDBApi'
 import { IMovieRes } from '../../api/types'
+import { setMovieDBPath } from '../../utils'
 import { scrollTop } from '../../utils/scrollTop'
 import type { IGetSearchParams } from '../../api/types/requests'
 import { IOption } from '../../utils/getSelectedOption'
@@ -35,6 +36,15 @@ export const Premiere = () => {
   const genres = useMemo(() => {
     return sortValue ? sortValue.map(option => option.value).join(',') : ''
   }, [sortValue])
+
+  const backdropUrl = useMemo(() => {
+    if (!movieSchedule) return null
+    for (const [, films] of movieSchedule) {
+      const film = films.find(f => f.backdrop_path)
+      if (film) return setMovieDBPath(film.backdrop_path!)
+    }
+    return null
+  }, [movieSchedule])
 
   const getGroupedMovie = useCallback((results: IMovieRes[]): MovieSchedule => {
     const data = new Map<string, IMovieRes[]>()
@@ -110,7 +120,22 @@ export const Premiere = () => {
   )
 
   return (
-    <div className={'py-6'}>
+    <div className={'relative py-6'}>
+      {backdropUrl && (
+        <>
+          <div
+            style={{ backgroundImage: `url(${backdropUrl})` }}
+            className={
+              'absolute top-0 left-0 right-0 h-[380px] md:h-[440px] bg-no-repeat bg-cover bg-top opacity-35 pointer-events-none'
+            }
+          />
+          <div
+            className={
+              'absolute top-0 left-0 right-0 h-[380px] md:h-[440px] bg-gradient-to-b from-transparent via-transparent to-noir pointer-events-none'
+            }
+          />
+        </>
+      )}
       <PremiereFilters
         startDate={startDate}
         endDate={endDate}

@@ -37,56 +37,60 @@ export const PremiereFilters = memo(
 
     return (
       <section className={'container'}>
-        <div>
-          <Typography
-            className={'max-w-[284px] mx-auto text-center md:max-w-full md:text-start'}
-            variant={'h1'}
-            type={TypographyTypes._TITLE}
-          >
-            {t('premiere.title')}
-          </Typography>
-          <Breadcrumbs className={'flex-center mt-1 mb-2 md:justify-start md:mb-1.5 lg:mb-2 2xl:mb-3.5'} />
-          <p className={'text-13 font-inter font-medium text-center md:text-start md:text-15 2xl:text-lg'}>
-            {t('premiere.description')}
-          </p>
-        </div>
-        <div className={'my-[21.5px]'}>
-          <Typography className={'text-center md:text-left'}>{t('premiere.period')}</Typography>
-          <div className={'flex md:w-1/2 lg:w-2/5'}>
-            <DateInput
-              date={startDate || tomorrowDate}
-              onChange={onStartDateChange}
-              placeholderText={t('premiere.startDate')}
-              wrapperClassName={'flex-1'}
-            />
-            <span className={'px-3 lg:flex-[0.5] flex-center'}>-</span>
-            <DateInput
-              date={endDate}
-              onChange={onEndDateChange}
-              placeholderText={t('premiere.endDate')}
-              wrapperClassName={'flex-1'}
+        <Typography
+          className={'max-w-[284px] mx-auto text-center md:max-w-full md:text-start'}
+          variant={'h1'}
+          type={TypographyTypes._TITLE}
+        >
+          {t('premiere.title')}
+        </Typography>
+        <Breadcrumbs className={'flex-center mt-1 mb-2 md:justify-start md:mb-1.5 lg:mb-2 2xl:mb-3.5'} />
+        <p
+          className={'text-13 font-inter font-medium text-text-muted text-center md:text-start md:text-15 2xl:text-lg'}
+        >
+          {t('premiere.description')}
+        </p>
+
+        <div className={'flex flex-wrap items-end gap-4 mt-5 md:gap-6 md:mt-6'}>
+          <div className={'flex-shrink-0'}>
+            <p className={'text-xs font-inter font-medium text-text-muted mb-2'}>{t('premiere.period')}</p>
+            <div className={'flex items-center gap-2'}>
+              <DateInput
+                date={startDate || tomorrowDate}
+                onChange={onStartDateChange}
+                placeholderText={t('premiere.startDate')}
+                wrapperClassName={'w-[138px] md:w-[155px]'}
+              />
+              <span className={'text-text-muted text-sm select-none'}>—</span>
+              <DateInput
+                date={endDate}
+                onChange={onEndDateChange}
+                placeholderText={t('premiere.endDate')}
+                wrapperClassName={'w-[138px] md:w-[155px]'}
+              />
+            </div>
+          </div>
+
+          <div className={'flex-1 min-w-[200px] md:max-w-[360px]'}>
+            <p className={'text-xs font-inter font-medium text-text-muted mb-2'}>{t('premiere.genres')}</p>
+            <CustomSelect
+              options={genresOptions}
+              value={sortValue}
+              onChange={selectedOptions => onSortChange(selectedOptions as IOption[])}
+              placeholder={t('premiere.allGenres')}
+              isMulti
+              withCustomOptions
             />
           </div>
+
+          <Button
+            className={'disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0'}
+            onClick={onConfirm}
+            disabled={isConfirmDisabled}
+          >
+            {t('premiere.confirm')}
+          </Button>
         </div>
-        <div className={'my-[21.5px]'}>
-          <Typography className={'text-center md:text-left'}>{t('premiere.genres')}</Typography>
-          <CustomSelect
-            options={genresOptions}
-            value={sortValue}
-            onChange={selectedOptions => onSortChange(selectedOptions as IOption[])}
-            placeholder={t('premiere.allGenres')}
-            className={'md:w-1/2 lg:w-2/5'}
-            isMulti
-            withCustomOptions
-          />
-        </div>
-        <Button
-          className={'ml-auto disabled:opacity-50 disabled:cursor-not-allowed'}
-          onClick={onConfirm}
-          disabled={isConfirmDisabled}
-        >
-          {t('premiere.confirm')}
-        </Button>
       </section>
     )
   }

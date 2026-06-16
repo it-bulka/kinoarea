@@ -11,9 +11,12 @@ interface ScheduleProps {
 export const Schedule = ({ period, films }: ScheduleProps) => {
   return (
     <>
-      <Typography variant={'h4'} type={TypographyTypes.BLOCK_TITLE}>
-        {period}
-      </Typography>
+      <div className={'flex items-center gap-3 mb-1'}>
+        <div className={'w-1 h-6 bg-gold rounded-full flex-shrink-0'} />
+        <Typography variant={'h4'} type={TypographyTypes.BLOCK_TITLE}>
+          {period}
+        </Typography>
+      </div>
       <div
         className={`grid grid-cols-2 gap-[8.8px] mt-4
         md:grid-cols-3 md:gap-[10.12px] md:mt-5
