@@ -13,6 +13,7 @@ import { SearchResultSkeleton } from '../pages/SearchResult/SearchResultSkeleton
 import { NewsSkeleton } from '../pages/News/NewsSkeleton'
 import { PremiereSkeleton } from '../pages/Premiere/PremiereSkeleton'
 import { CollectionsSkeleton } from '../pages/Collections/CollectionsSkeleton'
+import { FilmActorsSkeleton } from '../pages/FilmActors/FilmActorsSkeleton'
 
 const Main = lazy(() => import('../pages/Main/Main').then(m => ({ default: m.Main })))
 const NotFound = lazy(() => import('../pages/NotFound/NotFound').then(m => ({ default: m.NotFound })))
@@ -44,6 +45,7 @@ const Famous = lazy(() => import('../pages/Profile/subpages/Famous/Famous').then
 const Actors = lazy(() => import('../pages/Actors/Actors').then(m => ({ default: m.Actors })))
 const Actor = lazy(() => import('../pages/Actor/Actor').then(m => ({ default: m.Actor })))
 const ActorImages = lazy(() => import('../pages/ActorImages/ActorImages').then(m => ({ default: m.ActorImages })))
+const FilmActors = lazy(() => import('../pages/FilmActors/FilmActors').then(m => ({ default: m.FilmActors })))
 
 export const router = createBrowserRouter([
   {
@@ -79,6 +81,14 @@ export const router = createBrowserRouter([
         element: (
           <WithSuspense fallback={<FilmPageSkeleton />}>
             <FilmPage />
+          </WithSuspense>
+        ),
+      },
+      {
+        path: 'films/:slug/actors',
+        element: (
+          <WithSuspense fallback={<FilmActorsSkeleton />}>
+            <FilmActors />
           </WithSuspense>
         ),
       },

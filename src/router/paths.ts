@@ -9,6 +9,12 @@ export const ProfilePages = {
   famous: '/profile/famous',
 }
 
+export const FilmPaths = {
+  detail: (slug: string | number) => `/films/${slug}`,
+  actors: (slug: string | number) => `/films/${slug}/actors`,
+}
+
 export const Paths = {
   profile: ProfilePages,
+  film: FilmPaths,
 }
