@@ -6,6 +6,7 @@ interface SearchBarProps {
   className?: string
   onSearch?: () => void
 }
+
 export const SearchBar = forwardRef(
   ({ className, onSearch }: SearchBarProps, ref: ForwardedRef<HTMLInputElement | null>) => {
     const onKeyDown: KeyboardEventHandler<HTMLDivElement> = useCallback(
@@ -16,9 +17,10 @@ export const SearchBar = forwardRef(
       },
       [onSearch]
     )
+
     return (
       <div
-        className={twMerge('flex bg-white rounded-10 pt-[9px] px-2.5 pb-2.5', className)}
+        className={twMerge('input input-padding flex items-center gap-3', className)}
         onKeyDown={onKeyDown}
         role="button"
         tabIndex={0}
@@ -26,13 +28,16 @@ export const SearchBar = forwardRef(
         <input
           type="text"
           ref={ref}
-          className={'w-3 text-noir focus:outline-0 font-inter font-light text-xl flex-1 md:px-[22px]'}
+          className={
+            'flex-1 bg-transparent focus:outline-none font-inter font-light text-text-base placeholder:text-text-muted'
+          }
         />
         <button
           onClick={onSearch}
-          className={'rounded-10 bg-gold hover:bg-gold-light transition-colors w-[55px] h-[52px]'}
+          className={'flex-shrink-0 text-text-muted hover:text-gold transition-colors'}
+          aria-label="Search"
         >
-          <SearchIcon className="w-full" />
+          <SearchIcon className={'w-5 h-5'} />
         </button>
       </div>
     )

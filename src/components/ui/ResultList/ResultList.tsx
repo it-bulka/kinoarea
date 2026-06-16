@@ -5,10 +5,11 @@ import { useNavigate } from 'react-router-dom'
 interface ResultListProps {
   list: IMovies
 }
+
 export const ResultList = ({ list }: ResultListProps) => {
   const navigate = useNavigate()
   return (
-    <ul>
+    <ul className={'flex flex-col gap-3'}>
       {list.map(item => (
         <MovieItem
           name={item.title || item.name || ''}

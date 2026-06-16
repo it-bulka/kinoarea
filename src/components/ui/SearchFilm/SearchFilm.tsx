@@ -68,15 +68,13 @@ export const SearchFilm = ({ className, onClose }: SearchFilmProps) => {
       tabIndex={0}
     >
       <div className={'content container pt-2'}>
-        <div className={'flex bg-white rounded-10 md:bg-transparent md:relative'}>
+        <div className={'flex items-center gap-2 md:relative'}>
           <SearchBar className={'flex-1'} ref={ref} onSearch={handleSearch} />
           <button
-            className={
-              'mx-2 md:mx-0 md:absolute md:top-1/2  md:-right-2  md:translate-x-full md:-translate-y-1/2 lg:-right-4'
-            }
+            className={'md:absolute md:top-1/2 md:-right-2 md:translate-x-full md:-translate-y-1/2 lg:-right-4'}
             onClick={onClose}
           >
-            <CloseIcon className={'stroke-dark md:stroke-white'} />
+            <CloseIcon className={'stroke-white'} />
           </button>
         </div>
 
