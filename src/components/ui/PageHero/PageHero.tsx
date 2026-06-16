@@ -28,7 +28,7 @@ export const PageHero = ({ title, description }: PageHeroProps) => {
     <div ref={heroRef} className="relative overflow-hidden pt-4 pb-5 md:pt-6 md:pb-7 mb-4 md:mb-6">
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
         <div className={cls.heroBg} />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-darkBlue" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir" />
       </div>
       <div className="relative z-10">
         <Typography variant="h1" type={TypographyTypes._TITLE} className="page-hero-title">
@@ -38,7 +38,7 @@ export const PageHero = ({ title, description }: PageHeroProps) => {
           <Breadcrumbs />
         </div>
         {description && (
-          <p className="page-hero-subtitle mt-2 text-sm md:text-base text-white/60 max-w-xl">{description}</p>
+          <p className="page-hero-subtitle mt-2 text-sm md:text-base text-text-muted max-w-xl">{description}</p>
         )}
       </div>
     </div>

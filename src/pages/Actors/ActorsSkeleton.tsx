@@ -3,7 +3,7 @@ import { Skeleton } from '../../components/ui/Skeleton/Skeleton'
 const ITEMS = 8
 
 const ActorItemSkeleton = () => (
-  <div className="flex items-center gap-4 lg:gap-7 py-4 md:py-5 border-b border-white/[0.05] rounded-lg">
+  <div className="flex items-center gap-4 lg:gap-7 py-4 md:py-5 border-b border-noir-border rounded-lg">
     <div className="hidden lg:block w-9 flex-shrink-0" />
     <Skeleton className="w-[104px] h-[148px] md:w-[120px] md:h-[171px] rounded-2xl flex-shrink-0" />
     <div className="flex-1 flex flex-col gap-2.5">
