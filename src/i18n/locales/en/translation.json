@@ -74,6 +74,7 @@
     "filmLabel": "film",
     "posters": "Movie Posters",
     "allPosters": "All Posters",
+    "noPosters": "No posters available for this film",
     "similar": "Similar Movies",
     "reviews": "Movie Reviews",
     "addReview": "Add Review",
