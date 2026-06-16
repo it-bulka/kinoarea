@@ -11,8 +11,9 @@ export const MovieModal = ({ close, isOpened, videoKey }: MovieModalProps) => {
       {videoKey ? (
         <iframe
           title="trailer"
-          src={`https://www.youtube.com/embed/${videoKey}`}
+          src={`https://www.youtube.com/embed/${videoKey}?autoplay=1`}
           frameBorder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
           allowFullScreen
           className={cls.youtubeFrame}
         />

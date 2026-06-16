@@ -119,7 +119,9 @@ export const getSimilarMovies = async (id: string): Promise<IMovieRes[]> => {
 }
 
 export const getMovieVideos = async (id: string): Promise<IMovieVideo[]> => {
-  const { data } = await movieDBAxious.get<IMovieVideosRes>(path.movie(id) + '/videos')
+  const { data } = await movieDBAxious.get<IMovieVideosRes>(path.movie(id) + '/videos', {
+    params: { language: 'en' },
+  })
   return data.results
 }
 
