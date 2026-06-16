@@ -10,7 +10,8 @@
   }
 
   .slider-progress {
-    @apply md:pt-3.5 2xl:pt-5
+    @apply md:pt-3.5 2xl:pt-5;
+    --swiper-theme-color: #D4A574;
   }
 
   .slider-progress .swiper-pagination {

@@ -91,7 +91,7 @@ export const NewTrailers = () => {
         {/* eslint-disable-next-line jsx-a11y/media-has-caption */}
         <video
           poster={setMovieDBPath(movies.first.poster_path)}
-          className={'w-full aspect-[368/198.87] rounded-lg overflow-hidden object-cover'}
+          className={'w-full aspect-[368/198.87] md:aspect-[21/9] rounded-lg overflow-hidden object-cover'}
           src={'/'}
         />
       </div>
