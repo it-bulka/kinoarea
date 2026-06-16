@@ -175,10 +175,17 @@ export default {
           },
         },
         '.input-padding': {
-          padding: '9px 18px',
+          padding: '7.5px 18px',
 
           '@screen md': {
-            padding: '9px 20px',
+            padding: '7.5px 20px',
+          },
+        },
+        '.select-padding': {
+          padding: '3px 18px',
+
+          '@screen md': {
+            padding: '3px 20px',
           },
         },
         '.scroll': {

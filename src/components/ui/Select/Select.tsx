@@ -32,7 +32,7 @@ export const CustomSelect = ({
 }: CustomSelectProps) => {
   const classes = useMemo(() => {
     const defaultClasses: ClassNamesConfig = {
-      control: () => classnames('!input !input-padding !outline-none !shadow-none ![min-height:unset]'),
+      control: () => classnames('!input !select-padding !outline-none !shadow-none ![min-height:unset]'),
       menu: () => classnames('!input !input-padding !bg-noir-card'),
       menuList: () => classnames('!max-h-[150px]'),
       option: state =>
