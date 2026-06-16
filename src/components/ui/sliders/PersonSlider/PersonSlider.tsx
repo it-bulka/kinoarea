@@ -1,9 +1,10 @@
+import { Ref, forwardRef } from 'react'
 import { Swiper, type SwiperRef, SwiperSlide } from 'swiper/react'
-import { PersonCard } from '../../PersonCard/PersonCard'
 import { Navigation, Pagination } from 'swiper'
+import { PersonCard } from '../../PersonCard/PersonCard'
 import { IPerson } from '../../../../api/types'
 import { BaseMovieDBAssetsUrl } from '../../../../api'
-import { Ref, forwardRef } from 'react'
+import { getKnownForTitle } from '../../../../utils/getKnownForTitle'
 
 interface PersonSliderProps {
   slides: IPerson[]
@@ -50,8 +51,7 @@ export const PersonSlider = forwardRef(
               img={`${BaseMovieDBAssetsUrl}${item.profile_path}`}
               rate={order + 1}
               actor={item.name}
-              originalActorName={item.name}
-              age={0}
+              knownFor={getKnownForTitle(item.known_for)}
             />
           </SwiperSlide>
         ))}

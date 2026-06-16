@@ -1,19 +1,30 @@
+import { memo } from 'react'
+import { useTranslation } from 'react-i18next'
+
 interface RatingItemProps {
-  img: string
   rate: string | number
   actor: string
-  originalActorName: string
-  age: number
+  knownFor?: string
 }
-export const RatingItem = ({ rate, age, actor, originalActorName }: RatingItemProps) => {
+
+const RatingItemBase = ({ rate, actor, knownFor }: RatingItemProps) => {
+  const { t } = useTranslation()
+
   return (
     <li className={'flex justify-between items-center py-2'}>
-      <div>
+      <div className={'min-w-0 mr-2'}>
         <p className={'text-15 font-inter font-bold text-text-base'}>{actor}</p>
-        <p className={'text-11 mb-[1.79px] mt-[3px] text-text-muted'}>{originalActorName}</p>
-        <p className={'text-11 text-gold-light'}>{age} лет</p>
+        {knownFor && (
+          <p className={'text-11 mt-[3px] text-gold-light truncate'}>
+            <span className={'opacity-70'}>{t('actor.knownFor')} </span>
+            {knownFor}
+          </p>
+        )}
       </div>
-      <p className={'text-15 text-gold-light font-inter font-semibold'}>{rate} место</p>
+      <p className={'text-15 text-gold-light font-inter font-semibold flex-shrink-0'}>{rate} місце</p>
     </li>
   )
 }
+
+export const RatingItem = memo(RatingItemBase)
+RatingItem.displayName = 'RatingItem'
