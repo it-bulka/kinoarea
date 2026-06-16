@@ -29,12 +29,14 @@ export type MovieFilters = IParams
 export type TVSearch = {
   type: 'tv'
   category?: CATEGORY
+  query?: string
   params?: TVFilters
 }
 
 export type MoviesSearch = {
   type: 'movie'
   category?: CATEGORY
+  query?: string
   params?: MovieFilters
 }
 export type IGetSearchParams = TVSearch | MoviesSearch

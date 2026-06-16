@@ -1,4 +1,4 @@
-import axios, { type AxiosResponse } from 'axios'
+import axios from 'axios'
 import { IGenre, IMovieRes } from '../types'
 import { IGetSearchParams, IParams, CATEGORY, MOVIETV } from '../types/requests'
 import {
@@ -53,15 +53,20 @@ movieDBAxious.interceptors.response.use(
 )
 
 export const getSearch = async (options: IGetSearchParams): Promise<IDiscoverResult> => {
-  const { type, category = 'popular', params } = options
-  let movie: AxiosResponse
+  const { type, category = 'popular', query, params } = options
+
+  if (query) {
+    const { data } = await movieDBAxious.get(`/search/${type}`, { params: { query, page: params?.page ?? 1 } })
+    return data
+  }
 
   if (params) {
-    movie = await movieDBAxious.get(path.discover(type), { params })
-  } else {
-    movie = await movieDBAxious.get(path.search(type, category))
+    const { data } = await movieDBAxious.get(path.discover(type), { params })
+    return data
   }
-  return movie.data
+
+  const { data } = await movieDBAxious.get(path.search(type, category))
+  return data
 }
 
 interface IGetPersonsParams {

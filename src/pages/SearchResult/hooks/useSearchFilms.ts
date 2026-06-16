@@ -38,11 +38,11 @@ export const useSearchFilms = (): UseSearchFilmsReturn => {
   const search = useCallback(
     async (page: number, category: MOVIETV = categoryValue, sort: MovieSort | 'notchosen' | null = sortValue) => {
       setIsLoading(true)
+      const query = searchRef.current?.value || undefined
       const params: IParams = { page }
-      if (sort && sort !== 'notchosen') params.sort_by = sort
-      if (searchRef.current?.value) params.with_keywords = searchRef.current.value
+      if (!query && sort && sort !== 'notchosen') params.sort_by = sort
 
-      const data = await MovieDBAPI.getSearch({ type: category, params })
+      const data = await MovieDBAPI.getSearch({ type: category, query, params })
       if (!data) return
 
       const { results, ...rest } = data
