@@ -16,6 +16,7 @@ export const ResultList = ({ list }: ResultListProps) => {
           img={item.poster_path}
           overview={item.overview}
           rating={item.vote_average}
+          genreIds={item.genre_ids}
           key={item.id}
           onClick={() => navigate(`/films/${item.id}`)}
         />

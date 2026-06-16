@@ -43,8 +43,8 @@ export const SearchResultFilters = ({
   const selectedSort = sortOptions.find(o => o.value === sortValue) ?? null
 
   return (
-    <div className={'flex gap-3'}>
-      <div className={'w-[140px]'}>
+    <div className={'flex flex-col gap-2 md:flex-row md:gap-3'}>
+      <div className={'w-full md:w-[140px]'}>
         <CustomSelect
           options={categoryOptions}
           value={selectedCategory}
@@ -52,7 +52,7 @@ export const SearchResultFilters = ({
           isClearable={false}
         />
       </div>
-      <div className={'w-[190px]'}>
+      <div className={'w-full md:w-[190px]'}>
         <CustomSelect
           options={sortOptions}
           value={selectedSort}
