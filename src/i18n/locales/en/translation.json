@@ -384,6 +384,7 @@
   },
   "common": {
     "ok": "OK",
-    "showMore": "Show more"
+    "showMore": "Show more",
+    "close": "Close"
   }
 }
