@@ -135,7 +135,7 @@ export const FilmPage = () => {
       {details && (
         <div
           style={{ backgroundImage: `url(${setMovieDBPath(details?.backdrop_path || details?.poster_path)})` }}
-          className={'bg-no-repeat bg-cover bg-top absolute w-full aspect-[3/4] left-0 -z-1 opacity-40 '}
+          className={'bg-no-repeat bg-cover bg-top absolute w-full aspect-[3/4] left-0 -z-1 opacity-40'}
         />
       )}
       <div
@@ -229,7 +229,7 @@ export const FilmPage = () => {
             linkTitle={t('film.allPosters')}
             className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
           />
-          {isLoading ? <FilmPostersSkeleton /> : <PostersList list={posters} title={''} />}
+          {isLoading ? <FilmPostersSkeleton /> : <PostersList list={posters} />}
         </section>
 
         <section>
