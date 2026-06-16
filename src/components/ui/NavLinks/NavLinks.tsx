@@ -13,6 +13,7 @@ export const NavLinks = ({ className, onClick }: LinksProps) => {
   const { t } = useTranslation()
 
   const navLinks = [
+    { id: '0', title: t('nav.main'), path: endpoints.main },
     { id: '1', title: t('nav.premiere'), path: endpoints.premiere },
     { id: '3', title: t('nav.films'), path: endpoints.films },
     { id: '4', title: t('nav.actors'), path: endpoints.actors },
