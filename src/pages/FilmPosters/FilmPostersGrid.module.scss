@@ -1,0 +1,39 @@
+.grid {
+  @apply grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 md:gap-4;
+}
+
+.item {
+  @apply relative aspect-[2/3] rounded-10 overflow-hidden bg-noir-light;
+
+  &:hover .image {
+    @apply scale-105;
+  }
+
+  &:hover .overlay {
+    @apply opacity-100;
+  }
+
+  &:hover .caption {
+    @apply opacity-100 translate-y-0;
+  }
+}
+
+.image {
+  @apply absolute inset-0 w-full h-full object-cover transition-transform duration-400;
+}
+
+.overlay {
+  @apply absolute inset-0 bg-gradient-to-t from-noir/80 via-noir/10 to-transparent opacity-0 transition-opacity duration-300;
+}
+
+.caption {
+  @apply absolute bottom-0 left-0 right-0 p-3 flex items-center gap-2 translate-y-1 opacity-0 transition-all duration-300;
+}
+
+.index {
+  @apply text-xs font-inter text-text-muted;
+}
+
+.lang {
+  @apply text-[10px] font-inter font-bold text-gold uppercase tracking-wider px-1.5 py-0.5 rounded border border-gold/40 bg-noir/60;
+}
