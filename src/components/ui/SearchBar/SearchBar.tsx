@@ -26,9 +26,12 @@ export const SearchBar = forwardRef(
         <input
           type="text"
           ref={ref}
-          className={'w-3 text-dark focus:outline-0 font-q-300 text-xl flex-1 md:px-[22px]'}
+          className={'w-3 text-noir focus:outline-0 font-inter font-light text-xl flex-1 md:px-[22px]'}
         />
-        <button onClick={onSearch} className={'rounded-10 bg-yellowish w-[55px] h-[52px]'}>
+        <button
+          onClick={onSearch}
+          className={'rounded-10 bg-gold hover:bg-gold-light transition-colors w-[55px] h-[52px]'}
+        >
           <SearchIcon className="w-full" />
         </button>
       </div>

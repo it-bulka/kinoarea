@@ -72,7 +72,7 @@ export function Input<T extends FieldValues | undefined = undefined>({
   return (
     <div
       className={twMerge(
-        classnames(`text-white/60 text-17 relative flex rounded-10 bg-darkBlue input`, [className], {
+        classnames(`text-text-muted text-17 relative flex rounded-10 bg-noir-soft input`, [className], {
           'flex-row-reverse': addendumLeft,
           'input-padding': !addendumFull,
         })

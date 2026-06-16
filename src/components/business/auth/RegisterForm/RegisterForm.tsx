@@ -59,7 +59,7 @@ export const RegisterForm = () => {
               label={
                 <p>
                   {t('auth.register.privacy')}
-                  <Link to={'/'} className={'text-yellowish'}>
+                  <Link to={'/'} className={'text-gold-light'}>
                     {t('auth.register.privacyLink')}
                   </Link>
                 </p>
@@ -85,7 +85,7 @@ export const RegisterForm = () => {
           )}
         />
       </div>
-      <Button variant={'yellow'} type={'submit'} className={'w-full'}>
+      <Button variant={'primary'} type={'submit'} className={'w-full'}>
         {t('auth.register.submit')}
       </Button>
     </form>

@@ -38,7 +38,7 @@ export const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
         error={errors?.password?.message}
         label={t('auth.login.passwordLabel')}
       />
-      <Button variant={'yellow'} type={'submit'} className={'w-full'}>
+      <Button variant={'primary'} type={'submit'} className={'w-full'}>
         {t('auth.login.submit')}
       </Button>
       <button onClick={onRegisterClick} className={'form_link'}>

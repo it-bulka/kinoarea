@@ -19,7 +19,7 @@ export const SearchedItem = ({ img, title, rate, genre, originalName, className,
       role="button"
       tabIndex={0}
       className={twMerge(
-        `rounded-10 py-[14px] pr-9 pl-2.5 bg-darkBlue flex items-center w-full gap-[18px] flex-wrap md:flex-nowrap`,
+        `rounded-10 py-[14px] pr-9 pl-2.5 bg-noir-soft flex items-center w-full gap-[18px] flex-wrap md:flex-nowrap`,
         className
       )}
     >
@@ -34,9 +34,9 @@ export const SearchedItem = ({ img, title, rate, genre, originalName, className,
       )}
 
       <div className={'order-3 flex-[100%] md:flex-1 md:order-2'}>
-        <p className={'font-q-700 text-xl'}>{title}</p>
-        <p className={'text-white/70'}>{originalName}</p>
-        <p className={'text-yellowish'}>{genre}</p>
+        <p className={'font-inter font-bold text-xl text-text-base'}>{title}</p>
+        <p className={'text-text-muted'}>{originalName}</p>
+        <p className={'text-gold-light'}>{genre}</p>
       </div>
       {rate && <RateBadge rating={rate} className={'md:order-3'} />}
     </div>

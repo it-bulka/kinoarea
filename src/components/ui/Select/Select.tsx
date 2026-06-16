@@ -33,7 +33,7 @@ export const CustomSelect = ({
   const classes = useMemo(() => {
     const defaultClasses: ClassNamesConfig = {
       control: () => classnames('!input !input-padding !outline-none !border-0 hover:!border-0'),
-      menu: () => classnames('!input !input-padding !bg-darkBlue-2'),
+      menu: () => classnames('!input !input-padding !bg-noir-card'),
       menuList: () => classnames('!max-h-[150px]'),
       option: state =>
         twMerge(classnames('!bg-inherit !border-0 !text-options !text-15', { '!text-white': state.isSelected })),

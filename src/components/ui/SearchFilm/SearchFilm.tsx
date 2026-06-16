@@ -61,7 +61,7 @@ export const SearchFilm = ({ className, onClose }: SearchFilmProps) => {
 
   return (
     <div
-      className={twMerge('z-[100] bg-dark/70', className)}
+      className={twMerge('z-[100] bg-noir/80 backdrop-blur-sm', className)}
       role="button"
       onClick={onWrapperClick}
       onKeyDown={onKeyDown}

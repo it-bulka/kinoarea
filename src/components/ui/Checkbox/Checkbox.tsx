@@ -22,7 +22,7 @@ export function Checkbox({ label, name, className, isChecked, onChecked }: Check
         className={'w-0 h-0 absolute opacity-0'}
         checked={isChecked}
       />
-      <span className={`shrink-0 basis-[17px] h-[17px] rounded-sm bg-yellowish flex-center`}>
+      <span className={`shrink-0 basis-[17px] h-[17px] rounded-sm bg-gold flex-center`}>
         <span className={`${isChecked ? 'bg-checkmark' : ''} bg-img w-1.5 h-1`} />
       </span>
       {label && <span className={'text-sm'}>{label}</span>}
