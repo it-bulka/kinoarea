@@ -31,25 +31,19 @@ export default {
     extend: {
       colors: {
         white: '#fff',
-        blue: '#3657CB',
-        darkBlue: '#1E2538',
-        'darkBlue-2': '#1B2133',
-        'darkBlue-3': '#3B486B',
-        'darkBlue-4': '#4F5B7C',
-        'darkBlue-5': '#191E2E',
-        dark: '#151A26',
-        'dark-purple': '#353B50',
+        noir: '#0B0B0B',
+        'noir-card': '#111111',
+        'noir-soft': '#181818',
+        'noir-border': '#222222',
+        gold: '#D4A574',
+        'gold-light': '#E5C07B',
+        'text-base': '#F5F5F5',
+        'text-muted': '#8D8D8D',
         gray: '#686868',
-        'gray-2': '#152625',
         'gray-3': '#989898',
         'gray-light2': '#CBCBCB',
-        grayIcon: '#686868',
-        blueIcon: '#3C4767',
         'gray-text': '#6D717D',
         'gray-light': '#e6e3f0',
-        yellowish: '#F2F60F',
-        'purple-1': '#54689E',
-        'border-blue': '#2B354E',
         options: '#949597',
       },
       boxShadow: {
@@ -92,12 +86,8 @@ export default {
         breadcrumbs: 'url("/src/assets/images/general/breadcrumb-arrow.svg")',
       },
       fontFamily: {
-        q: ['Qanelas Regular', 'sans-serif'],
-        'q-300': ['Qanelas Light', 'sans-serif'],
-        'q-500': ['Qanelas Medium', 'sans-serif'],
-        'q-600': ['Qanelas Semi Bold', 'sans-serif'],
-        'q-700': ['Qanelas Bold', 'sans-serif'],
-        'q-900': ['Qanelas Black', 'sans-serif'],
+        playfair: ['Playfair Display', 'serif'],
+        inter: ['Inter', 'sans-serif'],
       },
       opacity: {
         35: '0.35',
@@ -109,7 +99,7 @@ export default {
       backgroundImage: {
         mailing: `url(/src/assets/images/films/mailing-bg.png)`,
         checkmark: 'url(/src/assets/images/general/checkmark.svg)',
-        'news-gradient': 'linear-gradient(1deg, #3657CB 0%, rgba(0, 0, 0, 0.00) 100%)',
+        'news-gradient': 'linear-gradient(1deg, #D4A574 0%, rgba(0, 0, 0, 0.00) 100%)',
       },
       borderRadius: {
         10: '10px',
@@ -121,8 +111,9 @@ export default {
     plugin(function ({ addUtilities, addBase, config, theme }) {
       addBase({
         body: {
-          color: config('theme.colors.white'),
-          fontFamily: config('theme.fontFamily.q'),
+          color: theme('colors.text-base'),
+          fontFamily: theme('fontFamily.inter'),
+          backgroundColor: theme('colors.noir'),
         },
       })
 
@@ -146,7 +137,7 @@ export default {
           columns: '2',
         },
         '.item-border': {
-          'border-bottom': `solid 1px ${theme('colors.darkBlue-3')}`,
+          'border-bottom': `solid 1px ${theme('colors.noir-border')}`,
         },
         '.modal-content-transform': {
           transformBox: 'border-box',
@@ -154,29 +145,27 @@ export default {
           transformOrigin: 'left',
         },
         '.input': {
-          color: theme('colors.white'),
-          background: theme('colors.darkBlue'),
+          color: theme('colors.text-base'),
+          background: theme('colors.noir-soft'),
           borderRadius: theme('borderRadius.10'),
           outline: 'none',
           fontSize: theme('fontSize["15"]'),
-          fontWeight: theme('fontFamily["q-500"]'),
+          fontFamily: theme('fontFamily.inter'),
 
-          '&:placeholder': {
-            color: `rgba(${theme('colors.white')}, 0.6)`,
+          '&::placeholder': {
+            color: `${theme('colors.text-muted')}`,
           },
 
           '@screen md': {
             fontSize: theme('fontSize["14"]'),
-            fontWeight: theme('fontFamily["q-400"]'),
           },
         },
         '.input-text': {
           fontSize: theme('fontSize["15"]'),
-          fontWeight: theme('fontFamily["q-500"]'),
+          fontFamily: theme('fontFamily.inter'),
 
           '@screen md': {
             fontSize: theme('fontSize["14"]'),
-            fontWeight: theme('fontFamily["q-400"]'),
           },
         },
         '.input-padding': {
@@ -188,7 +177,7 @@ export default {
         },
         '.scroll': {
           '&::-webkit-scrollbar-thumb': {
-            backgroundColor: theme('colors.blue'),
+            backgroundColor: theme('colors.gold'),
           },
         },
         '.comment-editor': {

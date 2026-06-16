@@ -5,7 +5,7 @@
 
 @layer components {
   .calendar :is(.react-datepicker__month-container, .react-datepicker__header) {
-    @apply bg-darkBlue
+    @apply bg-noir-soft
   }
 
   .calendar :is(.react-datepicker__current-month, .react-datepicker__day-name, .react-datepicker__day) {
@@ -17,6 +17,6 @@
   }
 
   .calendar :is(.react-datepicker__day--keyboard-selected, .react-datepicker__day--selected) {
-    @apply bg-blue
+    @apply bg-gold
   }
 }

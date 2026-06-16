@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,900;1,400&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,10 +9,9 @@
 @import "datepicker";
 @import "draftEditor";
 
-$color: theme('colors.darkBlue');
 @layer base {
   body {
-    @apply font-q
+    @apply font-inter
   }
 
   .disable-scroll {
@@ -41,10 +42,10 @@ $color: theme('colors.darkBlue');
   }
 
   .form_link {
-    @apply text-blue text-center font-q-500 text-17 underline underline-offset-2
+    @apply text-gold text-center font-inter font-medium text-17 underline underline-offset-2
   }
 
   .avatar {
-    @apply object-contain bg-dark-purple p-14 md:p-20
+    @apply object-contain bg-noir-soft p-14 md:p-20
   }
 }
