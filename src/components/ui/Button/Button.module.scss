@@ -1,42 +1,74 @@
-@mixin btn {
-  @apply text-base font-q-700 2xl:text-lg
+@mixin btn-base {
+  @apply font-inter font-semibold transition-all duration-200
 }
+
 .icon {
   svg {
     width: 100%;
   }
 
-  @apply p-2 w-[28.56px] h-[27px] text-blue bg-white
-  md:w-10 md:h-[38px] md:p-3
-  lg:w-11 lg:h-[41px] lg:p-3.5
-  2xl:w-[55px] 2xl:h-[52px] 2xl:px-5 2xl:py-4
+  @apply p-2 w-[34px] h-[34px] bg-noir-soft text-text-base hover:bg-gold/20 hover:text-gold
+  md:w-10 md:h-10 md:p-2.5
+  lg:w-11 lg:h-11 lg:p-3
+  2xl:w-12 2xl:h-12 2xl:p-3
 }
 
+/* Gold filled — primary action */
 .primary {
-  @include btn;
-  @apply px-2 py-[6px] text-white shadow-btn shadow-blue/80 bg-blue font-normal
-  md:px-[26px] md:py-[9px]
-  lg:px-[30px] lg:py-2.5
-  2xl:px-11 2xl:py-3
-
+  @include btn-base;
+  @apply px-4 py-2 bg-gold text-noir text-sm hover:bg-gold-light
+  md:px-6 md:py-2.5 md:text-base
+  2xl:px-8 2xl:py-3
 }
 
+/* Gold outlined — secondary action */
+.secondary {
+  @include btn-base;
+  @apply px-4 py-2 text-gold text-sm bg-transparent hover:bg-gold/10
+  md:px-6 md:py-2.5 md:text-base
+  2xl:px-8 2xl:py-3;
+  border: 1px solid rgba(212, 165, 116, 0.5);
+
+  &:hover {
+    border-color: theme('colors.gold');
+  }
+}
+
+/* Subtle outlined — ghost/tertiary */
+.ghost {
+  @include btn-base;
+  @apply px-4 py-2 text-text-muted text-sm bg-transparent
+  hover:text-text-base
+  md:px-6 md:py-2.5 md:text-base
+  2xl:px-8 2xl:py-3;
+  border: 1px solid rgba(255, 255, 255, 0.15);
+
+  &:hover {
+    border-color: rgba(255, 255, 255, 0.4);
+  }
+}
+
+/* Alias kept for backward compat */
 .transparent {
-  @include btn;
-  @apply px-8 py-3 border-2 border-solid border-white text-white bg-transparent rounded-10
-  xl:text-lg xl:px-11 xl:py-5
+  @include btn-base;
+  @apply px-8 py-3 text-text-base text-sm bg-transparent rounded-10
+  hover:text-gold
+  xl:text-base xl:px-11 xl:py-4;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+
+  &:hover {
+    border-color: rgba(212, 165, 116, 0.5);
+  }
 }
 
+/* White background — used in form areas */
 .white {
-  @apply px-[18px] py-3.5  text-blue bg-white font-bold text-sm
+  @apply px-[18px] py-3.5 text-noir bg-white font-inter font-bold text-sm hover:bg-gold-light
   lg:px-4 lg:py-3
   2xl:px-[42px] 2xl:py-5 2xl:text-base
 }
 
-.yellow {
-  @apply bg-yellowish rounded-10 text-black text-17 font-q-600 px-3 pt-[13px] pb-[14px] flex-center
-}
-
+/* Sizes */
 .md {
   @apply text-sm pt-[9px] pb-2.5 pr-4 pl-[19px]
   md:text-17 md:pt-3 md:pb-4 md:pr-[27px] md:pl-[31px]

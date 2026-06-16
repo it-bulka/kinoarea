@@ -1,16 +1,17 @@
 .title {
-  @apply text-2rem font-q-900 font-black text-white
+  @apply text-2rem font-playfair font-bold text-text-base
   md:text-2.5rem
   2xl:text-4rem
 }
 
 .subtitle {
-  @apply text-2xl font-black text-white
+  @apply text-2xl font-playfair font-semibold text-text-base
 }
 
 .block_title {
-  @apply text-xl font-q-600 2xl:text-2xl
+  @apply text-xl font-inter font-semibold text-text-base 2xl:text-2xl
 }
+
 .paragraph {
-  @apply text-base md:text-lg lg:text-22
+  @apply text-base font-inter text-text-base md:text-lg lg:text-22
 }
