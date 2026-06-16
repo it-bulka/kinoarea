@@ -1,59 +1,69 @@
-import { ICastRes } from '../../../api/types/responses'
-import { setMovieDBPath } from '../../../utils'
 import { memo, useCallback, useMemo, type KeyboardEvent } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { ICastRes } from '../../../api/types/responses'
+import { setMovieDBPath } from '../../../utils'
+import { AbsentImg } from '../AbsentImg/AbsentImg'
 
 interface CastListProps {
   list: ICastRes[]
 }
+
 export const CastList = memo(({ list }: CastListProps) => {
   const navigate = useNavigate()
-  const cast = useMemo(() => {
-    const maxAmount = 8
-    if (list.length > 8) {
-      return list.slice(0, maxAmount)
-    }
-    return list
-  }, [list])
 
-  const redirect = useCallback((id: number) => {
-    navigate(`/actors/${id}`)
-  }, [])
+  const cast = useMemo(() => list.slice(0, 8), [list])
 
-  const onKeyDown = useCallback((id: number) => {
-    return (e: KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === 'Enter') {
+  const redirect = useCallback(
+    (id: number) => {
+      navigate(`/actors/${id}`)
+    },
+    [navigate]
+  )
+
+  const onKeyDown = useCallback(
+    (id: number) => (e: KeyboardEvent<HTMLDivElement>) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault()
         redirect(id)
       }
-    }
-  }, [])
+    },
+    [redirect]
+  )
 
   return (
-    <div
-      className={`grid grid-cols-2 gap-x-[8.9%] gap-y-5 
-        md:gap-y-[62px] 
-        lg:grid-cols-3 lg:gap-y-10 lg:gap-x-12 
-        2xl:grid-cols-5 2xl:gap-y-14`}
-    >
+    <ul className={'grid grid-cols-3 gap-2 md:grid-cols-4 md:gap-2.5 lg:grid-cols-6 xl:grid-cols-8'}>
       {cast.map(item => (
-        <div
-          key={item.id}
-          onClick={() => redirect(item.id)}
-          onKeyDown={onKeyDown(item.id)}
-          tabIndex={0}
-          role={'button'}
-        >
-          <img
-            src={setMovieDBPath(item.profile_path)}
-            alt={item.name}
-            className={'rounded-[5px] aspect-square object-cover mb-1.5 md:mb-4'}
-          />
-          <h5 className={'text-sm font-inter font-bold md:text-lg'}>{item.name}</h5>
-          <p className={'text-xs text-text-muted my-[3px] md:text-15 md:my-3'}>{item.original_name}</p>
-          <p className={'text-xs text-gold-light md:text-base'}>{item.character}</p>
-        </div>
+        <li key={item.id}>
+          <div
+            role={'button'}
+            tabIndex={0}
+            onClick={() => redirect(item.id)}
+            onKeyDown={onKeyDown(item.id)}
+            className={'group relative aspect-[2/3] rounded-10 overflow-hidden cursor-pointer'}
+          >
+            {item.profile_path ? (
+              <img
+                src={setMovieDBPath(item.profile_path)}
+                alt={item.name}
+                className={
+                  'absolute inset-0 w-full h-full object-cover object-top group-hover:scale-105 transition-transform duration-300'
+                }
+                loading={'lazy'}
+              />
+            ) : (
+              <AbsentImg className={'absolute inset-0 w-full h-full'} />
+            )}
+
+            <div className={'absolute inset-0 bg-gradient-to-t from-noir/90 via-transparent to-transparent'} />
+
+            <div className={'absolute bottom-0 left-0 right-0 p-2'}>
+              <h5 className={'text-xs font-inter font-bold leading-tight'}>{item.name}</h5>
+              {item.character && <p className={'text-[10px] text-gold-light mt-0.5 truncate'}>{item.character}</p>}
+            </div>
+          </div>
+        </li>
       ))}
-    </div>
+    </ul>
   )
 })
 
