@@ -4,8 +4,9 @@ import { useTranslation } from 'react-i18next'
 interface BreadcrumbsProps {
   className?: string
   lastCrumb?: string
+  crumbLabels?: Record<string, string>
 }
-export const Breadcrumbs = ({ className, lastCrumb }: BreadcrumbsProps) => {
+export const Breadcrumbs = ({ className, lastCrumb, crumbLabels }: BreadcrumbsProps) => {
   const { t } = useTranslation()
   const locations = useLocation()
   const { slug } = useParams()
@@ -28,7 +29,7 @@ export const Breadcrumbs = ({ className, lastCrumb }: BreadcrumbsProps) => {
           className={`text-text-muted [&:not(:last-of-type):after]:content-breadcrumbs
              [&:not(:last-of-type):after]:pl-2 [&:not(:last-of-type)]:pr-2 last-of-type:text-text-base hover:[&:not(:last-of-type)]:underline`}
         >
-          <Link to={item}>{t(`breadcrumbs.${item}`, lastCrumb || slug || item)}</Link>
+          <Link to={item}>{crumbLabels?.[item] ?? t(`breadcrumbs.${item}`, lastCrumb || slug || item)}</Link>
         </li>
       ))}
     </ul>
