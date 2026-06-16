@@ -151,6 +151,12 @@ export default {
           outline: 'none',
           fontSize: theme('fontSize["15"]'),
           fontFamily: theme('fontFamily.inter'),
+          border: '1px solid rgba(212, 165, 116, 0.2)',
+          transition: 'border-color 200ms',
+
+          '&:focus': {
+            borderColor: 'rgba(212, 165, 116, 0.55)',
+          },
 
           '&::placeholder': {
             color: `${theme('colors.text-muted')}`,
@@ -169,10 +175,10 @@ export default {
           },
         },
         '.input-padding': {
-          padding: '13px 23px 14px 21px',
+          padding: '9px 18px',
 
           '@screen md': {
-            padding: '13px 23px 14px 26px',
+            padding: '9px 20px',
           },
         },
         '.scroll': {
