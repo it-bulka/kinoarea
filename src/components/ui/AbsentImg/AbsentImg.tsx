@@ -7,7 +7,7 @@ interface AbsentImgProps {
 }
 export const AbsentImg = ({ className, svgClassName }: AbsentImgProps) => {
   return (
-    <div className={twMerge('bg-darkBlue-5 flex-center', className)}>
+    <div className={twMerge('bg-noir-card flex-center', className)}>
       <CameraIcon className={twMerge('w-[21px] h-[21px] fill-[#404961]', svgClassName)} />
     </div>
   )

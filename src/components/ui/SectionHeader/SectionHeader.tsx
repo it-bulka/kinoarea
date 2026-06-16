@@ -43,7 +43,7 @@ export const SectionHeader = memo((props: SectionHeaderProps) => {
           title={linkTitle}
           onClick={onArrowClick}
           state={state}
-          className={classnames('text-base font-bold text-white')}
+          className={classnames('text-base font-inter font-bold text-gold hover:text-gold-light transition-colors')}
         />
       </div>
     )
@@ -59,7 +59,7 @@ export const SectionHeader = memo((props: SectionHeaderProps) => {
           <BurgerIcon className={'absolute top-1/2 -right-8 --translate-y-1/2 fill-white md:hidden'} />
         </>
       </Typography>
-      <div className={'hidden xl:block w-[51px] h-0 border-b-2 border-white border-solid mx-2'} />
+      <div className={'hidden xl:block w-[51px] h-0 border-b-2 border-gold/40 border-solid mx-2'} />
       <CategoryList list={categories} className={'mt-4 xl:mt-0'} onItemClick={onCategoryClick} />
     </div>
   )

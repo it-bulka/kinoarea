@@ -7,7 +7,7 @@
   @apply absolute inset-0
 }
 .overlay.on {
-  @apply bg-darkBlue-5/40
+  @apply bg-noir/80
 }
 
 .overlay.off {
@@ -15,9 +15,9 @@
 }
 
 .content {
-  @apply absolute bg-darkBlue-5 pt-10 pb-14 px-5 top-1/2 left-1/2
+  @apply absolute bg-noir-card pt-10 pb-14 px-5 top-1/2 left-1/2
   max-h-[90vh] overflow-hidden modal-content-transform rounded-10
-  shadow-dark shadow-xl
+  shadow-2xl
 
 }
 

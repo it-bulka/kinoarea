@@ -30,7 +30,7 @@ export const IconBtn = ({ type, onClick, isActive }: IconBtnProps) => {
         lg:w-[39.23px] lg:h-[39.23px]
         2xl:w-[58.87px] 2xl:h-[58.87px]
         ${additionalStyle[type]}
-        ${isActive ? 'bg-blue' : 'bg-darkBlue-2'}`}
+        ${isActive ? 'bg-gold' : 'bg-noir-card'}`}
       onClick={onClick}
     >
       <Icon className={'w-[44.1651%] h-auto'} />

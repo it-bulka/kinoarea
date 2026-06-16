@@ -1,5 +1,5 @@
 .wrapper {
-  @apply rounded-10 bg-blue/30 pt-2 pr-[13px] pb-[11px] pl-[7px] flex gap-[5px]
+  @apply rounded-10 bg-gold/20 pt-2 pr-[13px] pb-[11px] pl-[7px] flex gap-[5px]
   md:gap-[11px] md:pt-[11px] md:pr-[22px] md:pb-[9px] md:pl-3
   lg:gap-[13px]
 }
@@ -16,11 +16,11 @@
 }
 
 .title {
-  @apply font-q-600 md:flex-1
+  @apply font-inter font-semibold md:flex-1
 }
 
 .btns {
-  @apply flex gap-2.5 text-white/80 font-q-500 md:justify-self-end 2xl:gap-[25px]
+  @apply flex gap-2.5 text-text-base/80 font-inter font-medium md:justify-self-end 2xl:gap-[25px]
 }
 
 .btn {

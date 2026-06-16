@@ -9,7 +9,7 @@ interface NewsSliderProps {
 }
 
 const classes = {
-  btn: 'w-[62px] h-[62px] flex-center bg-darkBlue-2 text-white rounded-10 lg:w-[80px] lg:h-[80px]',
+  btn: 'w-[62px] h-[62px] flex-center bg-noir-card text-white rounded-10 lg:w-[80px] lg:h-[80px]',
 }
 export const NewsSlider = ({ slides }: NewsSliderProps) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any

@@ -21,12 +21,12 @@ export const Breadcrumbs = ({ className, lastCrumb }: BreadcrumbsProps) => {
   }
 
   return (
-    <ul className={`flex flex-wrap ${className} text-base font-q-500 w-fit`}>
+    <ul className={`flex flex-wrap ${className} text-sm font-inter font-medium w-fit`}>
       {crumbs.map(item => (
         <li
           key={item}
-          className={`text-darkBlue-4 [&:not(:last-of-type):after]:content-breadcrumbs
-             [&:not(:last-of-type):after]:pl-2 [&:not(:last-of-type)]:pr-2 last-of-type:text-white [&:not(:last-of-type):hover]:underline`}
+          className={`text-text-muted [&:not(:last-of-type):after]:content-breadcrumbs
+             [&:not(:last-of-type):after]:pl-2 [&:not(:last-of-type)]:pr-2 last-of-type:text-text-base hover:[&:not(:last-of-type)]:underline`}
         >
           <Link to={item}>{t(`breadcrumbs.${item}`, lastCrumb || slug || item)}</Link>
         </li>

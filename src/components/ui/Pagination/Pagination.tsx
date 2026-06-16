@@ -10,9 +10,9 @@ interface PaginationProps extends IPagination {
 }
 
 const classes = {
-  item: `w-[50px] h-[50px] rounded-10 bg-darkBlue-2 flex-center 
+  item: `w-[50px] h-[50px] rounded-10 bg-noir-card flex-center
           md:w-[73px] md:h-[73px] md:gap-[7px]`,
-  itemActive: 'bg-blue',
+  itemActive: 'bg-gold text-noir',
   arrowDisabled: 'text-gray bg-transparent',
   arrowIcon: 'fill-currentColor',
   dot: 'flex-center md:w-[73px] md:h-[73px]',

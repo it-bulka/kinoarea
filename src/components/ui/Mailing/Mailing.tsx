@@ -38,21 +38,21 @@ export const Mailing = () => {
   }
 
   return (
-    <section className={'bg-dark pt-11 pb-6'}>
+    <section className={'bg-noir-card pt-11 pb-6 border-t border-noir-border'}>
       <div className={'container'}>
         <div className={`bg-mailing bg-img rounded-10 overflow-hidden`}>
-          <div className={'bg-blue/90 pt-[26px] pb-[25px] px-[23px] lg:px-[50px] 2xl:pt-[76px] 2xl:pb-[106px]'}>
+          <div className={'bg-noir/70 pt-[26px] pb-[25px] px-[23px] lg:px-[50px] 2xl:pt-[76px] 2xl:pb-[106px]'}>
             <div>
               <Logo className={'mx-auto'} />
             </div>
             <h3
-              className={`text-25 font-q-900 text-center max-w-[209px] mx-auto
+              className={`text-25 font-playfair font-bold text-center max-w-[209px] mx-auto
                 md:max-w-full md:text-35 2xl:mt-[51px] 2xl:text-50`}
             >
               {t('mailing.title')}
             </h3>
             <p
-              className={`mt-[21px] mb-[29px] mx-auto text-base font-q-500 text-center
+              className={`mt-[21px] mb-[29px] mx-auto text-base font-inter font-medium text-center
                 md:my-6 md:max-w-[542px]
                 2xl:max-w-[704px] 2xl:mt-[26px] 2xl:mb-[34px] 2xl:text-22`}
             >
@@ -75,7 +75,7 @@ export const Mailing = () => {
                 <button
                   type={'submit'}
                   disabled={!canSubmit}
-                  className={`${classes.input} bg-yellowish font-q-700 text-dark md:w-[164px] disabled:opacity-50 disabled:cursor-not-allowed`}
+                  className={`${classes.input} bg-gold font-inter font-bold text-noir md:w-[164px] disabled:opacity-50 disabled:cursor-not-allowed hover:bg-gold-light transition-colors`}
                 >
                   {submitting ? '...' : t('mailing.subscribe')}
                 </button>
@@ -85,7 +85,7 @@ export const Mailing = () => {
                   label={
                     <span>
                       {t('mailing.privacy')}
-                      <Link to={'/'} className={'text-yellowish'}>
+                      <Link to={'/'} className={'text-gold-light'}>
                         {t('mailing.privacyLink')}
                       </Link>
                     </span>

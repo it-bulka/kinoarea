@@ -4,13 +4,13 @@
 
 /* MOVIE PAGE */
 .avatar {
-  @apply rounded-full w-[57px] h-[57px] bg-dark-purple object-cover
+  @apply rounded-full w-[57px] h-[57px] bg-noir-soft object-cover
   md:w-[85px] md:h-[85px]
   lg:w-[115px] lg:h-[115px]
 }
 
 .name {
-  @apply text-xl font-q-700 md:text-25 lg:text-3xl
+  @apply text-xl font-inter font-bold md:text-25 lg:text-3xl
 }
 
 .time {

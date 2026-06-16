@@ -54,7 +54,7 @@ export const Comment = ({ userId, userImg, userName, userSurname, movie, classNa
           item={{ ...comment, created_at: Timestamp.now(), id: userId + userName, content: editorValRef.current }}
         />
       )}
-      <div className={twMerge('rounded-10 border-blue pt-12 px-[5.97%] pb-9 bg-darkBlue-5', className)}>
+      <div className={twMerge('rounded-10 border border-noir-border pt-12 px-[5.97%] pb-9 bg-noir-card', className)}>
         {!showPreview && (
           <>
             <div className={'flex items-center gap-5 md:gap-9'}>
@@ -63,8 +63,8 @@ export const Comment = ({ userId, userImg, userName, userSurname, movie, classNa
                 {userImg || <AbsentImg className={'h-full'} />}
               </div>
               <div>
-                <p className={'font-q-700 text-25 md:text-3xl md:mb-2.5'}>{userName}</p>
-                <p className={'font-q-500 text-15md:text-18 '}>{t('comment.myProfile')}</p>
+                <p className={'font-inter font-bold text-25 md:text-3xl md:mb-2.5'}>{userName}</p>
+                <p className={'font-inter font-medium text-15md:text-18 '}>{t('comment.myProfile')}</p>
               </div>
             </div>
             <div className={'mt-5 mb-8 md:mt-9 md:mb-[27px]'}>
@@ -81,7 +81,7 @@ export const Comment = ({ userId, userImg, userName, userSurname, movie, classNa
           >
             {showPreview ? t('comment.backToEdit') : t('comment.preview')}
           </Button>
-          <Button variant={'yellow'} onClick={() => sendMessage(editorValRef.current)}>
+          <Button variant={'primary'} onClick={() => sendMessage(editorValRef.current)}>
             {t('comment.send')}
           </Button>
         </div>

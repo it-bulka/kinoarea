@@ -11,7 +11,7 @@ export const SliderNav = ({ sliderName, className }: SliderNavProps) => {
       <button className={`${sliderName}-prev`}>
         <ArrowLeft />
       </button>
-      <p className={`${sliderName}-pagination pl-5 pr-4 font-q-500 text-base font-500 2xl:text-xl`}></p>
+      <p className={`${sliderName}-pagination pl-5 pr-4 font-inter font-medium text-base 2xl:text-xl`}></p>
       <button className={`${sliderName}-next`}>
         <ArrowRight />
       </button>

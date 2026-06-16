@@ -3,7 +3,7 @@
 }
 
 .name {
-  @apply mt-2.5 mb-[5px] font-q-700 text-15
+  @apply mt-2.5 mb-[5px] font-inter font-bold text-15
   md:mt-3 md:mb-[6px]
   lg:mt-2.5 lg:mb-[5px]
 }
@@ -13,5 +13,5 @@
 }
 
 .online {
-  @apply text-yellowish
+  @apply text-gold-light
 }

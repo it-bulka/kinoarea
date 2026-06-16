@@ -9,7 +9,7 @@ interface SkeletonProps {
 export const Skeleton = ({ className, rounded }: SkeletonProps) => (
   <div
     className={classnames(
-      'bg-darkBlue-3',
+      'bg-noir-soft',
       cls.shimmer,
       rounded === 'full' && 'rounded-full',
       rounded === 'sm' && 'rounded-5',
