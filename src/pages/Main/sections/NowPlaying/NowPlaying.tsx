@@ -24,7 +24,7 @@ export const NowPlaying = () => {
   const allMovies = useMemo(() => {
     /* NO ACCESS TO LIMIT LENGTH VIA MOVIEDB */
     const movies = [...nowPlaying]
-    const moviesLimit = 6
+    const moviesLimit = 10
     if (movies.length > moviesLimit) movies.length = moviesLimit
     return movies
   }, [nowPlaying])
