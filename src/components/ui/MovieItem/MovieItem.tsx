@@ -53,16 +53,14 @@ export const MovieItem = ({ img, name, original_name, character, overview, ratin
             <p className={'text-sm font-inter text-text-muted line-clamp-2 md:line-clamp-3'}>{overview}</p>
           </div>
 
-          <div className={'flex items-center justify-between mt-2 flex-wrap gap-2'}>
-            {!!rating && (
-              <div className={'flex items-center gap-1'}>
-                <span className={'text-gold text-xs leading-none'}>★</span>
-                <span className={'text-sm font-inter font-medium text-gold'}>{getRating(rating)}</span>
-              </div>
-            )}
+          <div className={'flex items-center mt-2 gap-2'}>
+            <div className={'flex items-center gap-1'}>
+              <span className={'text-gold text-xs leading-none'}>★</span>
+              <span className={'text-sm font-inter font-medium text-gold'}>{rating > 0 ? getRating(rating) : '—'}</span>
+            </div>
             <button
               className={
-                'hidden md:flex items-center gap-1.5 px-3 py-1.5 border border-gold/60 text-gold text-xs font-inter font-medium rounded-lg hover:bg-gold/10 hover:border-gold transition-all duration-200'
+                'ml-auto hidden md:flex items-center gap-1.5 px-3 py-1.5 border border-gold/60 text-gold text-xs font-inter font-medium rounded-lg hover:bg-gold/10 hover:border-gold transition-all duration-200'
               }
               onClick={e => {
                 e.stopPropagation()
