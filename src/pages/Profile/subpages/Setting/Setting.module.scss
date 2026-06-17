@@ -1,0 +1,86 @@
+/* Cinematic spotlight — mirrors ProfileMain */
+.spotlight {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(
+      ellipse 80% 45% at 50% 0%,
+      rgba(212, 165, 116, 0.08) 0%,
+      transparent 70%
+    );
+    pointer-events: none;
+    z-index: 0;
+  }
+
+  > * {
+    position: relative;
+    z-index: 1;
+  }
+}
+
+/* Title + save button row */
+.header {
+  @apply flex items-center justify-between mb-6
+}
+
+/* 3-column responsive grid: avatar | fields | socials */
+.contentGrid {
+  @apply grid gap-6
+  md:grid-cols-[160px_1fr]
+  lg:grid-cols-[180px_1fr_280px]
+  2xl:grid-cols-[200px_1fr_320px]
+}
+
+/* Avatar column */
+.avatarCol {
+  @apply flex flex-col items-center gap-3
+}
+
+.avatarImg {
+  @apply w-full max-w-[140px] aspect-square object-cover rounded-10
+  border border-noir-border
+  md:max-w-[160px]
+  lg:max-w-[180px]
+  2xl:max-w-[200px]
+}
+
+/* Fields column — label + input pairs, mirrors ProfileMain */
+.fieldsCol {
+  @apply flex flex-col gap-3
+}
+
+.fieldGroup {
+  @apply flex flex-col gap-1
+  md:flex-row md:items-center md:gap-3
+}
+
+.fieldGroupTop {
+  @apply flex flex-col gap-1
+  md:flex-row md:items-start md:gap-3
+}
+
+.fieldLabel {
+  @apply text-xs font-inter font-medium text-text-muted shrink-0 w-28
+  md:w-36
+}
+
+.textareaWrapper {
+  @apply min-h-[120px]
+}
+
+/* Socials column */
+.socialsCol {
+  @apply flex flex-col gap-3
+}
+
+.socialsTitle {
+  @apply text-xs font-inter font-semibold text-text-muted uppercase tracking-wider
+}
+
+/* Social input icon badge — same as Profile.module.scss.inputAddendum */
+.inputAddendum {
+  @apply w-[54px] h-[54px] [&>*]:w-[22px] [&>*]:max-h-[22px] inline-block flex-center rounded-10
+}

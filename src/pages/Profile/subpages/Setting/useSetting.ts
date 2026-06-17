@@ -1,4 +1,4 @@
-import { FormEvent, useEffect, useState } from 'react'
+import { FormEvent, useEffect, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { Timestamp } from 'firebase/firestore'
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
@@ -7,27 +7,35 @@ import { useActions } from '../../../../hooks/useActions'
 import type { IOption } from '../../../../utils/getSelectedOption'
 import type { SocialMedias } from '../../../../api/types/socialMedias'
 import { ProfilePages } from '../../../../router/paths'
+import type { GenreId, GenreIds } from '../../../../mock/types'
 import type { Fields, SocialMediasType } from './constants'
 
-const initialInfo: Fields = { name: '', surname: '', about: '', sex: 'notchosen' }
+const initialInfo: Fields = { name: '', surname: '', about: '', sex: 'notchosen', country: undefined, city: undefined }
 const initialSocials: SocialMediasType = { linkedin: '', youtube: '', instagram: '', twitter: '', facebook: '' }
 
 export const useSetting = () => {
   const [info, setInfo] = useState<Fields>(initialInfo)
   const [socialMedias, setSocialMedias] = useState<SocialMediasType>(initialSocials)
+  const [genres, setGenres] = useState<GenreIds>([])
   const [date, setDate] = useState<Date | null>(null)
   const [selectedImage, setSelectedImage] = useState<Blob | null>(null)
   const [err, setErr] = useState({ name: '', surname: '' })
   const { user, error } = useTypedSelector(state => state.user)
+  const genreMovies = useTypedSelector(state => state.genres.movies)
   const navigate = useNavigate()
   const { updateUser } = useActions()
 
+  const genreOptions = useMemo(() => {
+    return genreMovies.map(g => ({ value: String(g.id), label: g.name }))
+  }, [genreMovies])
+
   useEffect(() => {
     if (user) {
-      const { name, surname, about, sex, links, birthday } = user
-      setInfo({ name, surname, about, sex })
+      const { name, surname, about, sex, links, birthday, country, city, genres: userGenres } = user
+      setInfo({ name, surname, about, sex, country, city })
       links && setSocialMedias(links)
       birthday && setDate(birthday.toDate())
+      userGenres && setGenres(userGenres)
     }
   }, [user])
 
@@ -57,6 +65,11 @@ export const useSetting = () => {
     }
   }
 
+  const handleGenresChange = (opts: unknown) => {
+    const selected = opts as { value: string }[]
+    setGenres((selected || []).map(o => Number(o.value) as GenreId))
+  }
+
   const handleImageUpload = (e: FormEvent<HTMLInputElement>) => {
     const file = e.currentTarget.files?.[0]
     if (!file) return
@@ -73,6 +86,7 @@ export const useSetting = () => {
         ...info,
         links: socialMedias,
         birthday: date && Timestamp.fromDate(date),
+        genres,
       }
       for (const key in updatedUserData) {
         if (key !== 'name' && key !== 'surname' && updatedUserData[key as keyof IUser] === undefined) {
@@ -87,6 +101,8 @@ export const useSetting = () => {
   return {
     info,
     socialMedias,
+    genres,
+    genreOptions,
     date,
     setDate,
     selectedImage,
@@ -95,6 +111,7 @@ export const useSetting = () => {
     handleInput,
     handleSelect,
     handleSocialMediasInput,
+    handleGenresChange,
     handleImageUpload,
     getImgUrl,
     submitForm,

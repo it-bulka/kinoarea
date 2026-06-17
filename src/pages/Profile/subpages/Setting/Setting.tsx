@@ -11,6 +11,7 @@ import { shortenFileName } from '../../../../utils/shortenFileName'
 import { twMerge } from 'tailwind-merge'
 import Avatar from '../../../../assets/images/general/avatar.svg'
 import { getSelectedOption } from '../../../../utils/getSelectedOption'
+import type { GenreId } from '../../../../mock/types'
 import { getSexOptions, getSocialBtns } from './constants'
 import { useSetting } from './useSetting'
 import { useTranslation } from 'react-i18next'
@@ -23,6 +24,8 @@ export const Setting = () => {
   const {
     info,
     socialMedias,
+    genres,
+    genreOptions,
     date,
     setDate,
     selectedImage,
@@ -31,6 +34,7 @@ export const Setting = () => {
     handleInput,
     handleSelect,
     handleSocialMediasInput,
+    handleGenresChange,
     handleImageUpload,
     getImgUrl,
     submitForm,
@@ -48,9 +52,11 @@ export const Setting = () => {
         </button>
       </div>
       <form className={cls.form} id="profile-form" onSubmit={submitForm}>
-        {selectedImage && <img src={getImgUrl(selectedImage)} alt={info.name} className={cls.img} />}
-        {user?.img && !selectedImage && <img src={user?.img} alt={info.name} className={cls.img} />}
-        {!user?.img && !selectedImage && <img src={Avatar} alt={'avatar'} className={twMerge(cls.img, 'avatar')} />}
+        <div className={cls.imgWrapper}>
+          {selectedImage && <img src={getImgUrl(selectedImage)} alt={info.name} className={cls.img} />}
+          {user?.img && !selectedImage && <img src={user?.img} alt={info.name} className={cls.img} />}
+          {!user?.img && !selectedImage && <img src={Avatar} alt={'avatar'} className={twMerge(cls.img, 'avatar')} />}
+        </div>
         <div className={cls.inputsBlock}>
           <Input
             name="profile-name"
@@ -72,6 +78,25 @@ export const Setting = () => {
             onChange={handleSelect}
           />
           <DateInput date={date} onChange={setDate} placeholderText={t('settings.birthday')} />
+          <Input
+            name="profile-country"
+            label={t('profile.country')}
+            value={info.country || undefined}
+            onChange={handleInput('country')}
+          />
+          <Input
+            name="profile-city"
+            label={t('profile.city')}
+            value={info.city || undefined}
+            onChange={handleInput('city')}
+          />
+          <CustomSelect
+            isMulti
+            withCustomOptions
+            options={genreOptions}
+            value={genreOptions.filter(o => genres.includes(Number(o.value) as GenreId))}
+            onChange={handleGenresChange}
+          />
           <Textarea
             placeholder={t('settings.about')}
             className={cls.textarea}

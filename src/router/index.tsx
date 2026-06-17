@@ -3,7 +3,7 @@ import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { Layout } from '../components/layout/Layout'
 import { WithSuspense } from '../components/ui/WithSuspense/WithSuspense'
 import { loadActor } from '../pages/Actor/loader'
-import { ProtectedRoute } from '../components/business/ProtectedRoute/ProtectedRoute'
+//import { ProtectedRoute } from '../components/business/ProtectedRoute/ProtectedRoute'
 
 import { NowPlayingSkeleton } from '../pages/Main/sections/NowPlaying/NowPlayingSkeleton'
 import { FilmPageSkeleton } from '../pages/FilmPage/FilmPageSkeleton'
@@ -139,11 +139,11 @@ export const router = createBrowserRouter([
       {
         path: 'profile',
         element: (
-          <ProtectedRoute>
+          <>
             <WithSuspense>
               <Profile />
             </WithSuspense>
-          </ProtectedRoute>
+          </>
         ),
         children: [
           {

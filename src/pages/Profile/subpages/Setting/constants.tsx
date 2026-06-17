@@ -8,7 +8,7 @@ import { ReactComponent as InstagramIcon } from '../../../../assets/images/gener
 import { ReactComponent as TwitterIcon } from '../../../../assets/images/general/icons8-twitter.svg'
 import { ReactComponent as FacebookIcon } from '../../../../assets/images/general/facebook-f.svg'
 
-export type Fields = Pick<IUser, 'name' | 'surname' | 'about' | 'sex'>
+export type Fields = Pick<IUser, 'name' | 'surname' | 'about' | 'sex' | 'country' | 'city'>
 export type SocialMediasType = { [K in SocialMedias]: string | null }
 
 export const getSexOptions = (t: TFunction): { value: SexType; label: string }[] => [

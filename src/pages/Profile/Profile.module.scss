@@ -13,10 +13,13 @@
   2xl:pt-[15.16px] 2xl:pb-[18.19px] 2xl:pl-[23.24px] 2xl:pr-[22.23px]
 }
 
+.imgWrapper {
+  @apply w-[385px] max-w-full aspect-square mx-auto mt-3.5 mb-0.5 rounded-10 overflow-hidden
+  md:m-0 md:w-[240px] md:max-w-[38%] md:shrink-0
+}
+
 .img {
-  @apply w-[385px] max-w-full aspect-square object-cover rounded-10 mx-auto mt-3.5 mb-0.5
-  md:m-0 md:max-w-[40%]
-  lg:w-[490px] 2xl:w-[900px]
+  @apply w-full h-full object-contain rounded-10
 }
 
 .form {
@@ -24,19 +27,19 @@
 }
 
 .inputsBlock {
-  @apply [&>*:not(:last-child)]:mb-[11px] mb-[23px] md:order-3 md:w-full
+  @apply [&>*:not(:last-child)]:mb-[8px] mb-[16px] md:order-3 md:w-full
 }
 
 .socialMediaBlock {
-  @apply text-white [&>*:not(:last-child)]:mb-[9px] md:flex-1
+  @apply text-white [&>*:not(:last-child)]:mb-[6px] md:flex-1
 }
 
 .inputAddendum {
-  @apply  w-[54px] h-[54px] [&>*]:w-[22px] [&>*]:max-h-[22px] inline-block flex-center rounded-10
+  @apply w-[42px] h-[42px] [&>*]:w-[18px] [&>*]:max-h-[18px] inline-block flex-center rounded-10
 }
 
 .textarea {
-  @apply h-[267px]
+  @apply h-[110px]
 }
 
 /* ── New layout classes ─────────────────────────────────────────────────────────── */
