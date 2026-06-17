@@ -410,5 +410,16 @@
     "ok": "OK",
     "showMore": "Show more",
     "close": "Close"
+  },
+  "error": {
+    "globalTitle": "Something went wrong",
+    "globalMessage": "An unexpected error occurred. Please try reloading the page.",
+    "reload": "Reload Page",
+    "routeTitle": "Page failed to load",
+    "routeMessage": "Something went wrong while loading this page. You can go back or try again.",
+    "goHome": "Go to Home",
+    "tryAgain": "Try Again",
+    "sectionTitle": "This section could not be loaded",
+    "retry": "Retry"
   }
 }
