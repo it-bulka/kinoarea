@@ -3,7 +3,7 @@
 }
 
 .item {
-  @apply relative aspect-[2/3] rounded-10 overflow-hidden bg-noir-light;
+  @apply relative aspect-[2/3] rounded-10 overflow-hidden bg-noir-soft;
 
   &:hover .image {
     @apply scale-105;
