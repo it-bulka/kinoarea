@@ -33,6 +33,10 @@ export const updateUser = (id: string, data: Partial<IUser>, img?: Blob | null) 
       dispatch(UserActionCreators.load())
       let body = data
       if (img) {
+        const currentUser = await FirebaseApi.getUser(id)
+        if (currentUser?.img) {
+          await FirebaseApi.trackDeletedImage(currentUser.img, id)
+        }
         const uploadedUrl = await FirebaseApi.uploadProfileImg(id, img)
         body = { ...data, img: uploadedUrl }
       }

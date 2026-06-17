@@ -31,6 +31,7 @@ export enum COLLECTIONS {
   PERSONS = 'persons',
   NEWS = 'news',
   SUBSCRIPTIONS = 'subscriptions',
+  DELETED_IMAGES = 'deletedImages',
 }
 
 const getCollectionRef = (colName: COLLECTIONS) => collection(db, colName)
@@ -259,6 +260,22 @@ const addSubscription = async (email: string): Promise<void> => {
   await addDoc(getCollectionRef(COLLECTIONS.SUBSCRIPTIONS), { email })
 }
 
+/* DELETED IMAGES TRACKING */
+
+const trackDeletedImage = async (url: string, userId: string): Promise<void> => {
+  const publicId =
+    url
+      .split('/upload/')[1]
+      ?.split('?')[0]
+      ?.replace(/^v\d+\//, '') || url
+  await addDoc(getCollectionRef(COLLECTIONS.DELETED_IMAGES), {
+    url,
+    publicId,
+    userId,
+    deletedAt: new Date(),
+  })
+}
+
 /* CLOUDINARY IMAGE UPLOAD */
 
 const CLOUDINARY_CLOUD = import.meta.env.VITE_CLOUDINARY_CLOUD
@@ -269,7 +286,8 @@ const uploadProfileImg = async (id: string, file: Blob): Promise<string> => {
   const formData = new FormData()
   formData.append('file', file)
   formData.append('upload_preset', CLOUDINARY_PRESET)
-  formData.append('public_id', `${CLOUDINARY_FOLDER}/profiles/${id}`)
+  formData.append('folder', `${CLOUDINARY_FOLDER}/profiles`)
+  formData.append('public_id', `${id}_${Date.now()}`)
 
   const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
     method: 'POST',
@@ -292,6 +310,7 @@ export const FirebaseApi = {
   createUser,
   refreshUser,
   uploadProfileImg,
+  trackDeletedImage,
   getUserReviews,
   setUserReview,
   getUserFriends,
