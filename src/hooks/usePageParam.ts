@@ -7,14 +7,11 @@ export function usePageParam(defaultPage = 1): [number, (page: number) => void] 
 
   const setPage = useCallback(
     (newPage: number) => {
-      setSearchParams(
-        prev => {
-          const next = new URLSearchParams(prev)
-          next.set('page', String(newPage))
-          return next
-        },
-        { replace: true }
-      )
+      setSearchParams(prev => {
+        const next = new URLSearchParams(prev)
+        next.set('page', String(newPage))
+        return next
+      })
     },
     [setSearchParams]
   )
