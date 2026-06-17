@@ -6,6 +6,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import { Button } from '../../../ui/Button/Button'
 import { useActions } from '../../../../hooks/useActions'
 import { useTranslation } from 'react-i18next'
+import { GoogleSignIn } from '../GoogleSignIn/GoogleSignIn'
 
 export const RegisterForm = () => {
   const {
@@ -46,6 +47,7 @@ export const RegisterForm = () => {
       <Button variant={'primary'} type={'submit'} className={'w-full'}>
         {t('auth.register.submit')}
       </Button>
+      <GoogleSignIn />
     </form>
   )
 }

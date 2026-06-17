@@ -6,6 +6,7 @@ import { Typography, TypographyTypes } from '../../../ui/Typography/Typography'
 import { Button } from '../../../ui/Button/Button'
 import { useActions } from '../../../../hooks/useActions'
 import { useTranslation } from 'react-i18next'
+import { GoogleSignIn } from '../GoogleSignIn/GoogleSignIn'
 
 interface LoginFormProps {
   onRegisterClick: () => void
@@ -54,6 +55,7 @@ export const LoginForm = ({ onRegisterClick, onForgotClick }: LoginFormProps) =>
       <Button variant={'primary'} type={'submit'} className={'w-full'}>
         {t('auth.login.submit')}
       </Button>
+      <GoogleSignIn />
       <button onClick={onRegisterClick} className={'form_link'}>
         {t('auth.login.register')}
       </button>
