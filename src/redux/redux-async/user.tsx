@@ -98,6 +98,7 @@ export const signInWithGoogle = () => {
       })
       if (newUser) dispatch(UserActionCreators.add(newUser))
     } catch (err) {
+      console.error('[Google Sign-In Error]', err)
       if (err instanceof Error) dispatch(UserActionCreators.error(err.message))
     }
   }
