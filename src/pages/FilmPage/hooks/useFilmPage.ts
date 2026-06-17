@@ -47,10 +47,12 @@ export const useFilmPage = (slug: string | undefined) => {
         setTrailerKey(trailer?.key ?? youtubeVideos[0]?.key ?? null)
       }),
     ]).finally(() => setIsLoading(false))
-
-    if (!user) return
-    FirebaseApi.getFavouriteFilm({ userId: user.id, filmId: slug }).then(setFavouriteFilm)
   }, [slug])
+
+  useEffect(() => {
+    if (!slug || !user) return
+    FirebaseApi.getFavouriteFilm({ userId: user.id, filmId: slug }).then(setFavouriteFilm)
+  }, [slug, user])
 
   const film: Omit<IFbFavouriteMovie, 'status'> | null = useMemo(
     () =>
