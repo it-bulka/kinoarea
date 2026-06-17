@@ -94,7 +94,7 @@ export const Modal: FC<ModalProps> = ({
             <button className={cls.closeBtn} onClick={closeHandler}>
               <CloseIcon className={twMerge('stroke-white', cls.icon)} />
             </button>
-            <div className={'max-h-[80vh] overflow-y-scroll'}>{children}</div>
+            <div className={'max-h-[80vh] overflow-y-auto'}>{children}</div>
           </div>
         </div>
       </div>
