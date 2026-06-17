@@ -4,6 +4,7 @@ import { twMerge } from 'tailwind-merge'
 import { useTranslation } from 'react-i18next'
 import { Logo } from '../../components/ui/Logo/Logo'
 import { ProfilePages } from '../../router/paths'
+import siteBg from '@/assets/images/site-bg.png'
 import cls from './Profile.module.scss'
 
 import { ReactComponent as HomeIcon } from '../../assets/images/general/home.svg'
@@ -32,40 +33,42 @@ export const Profile = () => {
   const checkActive = (itemPath: string) => pathname === itemPath
 
   return (
-    <div className={cls.profileLayout}>
-      <aside className={cls.sidebar} aria-label="Profile navigation">
-        <Logo classes={cls.sidebarLogo} />
+    <div style={{ backgroundImage: `url(${siteBg})` }} className="bg-no-repeat">
+      <div className={cls.profileLayout}>
+        <aside className={cls.sidebar} aria-label="Profile navigation">
+          <Logo classes={cls.sidebarLogo} />
 
-        <nav className={cls.sidebarNav}>
-          {navBtns.map(item => (
-            <Link
-              key={item.id}
-              to={item.path}
-              className={twMerge(classnames(cls.navItem, { [cls.navItemActive]: checkActive(item.path) }))}
-              title={t(item.labelKey)}
-            >
-              <span className={cls.navIcon}>{item.icon}</span>
-              <span className={cls.navLabel}>{t(item.labelKey)}</span>
-            </Link>
-          ))}
-        </nav>
+          <nav className={cls.sidebarNav}>
+            {navBtns.map(item => (
+              <Link
+                key={item.id}
+                to={item.path}
+                className={twMerge(classnames(cls.navItem, { [cls.navItemActive]: checkActive(item.path) }))}
+                title={t(item.labelKey)}
+              >
+                <span className={cls.navIcon}>{item.icon}</span>
+                <span className={cls.navLabel}>{t(item.labelKey)}</span>
+              </Link>
+            ))}
+          </nav>
 
-        <Link
-          to={ProfilePages.setting}
-          className={twMerge(
-            classnames(cls.navItem, cls.navSettingsItem, { [cls.navItemActive]: checkActive(ProfilePages.setting) })
-          )}
-          title={t('profile.nav.settings')}
-        >
-          <span className={cls.navIcon}>
-            <SettingsIcon />
-          </span>
-          <span className={cls.navLabel}>{t('profile.nav.settings')}</span>
-        </Link>
-      </aside>
+          <Link
+            to={ProfilePages.setting}
+            className={twMerge(
+              classnames(cls.navItem, cls.navSettingsItem, { [cls.navItemActive]: checkActive(ProfilePages.setting) })
+            )}
+            title={t('profile.nav.settings')}
+          >
+            <span className={cls.navIcon}>
+              <SettingsIcon />
+            </span>
+            <span className={cls.navLabel}>{t('profile.nav.settings')}</span>
+          </Link>
+        </aside>
 
-      <div className={cls.profileContent}>
-        <Outlet />
+        <div className={cls.profileContent}>
+          <Outlet />
+        </div>
       </div>
     </div>
   )

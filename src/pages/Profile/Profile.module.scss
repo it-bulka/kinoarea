@@ -98,7 +98,7 @@
 }
 
 .profileContent {
-  @apply flex-1 rounded-10 bg-noir-card overflow-hidden
+  @apply flex-1 rounded-10 bg-noir-card/40 overflow-hidden
   px-3 py-4
   md:px-5 md:py-6
   lg:px-8 lg:py-8
