@@ -43,7 +43,7 @@ export function Input<T extends FieldValues | undefined = undefined>({
   register,
   ...props
 }: InputProps<T>) {
-  const [value, setValue] = useState<InputVal>(inputValue || defaultValue)
+  const [value, setValue] = useState<InputVal>(inputValue ?? defaultValue ?? '')
   const [isFieldFocused, setFieldFocused] = useState(false)
   const id = useId()
 

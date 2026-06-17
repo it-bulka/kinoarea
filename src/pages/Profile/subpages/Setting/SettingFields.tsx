@@ -49,7 +49,7 @@ export const SettingFields = memo(
         <label className={cls.fieldLabel}>{t('settings.surname')}</label>
         <Input
           name="profile-surname"
-          value={info.surname || undefined}
+          value={info.surname || ''}
           onChange={handleInput('surname')}
           error={err.surname}
         />
@@ -73,12 +73,12 @@ export const SettingFields = memo(
 
       <div className={cls.fieldGroup}>
         <label className={cls.fieldLabel}>{t('profile.country')}</label>
-        <Input name="profile-country" value={info.country || undefined} onChange={handleInput('country')} />
+        <Input name="profile-country" value={info.country || ''} onChange={handleInput('country')} />
       </div>
 
       <div className={cls.fieldGroup}>
         <label className={cls.fieldLabel}>{t('profile.city')}</label>
-        <Input name="profile-city" value={info.city || undefined} onChange={handleInput('city')} />
+        <Input name="profile-city" value={info.city || ''} onChange={handleInput('city')} />
       </div>
 
       <div className={cls.fieldGroupTop}>

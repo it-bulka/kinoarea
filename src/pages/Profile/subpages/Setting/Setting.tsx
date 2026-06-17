@@ -68,7 +68,7 @@ export const Setting = () => {
           <Input
             name="profile-surname"
             label={t('settings.surname')}
-            value={info.surname || undefined}
+            value={info.surname || ''}
             onChange={handleInput('surname')}
             error={err.surname}
           />
@@ -81,15 +81,10 @@ export const Setting = () => {
           <Input
             name="profile-country"
             label={t('profile.country')}
-            value={info.country || undefined}
+            value={info.country || ''}
             onChange={handleInput('country')}
           />
-          <Input
-            name="profile-city"
-            label={t('profile.city')}
-            value={info.city || undefined}
-            onChange={handleInput('city')}
-          />
+          <Input name="profile-city" label={t('profile.city')} value={info.city || ''} onChange={handleInput('city')} />
           <CustomSelect
             isMulti
             withCustomOptions
@@ -129,7 +124,7 @@ export const Setting = () => {
               name={item.name}
               placeholder={item.placeholder}
               key={item.id}
-              value={socialMedias?.[item.name] || undefined}
+              value={socialMedias?.[item.name] || ''}
               onChange={handleSocialMediasInput(item.name)}
             />
           ))}
