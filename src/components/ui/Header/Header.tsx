@@ -91,7 +91,7 @@ export const Header = ({ onMenu }: HeaderProps) => {
       </div>
 
       {isSearchShown && <SearchFilm className="fixed inset-0" onClose={closeSearch} />}
-      <AuthModal isOpened={isRegisterOpen} close={() => setRegisterModalOpen(false)} />
+      <AuthModal isOpened={isRegisterOpen} close={() => setRegisterModalOpen(false)} size="max" />
     </header>
   )
 }
