@@ -1,4 +1,4 @@
-import { db, storage } from './base'
+import { db } from './base'
 import {
   collection,
   getDocs,
@@ -19,10 +19,8 @@ import {
   type QuerySnapshot,
   type DocumentData,
 } from 'firebase/firestore'
-import { ref, uploadBytesResumable, getDownloadURL } from 'firebase/storage'
 import { IFriend, IUser, IUserReview } from '../types/responses'
 import { INews } from '../types/news'
-import { FirebaseEndpoints } from './endpoints'
 import { IFbFavouriteMovie, IFilmStatus } from '../types/film'
 import { IFbFavouritePerson } from '../types/person'
 
@@ -261,12 +259,26 @@ const addSubscription = async (email: string): Promise<void> => {
   await addDoc(getCollectionRef(COLLECTIONS.SUBSCRIPTIONS), { email })
 }
 
-/* STORAGE */
+/* CLOUDINARY IMAGE UPLOAD */
+
+const CLOUDINARY_CLOUD = import.meta.env.VITE_CLOUDINARY_CLOUD
+const CLOUDINARY_PRESET = import.meta.env.VITE_CLOUDINARY_PRESET
+const CLOUDINARY_FOLDER = import.meta.env.VITE_CLOUDINARY_FOLDER
 
 const uploadProfileImg = async (id: string, file: Blob): Promise<string> => {
-  const storageRef = await ref(storage, `${FirebaseEndpoints.STORAGE_PROFILES}/${id}`)
-  await uploadBytesResumable(storageRef, file)
-  return await getDownloadURL(storageRef)
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('upload_preset', CLOUDINARY_PRESET)
+  formData.append('public_id', `${CLOUDINARY_FOLDER}/profiles/${id}`)
+
+  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUDINARY_CLOUD}/image/upload`, {
+    method: 'POST',
+    body: formData,
+  })
+
+  if (!res.ok) throw new Error('Image upload failed')
+  const data = await res.json()
+  return data.secure_url
 }
 
 export const FirebaseApi = {

@@ -20,7 +20,7 @@ export const useSetting = () => {
   const [date, setDate] = useState<Date | null>(null)
   const [selectedImage, setSelectedImage] = useState<Blob | null>(null)
   const [err, setErr] = useState({ name: '', surname: '' })
-  const { user, error } = useTypedSelector(state => state.user)
+  const { user } = useTypedSelector(state => state.user)
   const genreMovies = useTypedSelector(state => state.genres.movies)
   const navigate = useNavigate()
   const { updateUser } = useActions()
@@ -94,7 +94,7 @@ export const useSetting = () => {
         }
       }
       await updateUser(user.id, updatedUserData, selectedImage)
-      error && navigate(ProfilePages.main)
+      navigate(ProfilePages.main)
     }
   }
 
