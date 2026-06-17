@@ -22,6 +22,14 @@
     @apply fill-current
   }
 
+  ul, ol {
+    @apply list-none p-0 m-0;
+  }
+
+  li {
+    @apply list-none;
+  }
+
   input:-webkit-autofill {
     background-color: transparent;
   }
