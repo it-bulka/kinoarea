@@ -1,10 +1,11 @@
 import { Modal, ModalProps } from '../Modal/Modal'
 import { RegisterForm } from '../../../business/auth/RegisterForm/RegisterForm'
 import { LoginForm } from '../../../business/auth/LoginForm/LoginForm'
+import { ForgotPasswordForm } from '../../../business/auth/ForgotPasswordForm/ForgotPasswordForm'
 import { memo, useCallback, useMemo, useState } from 'react'
 import { ReactComponent as BackIcon } from '../../../../assets/images/general/back-arrow.svg'
 
-type FormTypes = 'login' | 'register'
+type FormTypes = 'login' | 'register' | 'reset'
 
 type AuthModalProps = Omit<ModalProps, 'children'> & { formType?: FormTypes }
 export const AuthModal = memo((props: AuthModalProps) => {
@@ -20,7 +21,15 @@ export const AuthModal = memo((props: AuthModalProps) => {
           <RegisterForm />
         </>
       ),
-      login: <LoginForm onRegisterClick={() => setFormType('register')} />,
+      login: <LoginForm onRegisterClick={() => setFormType('register')} onForgotClick={() => setFormType('reset')} />,
+      reset: (
+        <>
+          <button className={'absolute top-0 left-0 py-5 px-6'} onClick={() => setFormType('login')}>
+            <BackIcon className={'w-[20px] h-[20px]'} />
+          </button>
+          <ForgotPasswordForm />
+        </>
+      ),
     }),
     []
   )

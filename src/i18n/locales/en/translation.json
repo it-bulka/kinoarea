@@ -316,22 +316,27 @@
   "auth": {
     "login": {
       "title": "Log In",
-      "loginLabel": "Login, email or phone",
+      "emailLabel": "Your email",
       "passwordLabel": "Your password",
       "submit": "Log In",
-      "register": "Register"
+      "register": "Register",
+      "forgot": "Forgot password?"
+    },
+    "reset": {
+      "title": "Reset Password",
+      "description": "Enter your email address and we'll send you a link to reset your password.",
+      "emailLabel": "Your email",
+      "submit": "Send Reset Link",
+      "successTitle": "Email Sent!",
+      "successMessage": "Check your inbox — we've sent a link to reset your password.",
+      "error": "Failed to send. Check if the email address is correct."
     },
     "register": {
       "title": "Register",
       "name": "Name",
-      "surname": "Surname",
-      "login": "Create a login",
+      "email": "Email",
       "password": "Create a password",
       "repeatPassword": "Repeat password",
-      "tel": "Phone number or e-mail",
-      "privacy": "I agree to the ",
-      "privacyLink": "privacy policy",
-      "personalData": "I agree to the processing of personal data",
       "submit": "Register"
     }
   },
