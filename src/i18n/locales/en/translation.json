@@ -288,7 +288,19 @@
       "favourites": "Favourites",
       "reviews": "Reviews",
       "upcoming": "Upcoming\nFilms"
-    }
+    },
+    "nav": {
+      "home": "Profile",
+      "friends": "Friends",
+      "reviews": "Reviews",
+      "likes": "Likes",
+      "comments": "Comments",
+      "films": "Films",
+      "famous": "Famous",
+      "settings": "Settings"
+    },
+    "lists": { "title": "Your Lists" },
+    "settingsPanel": { "button": "Settings" }
   },
   "settings": {
     "title": "Profile Settings",

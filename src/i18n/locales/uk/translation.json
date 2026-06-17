@@ -288,7 +288,19 @@
       "favourites": "Обрані",
       "reviews": "Рецензії",
       "upcoming": "Очікувані\nфільми"
-    }
+    },
+    "nav": {
+      "home": "Профіль",
+      "friends": "Друзі",
+      "reviews": "Рецензії",
+      "likes": "Вподобання",
+      "comments": "Коментарі",
+      "films": "Фільми",
+      "famous": "Знаменитості",
+      "settings": "Налаштування"
+    },
+    "lists": { "title": "Ваші Списки" },
+    "settingsPanel": { "button": "Налаштування" }
   },
   "settings": {
     "title": "Налаштування профілю",
