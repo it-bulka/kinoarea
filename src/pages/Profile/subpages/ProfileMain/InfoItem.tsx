@@ -1,26 +1,36 @@
+import { memo } from 'react'
 import { Link } from 'react-router-dom'
+import type { ReactNode } from 'react'
+import cls from './ProfileMain.module.scss'
 
 export interface InfoItemProps {
   amount: number
   title: string
   to?: string
+  icon?: ReactNode
 }
 
-export const InfoItem = ({ amount, title, to }: InfoItemProps) => {
-  const inner = (
-    <>
-      <p>{amount}</p>
-      <p className={'w-min lg:w-auto'}>{title}</p>
-    </>
-  )
+const InfoItemInner = ({ amount, title, icon }: Pick<InfoItemProps, 'amount' | 'title' | 'icon'>) => (
+  <>
+    {icon && <span className={cls.statIcon}>{icon}</span>}
+    <p className={cls.statNumber}>{amount}</p>
+    <p className={cls.statLabel}>{title}</p>
+  </>
+)
 
+export const InfoItem = memo(({ amount, title, to, icon }: InfoItemProps) => {
   if (to) {
     return (
-      <Link to={to} className={'text-text-muted px-1 hover:text-gold transition-colors'}>
-        {inner}
+      <Link to={to} className={cls.statCard}>
+        <InfoItemInner amount={amount} title={title} icon={icon} />
       </Link>
     )
   }
 
-  return <div className={'text-text-muted px-1'}>{inner}</div>
-}
+  return (
+    <div className={cls.statCard}>
+      <InfoItemInner amount={amount} title={title} icon={icon} />
+    </div>
+  )
+})
+InfoItem.displayName = 'InfoItem'

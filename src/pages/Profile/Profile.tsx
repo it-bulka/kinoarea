@@ -1,7 +1,10 @@
 import classnames from 'classnames'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { twMerge } from 'tailwind-merge'
+import { useTranslation } from 'react-i18next'
+import { Logo } from '../../components/ui/Logo/Logo'
 import { ProfilePages } from '../../router/paths'
+import cls from './Profile.module.scss'
 
 import { ReactComponent as HomeIcon } from '../../assets/images/general/home.svg'
 import { ReactComponent as FriendIcon } from '../../assets/images/general/friend.svg'
@@ -10,60 +13,58 @@ import { ReactComponent as LikesIcon } from '../../assets/images/general/likes.s
 import { ReactComponent as CommentsIcon } from '../../assets/images/general/comments.svg'
 import { ReactComponent as FilmsIcon } from '../../assets/images/general/films.svg'
 import { ReactComponent as FamousIcon } from '../../assets/images/general/famous.svg'
+import { ReactComponent as SettingsIcon } from '../../assets/images/general/settings.svg'
 
 const navBtns = [
-  { id: 1, path: ProfilePages.main, icon: <HomeIcon /> },
-  { id: 2, path: ProfilePages.friends, icon: <FriendIcon /> },
-  { id: 3, path: ProfilePages.reviews, icon: <ReviewIcon /> },
-  { id: 4, path: ProfilePages.likes, icon: <LikesIcon /> },
-  { id: 5, path: ProfilePages.comments, icon: <CommentsIcon /> },
-  { id: 6, path: ProfilePages.films, icon: <FilmsIcon /> },
-  { id: 7, path: ProfilePages.famous, icon: <FamousIcon /> },
+  { id: 1, path: ProfilePages.main, icon: <HomeIcon />, labelKey: 'profile.nav.home' },
+  { id: 2, path: ProfilePages.friends, icon: <FriendIcon />, labelKey: 'profile.nav.friends' },
+  { id: 3, path: ProfilePages.reviews, icon: <ReviewIcon />, labelKey: 'profile.nav.reviews' },
+  { id: 4, path: ProfilePages.likes, icon: <LikesIcon />, labelKey: 'profile.nav.likes' },
+  { id: 5, path: ProfilePages.comments, icon: <CommentsIcon />, labelKey: 'profile.nav.comments' },
+  { id: 6, path: ProfilePages.films, icon: <FilmsIcon />, labelKey: 'profile.nav.films' },
+  { id: 7, path: ProfilePages.famous, icon: <FamousIcon />, labelKey: 'profile.nav.famous' },
 ]
 
 export const Profile = () => {
   const { pathname } = useLocation()
+  const { t } = useTranslation()
 
-  const checkActive = (itemPath: string) => {
-    let current
-    switch (pathname) {
-      //setting page and main one highlight the same btn
-      case ProfilePages.setting:
-        current = ProfilePages.main
-        break
-      default:
-        current = pathname
-    }
-    return current === itemPath
-  }
+  const checkActive = (itemPath: string) => pathname === itemPath
 
   return (
-    <div className={'container flex flex-col gap-2 md:gap-[5px] lg:flex-row lg:gap-[8.77px] lg:items-start'}>
-      <div className={'flex gap-0.5 justify-between items-stretch md:gap-1 lg:flex-col lg:w-[8.85%] md:max-h-[90vh]'}>
-        {navBtns.map(item => (
-          <Link
-            key={item.id}
-            className={twMerge(
-              classnames(
-                `aspect-square rounded-10 bg-noir-card flex-center p-2 flex-1 [&>svg]:w-[29%] [&>svg]:min-w-[14.7px]
-                md:[&>svg]:min-w-[26.4px]
-                md:[&>svg]:min-w-[21.9px]`,
-                { 'bg-gold': checkActive(item.path) }
-              )
-            )}
-            to={item.path}
-          >
-            {item.icon}
-          </Link>
-        ))}
-      </div>
-      <div
-        className={`
-          rounded-10 bg-noir-card px-2 pr-[15px] pl-2 flex-1
-          md:pt-4.5 md:pb-6 md:pr-4 md:pl-5 
-          lg:pb-[38px]
-          2xl:pt-[32px] 2xl:pb-[68px] 2xl:pr-[42px] 2xl:pl-[54px] `}
-      >
+    <div className={cls.profileLayout}>
+      <aside className={cls.sidebar} aria-label="Profile navigation">
+        <Logo classes={cls.sidebarLogo} />
+
+        <nav className={cls.sidebarNav}>
+          {navBtns.map(item => (
+            <Link
+              key={item.id}
+              to={item.path}
+              className={twMerge(classnames(cls.navItem, { [cls.navItemActive]: checkActive(item.path) }))}
+              title={t(item.labelKey)}
+            >
+              <span className={cls.navIcon}>{item.icon}</span>
+              <span className={cls.navLabel}>{t(item.labelKey)}</span>
+            </Link>
+          ))}
+        </nav>
+
+        <Link
+          to={ProfilePages.setting}
+          className={twMerge(
+            classnames(cls.navItem, cls.navSettingsItem, { [cls.navItemActive]: checkActive(ProfilePages.setting) })
+          )}
+          title={t('profile.nav.settings')}
+        >
+          <span className={cls.navIcon}>
+            <SettingsIcon />
+          </span>
+          <span className={cls.navLabel}>{t('profile.nav.settings')}</span>
+        </Link>
+      </aside>
+
+      <div className={cls.profileContent}>
         <Outlet />
       </div>
     </div>
