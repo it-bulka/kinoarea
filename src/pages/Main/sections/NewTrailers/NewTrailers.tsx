@@ -16,6 +16,7 @@ import { FirebaseApi } from '../../../../api/firebase'
 import { IFbFavouriteMovie, IFilmStatus, IMovieRes } from '../../../../api/types/film'
 import { NewTrailersSkeleton } from './NewTrailersSkeleton'
 import { useTranslation } from 'react-i18next'
+import { useMainSectionReveal } from '../../hooks/useMainSectionReveal'
 
 const TRAILER_POOL_SIZE = 8
 
@@ -62,6 +63,8 @@ export const NewTrailers = () => {
 
   const trailers = useVideoTrailers(movieRefs)
 
+  const sectionRef = useMainSectionReveal({ aboveFold: true, deps: [movies] })
+
   if (isLoading || !movies) return <NewTrailersSkeleton />
 
   const handleStatusToggle = async (status: IFilmStatus) => {
@@ -78,7 +81,7 @@ export const NewTrailers = () => {
   }
 
   return (
-    <section>
+    <section ref={sectionRef}>
       <SectionHeader
         title={t('main.newTrailers')}
         type={SectionHeaderType.ARROW}

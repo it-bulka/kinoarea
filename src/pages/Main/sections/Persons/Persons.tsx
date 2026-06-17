@@ -12,6 +12,7 @@ import { ICategory } from '../../../../components/ui/Category/Category'
 import type { SwiperRef } from 'swiper/react'
 import { PersonsSkeleton } from './PersonsSkeleton'
 import { useTranslation } from 'react-i18next'
+import { useMainSectionReveal } from '../../hooks/useMainSectionReveal'
 
 const startSlidePos = 2
 const PersonsComponent = () => {
@@ -22,6 +23,7 @@ const PersonsComponent = () => {
   const [smallPersonsList, setSmallPersonsList] = useState<IPerson[]>([])
   const slidePosition = useRef(startSlidePos)
   const swiperInstance = useRef<SwiperRef>(null)
+  const sectionRef = useMainSectionReveal({ deps: [loading] })
 
   const setBigList = (): void => {
     if (!popularPersons) return
@@ -65,7 +67,7 @@ const PersonsComponent = () => {
   }
 
   return (
-    <section>
+    <section ref={sectionRef}>
       <div className={'flex-between'}>
         <SectionHeader
           title={t('main.popularPersons')}

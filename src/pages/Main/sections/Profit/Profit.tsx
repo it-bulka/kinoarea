@@ -11,6 +11,7 @@ import { getISODate } from '../../../../utils/getISODate'
 import { ICategory } from '../../../../components/ui/Category/Category'
 import { ProfitSkeleton } from './ProfitSkeleton'
 import { useTranslation } from 'react-i18next'
+import { useMainSectionReveal } from '../../hooks/useMainSectionReveal'
 
 const PROFIT_REGIONS: Record<string, string | undefined> = {
   '1': 'UA',
@@ -27,6 +28,8 @@ export const Profit = () => {
   const [endDate, setEndDate] = useState<Date | null>(null)
 
   const translatedProfit = useMemo(() => profit.map(p => ({ ...p, title: t(`main.profit.regions.${p.id}`) })), [t])
+
+  const sectionRef = useMainSectionReveal({ deps: [items] })
 
   useEffect(() => {
     fetchProfitMovies({ region: PROFIT_REGIONS[String(activeCategory.id)] })
@@ -48,7 +51,7 @@ export const Profit = () => {
   }
 
   return (
-    <section className={'container'}>
+    <section ref={sectionRef} className={'container'}>
       <SectionHeader
         title={t('main.profit.title')}
         categories={setActiveItem(translatedProfit, activeCategory.id)}

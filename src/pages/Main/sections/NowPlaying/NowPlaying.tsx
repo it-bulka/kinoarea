@@ -10,6 +10,7 @@ import { ICategory } from '../../../../components/ui/Category/Category'
 import { useNavigate } from 'react-router-dom'
 import { NowPlayingSkeleton } from './NowPlayingSkeleton'
 import { useTranslation } from 'react-i18next'
+import { useMainSectionReveal } from '../../hooks/useMainSectionReveal'
 
 export const NowPlaying = () => {
   const { fetchNowPlayingMovies, changeNowPlayingCategory } = useActions()
@@ -31,6 +32,8 @@ export const NowPlaying = () => {
 
   const translatedGenres = useMemo(() => genres.map(g => ({ ...g, title: t(`main.genres.${g.id}`) })), [t])
 
+  const sectionRef = useMainSectionReveal({ aboveFold: true, deps: [allMovies] })
+
   if (isNowPlayingLoading) return <NowPlayingSkeleton />
 
   const onCategoryClick = (item: ICategory<string>) => {
@@ -39,7 +42,7 @@ export const NowPlaying = () => {
   }
 
   return (
-    <section>
+    <section ref={sectionRef}>
       <SectionHeader
         title={t('main.nowPlaying')}
         categories={setActiveItem(translatedGenres, nowPlayingCategory.id)}

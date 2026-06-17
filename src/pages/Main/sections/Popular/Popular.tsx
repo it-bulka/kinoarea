@@ -9,6 +9,7 @@ import { setActiveItem } from '../../../../utils/setActiveItem'
 import { ICategory } from '../../../../components/ui/Category/Category'
 import { PopularSkeleton } from './PopularSkeleton'
 import { useTranslation } from 'react-i18next'
+import { useMainSectionReveal } from '../../hooks/useMainSectionReveal'
 
 export const Popular = () => {
   const { fetchPopularMovies, changePopularCategory } = useActions()
@@ -16,6 +17,8 @@ export const Popular = () => {
   const { t } = useTranslation()
 
   const translatedYears = useMemo(() => years.map(y => (y.id === '1' ? { ...y, title: t('main.allTime') } : y)), [t])
+
+  const sectionRef = useMainSectionReveal({ deps: [popular] })
 
   useEffect(() => {
     fetchPopularMovies()
@@ -36,7 +39,7 @@ export const Popular = () => {
   }
 
   return (
-    <section>
+    <section ref={sectionRef}>
       <SectionHeader
         title={t('main.popular')}
         categories={setActiveItem(translatedYears, popularCategory.id)}
