@@ -3,7 +3,14 @@ import { UserActions } from '../actions/user'
 import { UserActionCreators } from '../actionsCreators/user'
 import { FirebaseApi } from '../../api/firebase'
 import { IUser } from '../../api/types/responses'
-import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
+import {
+  createUserWithEmailAndPassword,
+  GoogleAuthProvider,
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signInWithPopup,
+  signOut,
+} from 'firebase/auth'
 import { auth } from '../../api/firebase/base'
 
 export const fetchUser = ({ email, password }: { email: string; password: string }) => {
@@ -63,6 +70,33 @@ export const createUser = (userData: Pick<IUser, 'name'> & { email: string; pass
         .catch(error => {
           throw error
         })
+    } catch (err) {
+      if (err instanceof Error) dispatch(UserActionCreators.error(err.message))
+    }
+  }
+}
+
+const googleProvider = new GoogleAuthProvider()
+
+export const signInWithGoogle = () => {
+  return async (dispatch: Dispatch<UserActions>) => {
+    try {
+      dispatch(UserActionCreators.load())
+      const result = await signInWithPopup(auth, googleProvider)
+      const { uid, displayName } = result.user
+
+      const existingUser = await FirebaseApi.getUser(uid)
+      if (existingUser) {
+        dispatch(UserActionCreators.add(existingUser))
+        return
+      }
+
+      const newUser = await FirebaseApi.createUser({
+        name: displayName || 'User',
+        surname: null,
+        id: uid,
+      })
+      if (newUser) dispatch(UserActionCreators.add(newUser))
     } catch (err) {
       if (err instanceof Error) dispatch(UserActionCreators.error(err.message))
     }

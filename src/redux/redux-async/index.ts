@@ -9,7 +9,7 @@ import {
   AuthFormActionCreators,
   NotificationCreators,
 } from '../actionsCreators'
-import { fetchUser, updateUser, createUser, removeFetchedUser, getLoggedUser } from './user'
+import { fetchUser, updateUser, createUser, removeFetchedUser, getLoggedUser, signInWithGoogle } from './user'
 import { fetchUserReviews, setUserReview } from './userReviews'
 import { fetchUserFriends, addUserFriend, removeUserFriend } from './userFriends'
 import { fetchIncomingFriends, removeIncomingFriend, addIncomingFriend } from './incomingFriends'
@@ -35,6 +35,7 @@ export default {
   createUser,
   removeFetchedUser,
   getLoggedUser,
+  signInWithGoogle,
   addUserFriend,
   removeUserFriend,
   removeIncomingFriend,
