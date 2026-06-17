@@ -3,6 +3,7 @@ import { useGSAP } from '@gsap/react'
 import { gsap } from 'gsap'
 import { Typography, TypographyTypes } from '../Typography/Typography'
 import { Breadcrumbs } from '../Breadcrumbs/Breadcrumbs'
+import { useOutletContext } from 'react-router-dom'
 import cls from './PageHero.module.scss'
 
 interface PageHeroProps {
@@ -15,6 +16,7 @@ interface PageHeroProps {
 
 export const PageHero = ({ title, supertitle, description, lastCrumb, crumbLabels }: PageHeroProps) => {
   const heroRef = useRef<HTMLDivElement>(null)
+  const { bgLoaded } = useOutletContext<{ bgLoaded: boolean }>()
 
   useGSAP(
     () => {
@@ -32,7 +34,7 @@ export const PageHero = ({ title, supertitle, description, lastCrumb, crumbLabel
 
   return (
     <div ref={heroRef} className="relative overflow-hidden pt-4 pb-5 md:pt-6 md:pb-7 mb-4 md:mb-6">
-      <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
+      <div className="absolute inset-0 pointer-events-none" aria-hidden="true" style={{ opacity: bgLoaded ? 0 : 1 }}>
         <div className={cls.heroBg} />
         <div className="absolute inset-0 bg-gradient-to-b from-transparent to-noir" />
       </div>

@@ -10,6 +10,8 @@ import { ScrollRestoration } from '../ui/ScrollRestoration/ScrollRestoration'
 import { useActions } from '../../hooks/useActions'
 import { useTypedSelector } from '../../hooks/useTypedSelector'
 import { Notification } from '../ui/modals/Notification/Notification'
+import { useBgImage } from '../../hooks/useBgImage'
+import siteBg from '@/assets/images/site-bg.png'
 
 const isNavOpen = signal(false)
 
@@ -20,6 +22,7 @@ interface LayoutProps {
 export const Layout = ({ children, noMailing = false }: LayoutProps) => {
   const { getLoggedUser } = useActions()
   const currentLanguage = useTypedSelector(state => state.language.current)
+  const bgLoaded = useBgImage(siteBg)
   const onNavClose = useCallback(() => {
     isNavOpen.value = false
   }, [])
@@ -37,9 +40,17 @@ export const Layout = ({ children, noMailing = false }: LayoutProps) => {
       <div className="App bg-noir flex flex-col min-h-screen">
         <Header onMenu={onMenuClick} />
         <Navigation isOpen={isNavOpen.value} onClose={onNavClose} />
-        <main className={'grow'}>
-          {children || <Outlet key={currentLanguage} />}
-          {noMailing || <Mailing />}
+        <main className={'grow relative'}>
+          <div
+            className="absolute inset-0 bg-no-repeat opacity-40 pointer-events-none z-0"
+            style={{ backgroundImage: `url(${siteBg})` }}
+            aria-hidden="true"
+          />
+
+          <div className="relative z-10">
+            {children || <Outlet key={currentLanguage} context={{ bgLoaded }} />}
+            {noMailing || <Mailing />}
+          </div>
         </main>
         <Footer />
         <ScrollTopArrow />
