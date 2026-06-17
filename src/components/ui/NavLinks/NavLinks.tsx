@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { NavLink } from 'react-router-dom'
 import { endpoints } from '../../../api'
 import classnames from 'classnames'
 import { useTypedSelector } from '../../../hooks/useTypedSelector'
@@ -27,9 +27,17 @@ export const NavLinks = ({ className, onClick }: LinksProps) => {
       {navLinks.map(({ id, path, title }) => {
         if (!user && path === endpoints.profile) return null
         return (
-          <Link to={path} key={id} onClick={onClick} className="hover:text-gold transition-colors duration-200">
+          <NavLink
+            to={path}
+            key={id}
+            end={path === endpoints.main}
+            onClick={onClick}
+            className={({ isActive }) =>
+              classnames('transition-colors duration-200', isActive ? 'text-gold' : 'hover:text-gold')
+            }
+          >
             {title}
-          </Link>
+          </NavLink>
         )
       })}
     </ul>
