@@ -326,6 +326,8 @@
     }
   },
   "auth": {
+    "divider": "або",
+    "google": "Продовжити з Google",
     "login": {
       "title": "Увійти",
       "emailLabel": "Ваша пошта",

@@ -326,6 +326,8 @@
     }
   },
   "auth": {
+    "divider": "or",
+    "google": "Continue with Google",
     "login": {
       "title": "Log In",
       "emailLabel": "Your email",
