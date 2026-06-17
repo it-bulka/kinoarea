@@ -1,5 +1,6 @@
 import { useEffect } from 'react'
 import { useActions } from '../../hooks/useActions'
+import { WithErrorBoundary } from '../../components/ui/ErrorFallback'
 import { NowPlaying } from './sections/NowPlaying/NowPlaying'
 import { NewTrailers } from './sections/NewTrailers/NewTrailers'
 import { Popular } from './sections/Popular/Popular'
@@ -18,16 +19,30 @@ export const Main = () => {
   return (
     <>
       <div className={'container'}>
-        <NowPlaying />
-        <NewTrailers />
-        <Popular />
-        <Persons />
-        <News />
+        <WithErrorBoundary>
+          <NowPlaying />
+        </WithErrorBoundary>
+        <WithErrorBoundary>
+          <NewTrailers />
+        </WithErrorBoundary>
+        <WithErrorBoundary>
+          <Popular />
+        </WithErrorBoundary>
+        <WithErrorBoundary>
+          <Persons />
+        </WithErrorBoundary>
+        <WithErrorBoundary>
+          <News />
+        </WithErrorBoundary>
       </div>
 
       <div className={'bg-noir'}>
-        <Upcoming />
-        <Profit />
+        <WithErrorBoundary>
+          <Upcoming />
+        </WithErrorBoundary>
+        <WithErrorBoundary>
+          <Profit />
+        </WithErrorBoundary>
       </div>
     </>
   )

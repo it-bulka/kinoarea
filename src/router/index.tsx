@@ -2,6 +2,7 @@ import { lazy } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { Layout } from '../components/layout/Layout'
 import { WithSuspense } from '../components/ui/WithSuspense/WithSuspense'
+import { RouteErrorFallback } from '../components/ui/ErrorFallback'
 import { loadActor } from '../pages/Actor/loader'
 //import { ProtectedRoute } from '../components/business/ProtectedRoute/ProtectedRoute'
 
@@ -53,6 +54,11 @@ export const router = createBrowserRouter([
   {
     path: '/',
     element: <Layout />,
+    errorElement: (
+      <Layout noMailing>
+        <RouteErrorFallback />
+      </Layout>
+    ),
     children: [
       {
         index: true,
@@ -232,6 +238,7 @@ export const router = createBrowserRouter([
           </WithSuspense>
         ),
         loader: loadActor,
+        errorElement: <RouteErrorFallback />,
         children: [
           {
             path: 'images',

@@ -9,6 +9,7 @@ import { SliderNav } from '../../components/ui/sliders/SliderNav/SliderNav'
 import { ReviewsList } from '../../components/ui/ReviewsList/ReviewsList'
 import { Button } from '../../components/ui/Button/Button'
 import { Comment } from '../../components/ui/Comment/Comment'
+import { WithErrorBoundary } from '../../components/ui/ErrorFallback'
 import { FilmVideos } from './sections/FilmVideos/FilmVideos'
 import { FilmHero } from './sections/FilmHero/FilmHero'
 import { FilmHeroSkeleton } from './sections/FilmHeroSkeleton'
@@ -74,84 +75,94 @@ export const FilmPage = () => {
           />
         )}
 
-        <section>
-          <SectionHeader
-            title={t('film.cast')}
-            type={SectionHeaderType.ARROW}
-            linkTitle={t('film.allActors')}
-            moveToViaArrow={Paths.film.actors(slug!)}
-            className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
-          />
-          {isLoading ? <FilmCastSkeleton /> : <CastList list={cast} />}
-        </section>
-
-        <section>
-          <SectionHeader
-            title={t('film.posters')}
-            type={SectionHeaderType.ARROW}
-            linkTitle={t('film.allPosters')}
-            moveToViaArrow={Paths.film.posters(slug!)}
-            className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
-          />
-          {isLoading ? (
-            <FilmPostersSkeleton />
-          ) : posters.length === 0 ? (
-            <p className={'py-6 text-center text-text-muted font-inter text-sm'}>{t('film.noPosters')}</p>
-          ) : (
-            <PostersList list={posters} />
-          )}
-        </section>
-
-        <section>
-          <Typography
-            variant={'h3'}
-            type={TypographyTypes._TITLE}
-            className={'mx-auto mt-9 mb-[18px] md:mt-[52px] md:mb-9 2xl:mt-[73px] 2xl:mb-[42px] w-max'}
-          >
-            {t('film.similar')}
-          </Typography>
-          {isLoading ? (
-            <FilmSimilarSkeleton />
-          ) : (
-            <>
-              <FilmSlider slides={similar} name={`film-${slug}`} />
-              <div className={'flex justify-center items-center mt-8'}>
-                <SliderNav sliderName={`film-${slug}`} />
-              </div>
-            </>
-          )}
-        </section>
-
-        <section>
-          <div className={'mb-5 mt-24 md:flex md:justify-between'}>
-            <Typography variant={'h3'} type={TypographyTypes._TITLE} className={'mx-auto w-max mb-[54px] md:m-0'}>
-              {t('film.reviews')}
-            </Typography>
-            <Button className={'mx-auto md:m-0'} onClick={addComment}>
-              {isCommentBlockShown ? t('film.hideReview') : t('film.addReview')}
-            </Button>
-          </div>
-          {user && isCommentBlockShown && (
-            <Comment
-              userImg={user.img || ''}
-              userName={user.name}
-              userSurname={user.surname || ''}
-              userId={user.id}
-              movie={{
-                id: details?.id || '',
-                name: details?.title || '',
-                poster: details?.poster_path || '',
-              }}
-              className={'mb-4'}
+        <WithErrorBoundary>
+          <section>
+            <SectionHeader
+              title={t('film.cast')}
+              type={SectionHeaderType.ARROW}
+              linkTitle={t('film.allActors')}
+              moveToViaArrow={Paths.film.actors(slug!)}
+              className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
             />
-          )}
-          {isLoading ? <FilmReviewsSkeleton /> : <ReviewsList list={reviews} />}
-        </section>
+            {isLoading ? <FilmCastSkeleton /> : <CastList list={cast} />}
+          </section>
+        </WithErrorBoundary>
+
+        <WithErrorBoundary>
+          <section>
+            <SectionHeader
+              title={t('film.posters')}
+              type={SectionHeaderType.ARROW}
+              linkTitle={t('film.allPosters')}
+              moveToViaArrow={Paths.film.posters(slug!)}
+              className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
+            />
+            {isLoading ? (
+              <FilmPostersSkeleton />
+            ) : posters.length === 0 ? (
+              <p className={'py-6 text-center text-text-muted font-inter text-sm'}>{t('film.noPosters')}</p>
+            ) : (
+              <PostersList list={posters} />
+            )}
+          </section>
+        </WithErrorBoundary>
+
+        <WithErrorBoundary>
+          <section>
+            <Typography
+              variant={'h3'}
+              type={TypographyTypes._TITLE}
+              className={'mx-auto mt-9 mb-[18px] md:mt-[52px] md:mb-9 2xl:mt-[73px] 2xl:mb-[42px] w-max'}
+            >
+              {t('film.similar')}
+            </Typography>
+            {isLoading ? (
+              <FilmSimilarSkeleton />
+            ) : (
+              <>
+                <FilmSlider slides={similar} name={`film-${slug}`} />
+                <div className={'flex justify-center items-center mt-8'}>
+                  <SliderNav sliderName={`film-${slug}`} />
+                </div>
+              </>
+            )}
+          </section>
+        </WithErrorBoundary>
+
+        <WithErrorBoundary>
+          <section>
+            <div className={'mb-5 mt-24 md:flex md:justify-between'}>
+              <Typography variant={'h3'} type={TypographyTypes._TITLE} className={'mx-auto w-max mb-[54px] md:m-0'}>
+                {t('film.reviews')}
+              </Typography>
+              <Button className={'mx-auto md:m-0'} onClick={addComment}>
+                {isCommentBlockShown ? t('film.hideReview') : t('film.addReview')}
+              </Button>
+            </div>
+            {user && isCommentBlockShown && (
+              <Comment
+                userImg={user.img || ''}
+                userName={user.name}
+                userSurname={user.surname || ''}
+                userId={user.id}
+                movie={{
+                  id: details?.id || '',
+                  name: details?.title || '',
+                  poster: details?.poster_path || '',
+                }}
+                className={'mb-4'}
+              />
+            )}
+            {isLoading ? <FilmReviewsSkeleton /> : <ReviewsList list={reviews} />}
+          </section>
+        </WithErrorBoundary>
 
         {!isLoading && videos.length > 0 && (
-          <section className={'rounded-10 pt-4 px-3.5 pb-8 lg:py-10 lg:px-5'}>
-            <FilmVideos videos={videos} onVideoSelect={handleVideoSelect} />
-          </section>
+          <WithErrorBoundary>
+            <section className={'rounded-10 pt-4 px-3.5 pb-8 lg:py-10 lg:px-5'}>
+              <FilmVideos videos={videos} onVideoSelect={handleVideoSelect} />
+            </section>
+          </WithErrorBoundary>
         )}
       </div>
     </>
