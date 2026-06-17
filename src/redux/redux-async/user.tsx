@@ -6,11 +6,11 @@ import { IUser } from '../../api/types/responses'
 import { createUserWithEmailAndPassword, onAuthStateChanged, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { auth } from '../../api/firebase/base'
 
-export const fetchUser = ({ login, password }: { login: string; password: string }) => {
+export const fetchUser = ({ email, password }: { email: string; password: string }) => {
   return async (dispatch: Dispatch<UserActions>) => {
     try {
       dispatch(UserActionCreators.load())
-      const userCredential = await signInWithEmailAndPassword(auth, login, password)
+      const userCredential = await signInWithEmailAndPassword(auth, email, password)
       const user = await FirebaseApi.getUser(userCredential.user.uid)
       if (!user) throw { message: 'Such user not found' }
       dispatch(UserActionCreators.add(user))
@@ -40,17 +40,17 @@ export const updateUser = (id: string, data: Partial<IUser>, img?: Blob | null) 
   }
 }
 
-export const createUser = (userData: Pick<IUser, 'name' | 'surname'> & { login: string; password: string }) => {
+export const createUser = (userData: Pick<IUser, 'name'> & { email: string; password: string }) => {
   return async (dispatch: Dispatch<UserActions>) => {
     try {
       dispatch(UserActionCreators.load())
-      createUserWithEmailAndPassword(auth, userData.login, userData.password)
+      createUserWithEmailAndPassword(auth, userData.email, userData.password)
         .then(userCredential => {
           const user = userCredential.user
 
           FirebaseApi.createUser({
             name: userData.name,
-            surname: userData.surname,
+            surname: null,
             id: user.uid,
           })
             .then(user => {

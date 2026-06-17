@@ -79,7 +79,9 @@ const getUser = async (id: string): Promise<IUser | null> => {
   return await getDocInfo(id, COLLECTIONS.USERS)
 }
 
-const createUser = async (userData: Pick<IUser, 'name' | 'surname' | 'id'>): Promise<IUser | null> => {
+const createUser = async (
+  userData: Pick<IUser, 'name' | 'id'> & { surname?: string | null }
+): Promise<IUser | null> => {
   const { id, ...rest } = userData
   const colRef = await getCollectionRef(COLLECTIONS.USERS)
   const docRef = doc(colRef, id)

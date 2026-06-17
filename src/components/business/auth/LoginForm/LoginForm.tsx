@@ -9,21 +9,20 @@ import { useTranslation } from 'react-i18next'
 
 interface LoginFormProps {
   onRegisterClick: () => void
+  onForgotClick: () => void
 }
-export const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
+
+export const LoginForm = ({ onRegisterClick, onForgotClick }: LoginFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm({
-    resolver: yupResolver(loginSchema),
-  })
+  } = useForm({ resolver: yupResolver(loginSchema) })
   const { fetchUser } = useActions()
   const { t } = useTranslation()
 
-  const onSubmit: SubmitHandler<ILoginFields> = async data => {
-    const { login, password } = data
-    fetchUser({ login, password })
+  const onSubmit: SubmitHandler<ILoginFields> = ({ email, password }) => {
+    fetchUser({ email, password })
   }
 
   return (
@@ -31,13 +30,27 @@ export const LoginForm = ({ onRegisterClick }: LoginFormProps) => {
       <Typography variant={'h2'} type={TypographyTypes._TITLE} className={'mb-[34px] text-center'}>
         {t('auth.login.title')}
       </Typography>
-      <Input register={register} name={'login'} error={errors?.login?.message} label={t('auth.login.loginLabel')} />
+      <Input
+        register={register}
+        name={'email'}
+        type={'email'}
+        error={errors?.email?.message}
+        label={t('auth.login.emailLabel')}
+      />
       <Input
         register={register}
         name={'password'}
+        type={'password'}
         error={errors?.password?.message}
         label={t('auth.login.passwordLabel')}
       />
+      <button
+        type={'button'}
+        onClick={onForgotClick}
+        className={'self-end font-inter text-sm text-text-muted transition-colors hover:text-gold'}
+      >
+        {t('auth.login.forgot')}
+      </button>
       <Button variant={'primary'} type={'submit'} className={'w-full'}>
         {t('auth.login.submit')}
       </Button>

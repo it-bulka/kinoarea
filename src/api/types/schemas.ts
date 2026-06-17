@@ -1,30 +1,35 @@
 import * as yup from 'yup'
-export type RegisterFields = 'name' | 'surname' | 'login' | 'password' | 'repeatPassword' | 'tel'
-export type IRegisterFields = {
-  [K in RegisterFields]: string
-} & {
-  privacy_policy: boolean
-  personal_data: boolean
-}
+
+export type RegisterFields = 'name' | 'email' | 'password' | 'repeatPassword'
+export type IRegisterFields = { [K in RegisterFields]: string }
 
 const commonFields = {
-  login: yup.string().required('Login is required'),
+  email: yup.string().email('Invalid email').required('Email is required'),
   password: yup.string().required('Password is required'),
 }
+
 export const registerSchemas = yup.object({
   ...commonFields,
   name: yup.string().required('Name is required'),
-  surname: yup.string().required('Surname is required'),
   repeatPassword: yup
     .string()
     .oneOf([yup.ref('password')], 'Passwords must match')
     .required('Please, repeat password'),
-  tel: yup.string().required('Tel or email is required'),
-  privacy_policy: yup.boolean().required(),
-  personal_data: yup.boolean().required(),
 })
 
-export interface ILoginFields extends Pick<IRegisterFields, 'login' | 'password'> {}
+export interface ILoginFields {
+  email: string
+  password: string
+}
+
 export const loginSchema = yup.object({
   ...commonFields,
+})
+
+export interface IResetFields {
+  email: string
+}
+
+export const resetSchema = yup.object({
+  email: commonFields.email,
 })
