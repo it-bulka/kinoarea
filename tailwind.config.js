@@ -110,6 +110,10 @@ export default {
   plugins: [
     plugin(function ({ addUtilities, addBase, config, theme }) {
       addBase({
+        ':root': {
+          '--logo-primary': '#D4A574',
+          '--logo-secondary': '#ffffff',
+        },
         body: {
           color: theme('colors.text-base'),
           fontFamily: theme('fontFamily.inter'),
