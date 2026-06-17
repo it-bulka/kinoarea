@@ -1,4 +1,4 @@
-.grid {
+.postersGrid {
   @apply grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 2xl:grid-cols-6 md:gap-4;
 }
 
@@ -19,7 +19,7 @@
 }
 
 .image {
-  @apply absolute inset-0 w-full h-full object-cover transition-transform duration-400;
+  @apply absolute inset-0 w-full h-full object-cover transition-transform duration-300;
 }
 
 .overlay {

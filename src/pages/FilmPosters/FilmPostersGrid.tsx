@@ -25,7 +25,7 @@ export const FilmPostersGrid = ({ posters }: FilmPostersGridProps) => {
   )
 
   return (
-    <ul ref={gridRef} className={cls.grid}>
+    <ul ref={gridRef} className={cls.postersGrid}>
       {posters.map((poster, index) => (
         <li key={poster.file_path} className={`${cls.item} poster-item`}>
           <img
