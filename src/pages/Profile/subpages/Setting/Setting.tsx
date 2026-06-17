@@ -1,6 +1,7 @@
 import { useMemo } from 'react'
 import { Typography, TypographyTypes } from '../../../../components/ui/Typography/Typography'
 import { ReactComponent as CheckedIcon } from '../../../../assets/images/general/checked.svg'
+import { Spinner } from '../../../../components/ui/Spinner/Spinner'
 import cls from '../../Profile.module.scss'
 import { Input } from '../../../../components/ui/Input/Input'
 import { Textarea } from '../../../../components/ui/Textarea/Textarea'
@@ -31,6 +32,8 @@ export const Setting = () => {
     selectedImage,
     err,
     user,
+    hasChanges,
+    loading,
     handleInput,
     handleSelect,
     handleSocialMediasInput,
@@ -46,9 +49,13 @@ export const Setting = () => {
         <Typography variant="h2" type={TypographyTypes._TITLE}>
           {t('settings.title')}
         </Typography>
-        <button className={cls.titleBtn} form="profile-form">
-          <CheckedIcon className="w-[14.8px] md:w-[19px]" />
-          <span>{t('settings.save')}</span>
+        <button className={cls.titleBtn} form="profile-form" disabled={!hasChanges || loading}>
+          {loading ? (
+            <Spinner className="w-[14.8px] md:w-[19px]" />
+          ) : (
+            <CheckedIcon className="w-[14.8px] md:w-[19px]" />
+          )}
+          <span>{loading ? t('settings.saving') : t('settings.save')}</span>
         </button>
       </div>
       <form className={cls.form} id="profile-form" onSubmit={submitForm}>

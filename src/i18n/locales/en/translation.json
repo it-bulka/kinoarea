@@ -305,6 +305,7 @@
   "settings": {
     "title": "Profile Settings",
     "save": "Save",
+    "saving": "Saving...",
     "name": "Name",
     "surname": "Surname",
     "birthday": "Specify date of birth",

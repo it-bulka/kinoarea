@@ -20,7 +20,7 @@ export const useSetting = () => {
   const [date, setDate] = useState<Date | null>(null)
   const [selectedImage, setSelectedImage] = useState<Blob | null>(null)
   const [err, setErr] = useState({ name: '', surname: '' })
-  const { user } = useTypedSelector(state => state.user)
+  const { user, loading } = useTypedSelector(state => state.user)
   const genreMovies = useTypedSelector(state => state.genres.movies)
   const navigate = useNavigate()
   const { updateUser } = useActions()
@@ -28,6 +28,36 @@ export const useSetting = () => {
   const genreOptions = useMemo(() => {
     return genreMovies.map(g => ({ value: String(g.id), label: g.name }))
   }, [genreMovies])
+
+  const hasChanges = useMemo(() => {
+    if (!user) return false
+    if (selectedImage) return true
+
+    const norm = (v: string | null | undefined) => v || ''
+
+    const infoChanged =
+      info.name !== (user.name || '') ||
+      norm(info.surname) !== norm(user.surname) ||
+      norm(info.about) !== norm(user.about) ||
+      (info.sex || 'notchosen') !== (user.sex || 'notchosen') ||
+      norm(info.country) !== norm(user.country) ||
+      norm(info.city) !== norm(user.city)
+
+    const socialsChanged = user.links
+      ? Object.keys(socialMedias).some(
+          k => norm(socialMedias[k as SocialMedias]) !== norm(user.links?.[k as SocialMedias])
+        )
+      : Object.values(socialMedias).some(v => !!v)
+
+    const userGenres = user.genres || []
+    const genresChanged = genres.length !== userGenres.length || genres.some((g, i) => g !== userGenres[i])
+
+    const userDate = user.birthday?.toDate().getTime() ?? null
+    const currentDate = date?.getTime() ?? null
+    const dateChanged = userDate !== currentDate
+
+    return infoChanged || socialsChanged || genresChanged || dateChanged
+  }, [info, socialMedias, genres, date, selectedImage, user])
 
   useEffect(() => {
     if (user) {
@@ -80,7 +110,7 @@ export const useSetting = () => {
 
   const submitForm = async (e: FormEvent) => {
     e.preventDefault()
-    if (err.name || err.surname) return
+    if (!hasChanges || loading || err.name || err.surname) return
     if (user) {
       const updatedUserData: Partial<IUser> = {
         ...info,
@@ -108,6 +138,8 @@ export const useSetting = () => {
     selectedImage,
     err,
     user,
+    hasChanges,
+    loading,
     handleInput,
     handleSelect,
     handleSocialMediasInput,
