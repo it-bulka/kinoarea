@@ -22,6 +22,8 @@ export const userFavouriteFilmsReducer = (state = initialState, action: UserFavo
       return { ...state, loading: false }
     case UserFavouriteFilms.ERR:
       return { ...state, loading: false, error: action.payload }
+    case UserFavouriteFilms.REMOVE:
+      return { ...state, films: state.films.filter(f => f.id !== action.payload) }
     default:
       return state
   }

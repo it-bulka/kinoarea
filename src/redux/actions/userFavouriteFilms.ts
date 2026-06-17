@@ -16,4 +16,13 @@ export interface ErrUserFavouriteFilms {
   payload: CustomError
 }
 
-export type UserFavouriteFilmsActions = AddUserFavouriteFilms | LoadUserFavouriteFilms | ErrUserFavouriteFilms
+export interface RemoveUserFavouriteFilm {
+  type: UserFavouriteFilms.REMOVE
+  payload: number
+}
+
+export type UserFavouriteFilmsActions =
+  | AddUserFavouriteFilms
+  | LoadUserFavouriteFilms
+  | ErrUserFavouriteFilms
+  | RemoveUserFavouriteFilm

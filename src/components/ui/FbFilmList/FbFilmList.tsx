@@ -1,24 +1,27 @@
-import { memo } from 'react'
-import { Film } from '../Film/Film'
-import { IFbFavouriteMovie } from '../../../api/types/film'
-import { BaseMovieDBAssetsUrl } from '../../../api'
+import { memo, useCallback } from 'react'
+import { IFbFavouriteMovie, IFilmStatus } from '../../../api/types/film'
+import { FbFilmCard } from '../FbFilmCard/FbFilmCard'
+import { useActions } from '../../../hooks/useActions'
 
 interface FbFilmListProps {
   list: IFbFavouriteMovie[]
+  statuses: IFilmStatus[]
 }
 
-export const FbFilmList = memo(({ list }: FbFilmListProps) => {
+export const FbFilmList = memo(({ list, statuses }: FbFilmListProps) => {
+  const { removeUserFavouriteFilm } = useActions()
+
+  const handleRemove = useCallback(
+    (filmId: number) => {
+      removeUserFavouriteFilm(filmId)
+    },
+    [removeUserFavouriteFilm]
+  )
+
   return (
-    <div className={'grid gap-3 grid-cols-card-2 md:gap-3.5 md:grid-cols-card-3 lg:grid-cols-card-4 2xl:gap-[22px]'}>
+    <div className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6 gap-2.5 md:gap-3 lg:gap-4">
       {list.map(film => (
-        <Film
-          key={film.id}
-          id={film.id}
-          img={film.poster_path ? `${BaseMovieDBAssetsUrl}${film.poster_path}` : null}
-          title={film.name || film.original_name || ''}
-          rating={0}
-          genre={''}
-        />
+        <FbFilmCard key={film.id} film={film} statuses={statuses} onRemove={handleRemove} />
       ))}
     </div>
   )

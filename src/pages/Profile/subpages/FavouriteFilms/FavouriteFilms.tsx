@@ -43,7 +43,7 @@ export const FavouriteFilms = () => {
         </Typography>
         <p>{t('favouriteFilms.total', { count: films.length })}</p>
       </div>
-      <FbFilmList list={films} />
+      <FbFilmList list={films} statuses={['favourite']} />
     </>
   )
 }

@@ -1,5 +1,10 @@
 import { IFbFavouriteMovie } from '../../api/types/film'
-import { AddUserFavouriteFilms, ErrUserFavouriteFilms, LoadUserFavouriteFilms } from '../actions/userFavouriteFilms'
+import {
+  AddUserFavouriteFilms,
+  ErrUserFavouriteFilms,
+  LoadUserFavouriteFilms,
+  RemoveUserFavouriteFilm,
+} from '../actions/userFavouriteFilms'
 import { UserFavouriteFilms } from '../actionsTypes/userFavouriteFilms'
 
 export const UserFavouriteFilmsActionCreators = {
@@ -13,5 +18,9 @@ export const UserFavouriteFilmsActionCreators = {
   err: (err: string): ErrUserFavouriteFilms => ({
     type: UserFavouriteFilms.ERR,
     payload: err,
+  }),
+  removeFilm: (filmId: number): RemoveUserFavouriteFilm => ({
+    type: UserFavouriteFilms.REMOVE,
+    payload: filmId,
   }),
 }

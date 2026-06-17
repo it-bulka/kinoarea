@@ -14,6 +14,7 @@ import { fetchUserReviews, setUserReview } from './userReviews'
 import { fetchUserFriends, addUserFriend, removeUserFriend } from './userFriends'
 import { fetchIncomingFriends, removeIncomingFriend, addIncomingFriend } from './incomingFriends'
 import { fetchUserFavouriteFilms } from './userFavouriteFilms'
+import { UserFavouriteFilmsActionCreators } from '../actionsCreators/userFavouriteFilms'
 import { fetchUserFavouritePersons } from './userFavouritePersons'
 import { setLanguage } from '../actionsCreators/language'
 
@@ -42,6 +43,7 @@ export default {
   fetchIncomingFriends,
   addIncomingFriend,
   fetchUserFavouriteFilms,
+  removeUserFavouriteFilm: UserFavouriteFilmsActionCreators.removeFilm,
   fetchUserFavouritePersons,
   setLanguage,
 }
