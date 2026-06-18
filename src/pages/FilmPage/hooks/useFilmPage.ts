@@ -19,7 +19,7 @@ export const useFilmPage = (slug: string | undefined) => {
   const [details, setDetails] = useState<IMovieDetailsRes | null>(null)
   const [cast, setCast] = useState<ICastRes[]>([])
   const [posters, setPosters] = useState<IPoster[]>([])
-  const [reviews, setReviews] = useState<IReview[]>([])
+  const [tmdbReviews, setTmdbReviews] = useState<IReview[]>([])
   const [similar, setSimilar] = useState<IMovieRes[]>([])
   const [isModalOpen, setModalOpen] = useState(false)
   const [trailerKey, setTrailerKey] = useState<string | null>(null)
@@ -37,7 +37,7 @@ export const useFilmPage = (slug: string | undefined) => {
     Promise.all([
       getCast(slug).then(setCast),
       getPosters(slug).then(setPosters),
-      getReview(slug).then(setReviews),
+      getReview(slug).then(setTmdbReviews),
       getSimilarMovies(slug).then(setSimilar),
       getMovieDetails(slug).then(setDetails),
       getMovieVideos(slug).then(vids => {
@@ -118,7 +118,7 @@ export const useFilmPage = (slug: string | undefined) => {
     details,
     cast,
     posters,
-    reviews,
+    tmdbReviews,
     similar,
     videos,
     isLoading,

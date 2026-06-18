@@ -1,91 +1,105 @@
-import { useRef, useState } from 'react'
+import { useRef, useState, useCallback } from 'react'
 import { Editor } from '../Editor/Editor'
 import { AbsentImg } from '../AbsentImg/AbsentImg'
 import { Button } from '../Button/Button'
-import { Review } from '../Review/Review'
+import { Spinner } from '../Spinner/Spinner'
 import type { IUserReview } from '../../../api/types/responses'
 import { useActions } from '../../../hooks/useActions'
+import { FirebaseApi } from '../../../api/firebase'
 import { Timestamp } from 'firebase/firestore'
 import { twMerge } from 'tailwind-merge'
 import { notificationList } from '../../../mock/notificationList'
 import { useTranslation } from 'react-i18next'
+
+const MAX_CHARS = 2000
 
 interface CommentProps extends Pick<IUserReview, 'movie' | 'userId'> {
   userImg: string
   userName: string
   userSurname: string
   className?: string
+  onReviewSent: (review: IUserReview) => void
 }
 
-export const Comment = ({ userId, userImg, userName, userSurname, movie, className }: CommentProps) => {
+export const Comment = ({ userId, userImg, userName, userSurname, movie, className, onReviewSent }: CommentProps) => {
   const editorValRef = useRef<string>('')
-  const [showPreview, setShowPreview] = useState(false)
   const [editorKey, setEditorKey] = useState(0)
-  const { setUserReview, setNotification } = useActions()
+  const [charCount, setCharCount] = useState(0)
+  const [isSending, setIsSending] = useState(false)
+  const { setNotification } = useActions()
   const { t } = useTranslation()
 
-  const comment = {
-    userId,
-    created_at: Timestamp.now(),
-    movie,
-    author_details: {
-      name: userName,
-      username: userSurname,
-      avatar_path: userImg,
-      rating: 0,
-    },
-  }
+  const handleContentChange = useCallback((val: string) => {
+    editorValRef.current = val
+    const stripped = val.replace(/<[^>]+>/g, '').trim()
+    setCharCount(stripped.length)
+  }, [])
 
-  const sendMessage = (content: string) => {
-    if (!content) return
-    setUserReview({ ...comment, created_at: Timestamp.now(), content })
-    setNotification(notificationList.commentSent)
-    editorValRef.current = ''
-    setEditorKey(prev => prev + 1)
-    setShowPreview(false)
+  const sendMessage = async () => {
+    const content = editorValRef.current
+    const stripped = content.replace(/<[^>]+>/g, '').trim()
+    if (!stripped || isSending || stripped.length > MAX_CHARS) return
+
+    const reviewData: Omit<IUserReview, 'id'> = {
+      userId,
+      created_at: Timestamp.now(),
+      movie,
+      author_details: {
+        name: userName,
+        username: userSurname,
+        avatar_path: userImg,
+        rating: 0,
+      },
+      content,
+    }
+
+    setIsSending(true)
+    try {
+      const created = await FirebaseApi.setUserReview(reviewData)
+      editorValRef.current = ''
+      setCharCount(0)
+      setEditorKey(prev => prev + 1)
+      onReviewSent(created)
+    } catch {
+      setNotification(notificationList.commentError)
+    } finally {
+      setIsSending(false)
+    }
   }
 
   return (
-    <>
-      {showPreview && (
-        <Review
-          htmlContent={editorValRef.current}
-          type={'user'}
-          item={{ ...comment, created_at: Timestamp.now(), id: userId + userName, content: editorValRef.current }}
-        />
-      )}
-      <div className={twMerge('rounded-10 border border-noir-border pt-12 px-[5.97%] pb-9 bg-noir-card', className)}>
-        {!showPreview && (
-          <>
-            <div className={'flex items-center gap-5 md:gap-9'}>
-              <div className={'w-[25.54%] aspect-square rounded-full overflow-hidden md:w-[120px]'}>
-                {userImg && <img src={userImg} alt={userName} className={'w-full'} />}
-                {userImg || <AbsentImg className={'h-full'} />}
-              </div>
-              <div>
-                <p className={'font-inter font-bold text-25 md:text-3xl md:mb-2.5'}>{userName}</p>
-                <p className={'font-inter font-medium text-15md:text-18 '}>{t('comment.myProfile')}</p>
-              </div>
-            </div>
-            <div className={'mt-5 mb-8 md:mt-9 md:mb-[27px]'}>
-              <Editor key={editorKey} getContent={val => (editorValRef.current = val)} initialContentState={''} />
-            </div>
-          </>
-        )}
-
-        <div className={'flex flex-col items-center gap-[17px] md:flex-row md:gap-[24px] md:items-stretch'}>
-          <Button
-            variant={'transparent'}
-            onClick={() => setShowPreview(prev => !prev)}
-            disabled={!editorValRef.current}
-          >
-            {showPreview ? t('comment.backToEdit') : t('comment.preview')}
-          </Button>
-          <Button variant={'primary'} onClick={() => sendMessage(editorValRef.current)}>
-            {t('comment.send')}
-          </Button>
+    <div className={twMerge('rounded-10 border border-noir-border p-4 md:p-6 bg-noir-card', className)}>
+      <div className={'flex items-center gap-3 mb-4'}>
+        <div className={'w-8 h-8 rounded-full overflow-hidden flex-shrink-0'}>
+          {userImg ? (
+            <img src={userImg} alt={userName} className={'w-full h-full object-cover'} />
+          ) : (
+            <AbsentImg className={'h-full'} />
+          )}
         </div>
+        <p className={'font-inter font-semibold text-sm text-text-base'}>{userName}</p>
       </div>
-    </>
+
+      <Editor key={editorKey} getContent={handleContentChange} initialContentState={''} />
+
+      <div className={'flex justify-end mt-1 mb-3'}>
+        <span className={twMerge('text-xs font-inter text-text-muted', charCount > MAX_CHARS && 'text-red-400')}>
+          {charCount}/{MAX_CHARS}
+        </span>
+      </div>
+
+      <div className={'flex justify-end'}>
+        <Button
+          variant={'primary'}
+          size={'sm'}
+          onClick={sendMessage}
+          disabled={isSending || charCount === 0 || charCount > MAX_CHARS}
+          className={'flex items-center gap-2'}
+        >
+          {isSending && <Spinner className={'w-4 h-4'} />}
+          {isSending ? t('comment.sending') : t('comment.send')}
+        </Button>
+      </div>
+    </div>
   )
 }

@@ -1,18 +1,18 @@
 .editor_btn {
- @apply rounded-10 border-0 bg-noir-soft w-[45px] h-[45px] m-0 mr-2.5;
+  @apply rounded-10 border-0 bg-noir-soft w-[45px] h-[45px] m-0 mr-2.5;
 }
 
 .editor_wrapper {
- & .DraftEditor-root {
-  @apply max-h-full
- }
+  & .DraftEditor-root {
+    @apply max-h-full;
+  }
 }
 .editor_content {
- @apply rounded-10 text-white py-[22px] pr-[6.67%] pl-[8.18%] h-[334px] bg-noir-soft text-xl
- md:pr-10 md:pl-[27px]
+  @apply rounded-10 text-white py-3 pr-[6.67%] pl-[8.18%] h-[150px] bg-noir-soft text-base
+ md:pr-10 md:pl-[27px];
 }
 
 .editor_toolbar {
- @apply bg-transparent mb-[23px] border-0 p-0
- md:mb-5
+  @apply bg-transparent mb-[23px] border-0 p-0
+ md:mb-5;
 }
