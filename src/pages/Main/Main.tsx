@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import { useActions } from '../../hooks/useActions'
 import { WithErrorBoundary } from '../../components/ui/ErrorFallback'
+import { HeroSlider } from './sections/HeroSlider/HeroSlider'
 import { NowPlaying } from './sections/NowPlaying/NowPlaying'
 import { NewTrailers } from './sections/NewTrailers/NewTrailers'
 import { Popular } from './sections/Popular/Popular'
@@ -17,6 +18,9 @@ export const Main = () => {
 
   return (
     <>
+      <WithErrorBoundary>
+        <HeroSlider />
+      </WithErrorBoundary>
       <div className={'container'}>
         <WithErrorBoundary>
           <NowPlaying />
