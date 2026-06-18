@@ -85,8 +85,9 @@ const googleProvider = new GoogleAuthProvider()
 export const signInWithGoogle = () => {
   return async (dispatch: Dispatch<UserActions>) => {
     try {
-      dispatch(UserActionCreators.load())
       const result = await signInWithPopup(auth, googleProvider)
+
+      dispatch(UserActionCreators.load())
       const { uid, displayName } = result.user
 
       const existingUser = await FirebaseApi.getUser(uid)
