@@ -16,6 +16,7 @@ import { PremiereSkeleton } from '../pages/Premiere/PremiereSkeleton'
 import { CollectionsSkeleton } from '../pages/Collections/CollectionsSkeleton'
 import { FilmActorsSkeleton } from '../pages/FilmActors/FilmActorsSkeleton'
 import { FilmPostersSkeleton } from '../pages/FilmPosters/FilmPostersSkeleton'
+import { FilmVideosSkeleton } from '../pages/FilmVideos/FilmVideosSkeleton'
 
 const Main = lazy(() => import('../pages/Main/Main').then(m => ({ default: m.Main })))
 const NotFound = lazy(() => import('../pages/NotFound/NotFound').then(m => ({ default: m.NotFound })))
@@ -52,6 +53,7 @@ const Actor = lazy(() => import('../pages/Actor/Actor').then(m => ({ default: m.
 const ActorImages = lazy(() => import('../pages/ActorImages/ActorImages').then(m => ({ default: m.ActorImages })))
 const FilmActors = lazy(() => import('../pages/FilmActors/FilmActors').then(m => ({ default: m.FilmActors })))
 const FilmPosters = lazy(() => import('../pages/FilmPosters/FilmPosters').then(m => ({ default: m.FilmPosters })))
+const FilmVideosPage = lazy(() => import('../pages/FilmVideos/FilmVideos').then(m => ({ default: m.FilmVideosPage })))
 
 export const router = createBrowserRouter([
   {
@@ -108,6 +110,14 @@ export const router = createBrowserRouter([
         element: (
           <WithSuspense fallback={<FilmPostersSkeleton />}>
             <FilmPosters />
+          </WithSuspense>
+        ),
+      },
+      {
+        path: 'films/:slug/videos',
+        element: (
+          <WithSuspense fallback={<FilmVideosSkeleton />}>
+            <FilmVideosPage />
           </WithSuspense>
         ),
       },

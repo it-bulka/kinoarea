@@ -13,6 +13,7 @@ export const FilmPaths = {
   detail: (slug: string | number) => `/films/${slug}`,
   actors: (slug: string | number) => `/films/${slug}/actors`,
   posters: (slug: string | number) => `/films/${slug}/posters`,
+  videos: (slug: string | number) => `/films/${slug}/videos`,
 }
 
 export const Paths = {
