@@ -8,10 +8,12 @@ import { FbPersonList } from '../../../../components/ui/FbPersonList/FbPersonLis
 import { endpoints } from '../../../../api'
 import cls from '../../Profile.module.scss'
 import { useTranslation } from 'react-i18next'
+import { FamousSkeleton } from '../../ProfileSkeletons'
 
 export const Famous = () => {
-  const { persons } = useTypedSelector(state => state.userFavouritePersons)
+  const { persons, loading } = useTypedSelector(state => state.userFavouritePersons)
   const user = useTypedSelector(state => state.user.user)
+  const userLoading = useTypedSelector(state => state.user.loading)
   const { fetchUserFavouritePersons } = useActions()
   const navigate = useNavigate()
   const { t } = useTranslation()
@@ -19,6 +21,8 @@ export const Famous = () => {
   useEffect(() => {
     if (user) fetchUserFavouritePersons(user.id)
   }, [fetchUserFavouritePersons, user])
+
+  if (loading || userLoading) return <FamousSkeleton />
 
   if (!persons.length) {
     return (

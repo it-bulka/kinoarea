@@ -60,7 +60,7 @@ export const FriendsSkeleton = () => (
   </>
 )
 
-const FILMS_COUNT = 12
+const FILMS_COUNT = 2
 const FilmGridSkeleton = () => (
   <>
     <TitleSkeleton />
@@ -129,7 +129,7 @@ export const ReviewsSkeleton = () => (
   </>
 )
 
-const COMMENTS_COUNT = 4
+const COMMENTS_COUNT = 2
 export const CommentsSkeleton = () => (
   <>
     <TitleSkeleton />

@@ -8,10 +8,12 @@ import { FbFilmList } from '../../../../components/ui/FbFilmList/FbFilmList'
 import { endpoints } from '../../../../api'
 import cls from '../../Profile.module.scss'
 import { useTranslation } from 'react-i18next'
+import { LikesSkeleton } from '../../ProfileSkeletons'
 
 export const Likes = () => {
-  const { films } = useTypedSelector(state => state.userFavouriteFilms)
+  const { films, loading } = useTypedSelector(state => state.userFavouriteFilms)
   const user = useTypedSelector(state => state.user.user)
+  const userLoading = useTypedSelector(state => state.user.loading)
   const { fetchUserFavouriteFilms } = useActions()
   const navigate = useNavigate()
   const { t } = useTranslation()
@@ -19,6 +21,8 @@ export const Likes = () => {
   useEffect(() => {
     if (user) fetchUserFavouriteFilms(user.id, 'liked')
   }, [fetchUserFavouriteFilms, user])
+
+  if (loading || userLoading) return <LikesSkeleton />
 
   if (!films.length) {
     return (

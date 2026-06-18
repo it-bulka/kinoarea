@@ -8,9 +8,10 @@ import cls from './Friends.module.scss'
 import { IncomingFriend } from '../../../../components/ui/IncomingFriend/IncomingFriend'
 import { getCommonFriends } from '../../../../utils/getCommonFriends'
 import { useTranslation } from 'react-i18next'
+import { FriendsSkeleton } from '../../ProfileSkeletons'
 
 export const Friends = () => {
-  const { friends } = useTypedSelector(state => state.userFriends)
+  const { friends, loading } = useTypedSelector(state => state.userFriends)
   const { friends: incomingFriends } = useTypedSelector(state => state.incomingFriends)
   const incomingFriend = incomingFriends?.[0]
   const user = useTypedSelector(state => state.user.user)
@@ -21,6 +22,10 @@ export const Friends = () => {
     if (user?.friends) fetchUserFriends(user?.friends)
     if (user?.incomingFriends) fetchIncomingFriends(user?.incomingFriends)
   }, [fetchUserFriends, fetchIncomingFriends, user])
+
+  const userLoading = useTypedSelector(state => state.user.loading)
+  if (loading || userLoading) return <FriendsSkeleton />
+
   const onAcceptFriend = (userId: string, friendId: string) => {
     addUserFriend(userId, friendId)
     removeIncomingFriend(userId, friendId)

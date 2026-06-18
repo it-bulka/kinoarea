@@ -8,17 +8,21 @@ import { Button } from '../../../../components/ui/Button/Button'
 import { useNavigate } from 'react-router-dom'
 import { endpoints } from '../../../../api'
 import { useTranslation } from 'react-i18next'
+import { ReviewsSkeleton } from '../../ProfileSkeletons'
 
 export const UserReviews = () => {
-  const { reviews } = useTypedSelector(state => state.userReviews)
+  const { reviews, loading } = useTypedSelector(state => state.userReviews)
   const { fetchUserReviews } = useActions()
   const navigate = useNavigate()
   const user = useTypedSelector(state => state.user.user)
+  const userLoading = useTypedSelector(state => state.user.loading)
   const { t } = useTranslation()
 
   useEffect(() => {
     if (user) fetchUserReviews(user.id)
-  }, [fetchUserReviews])
+  }, [fetchUserReviews, user])
+
+  if (loading || userLoading) return <ReviewsSkeleton />
 
   if (!reviews || !reviews.length) {
     return (
