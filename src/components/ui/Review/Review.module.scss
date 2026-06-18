@@ -1,24 +1,23 @@
 .headerWrapper {
-  @apply flex items-center gap-4 md:gap-6 lg:gap-[26px]
+  @apply flex items-center gap-3 md:gap-4;
 }
 
 /* MOVIE PAGE */
 .avatar {
-  @apply rounded-full w-[57px] h-[57px] bg-noir-soft object-cover
-  md:w-[85px] md:h-[85px]
-  lg:w-[115px] lg:h-[115px]
+  @apply rounded-full w-[36px] h-[36px] bg-noir-soft object-cover
+  md:w-[44px] md:h-[44px]
+  lg:w-[52px] lg:h-[52px];
 }
 
 .name {
-  @apply text-xl font-inter font-bold md:text-25 lg:text-3xl
+  @apply text-sm font-inter font-bold md:text-base lg:text-lg;
 }
 
 .time {
-  @apply text-xs text-gray-light2 my-3 md:text-base md:mt-[30px] md:mb-[17px] lg:mb-16 lg:mt-7 lg:text-15
+  @apply text-xs text-text-muted my-2 block md:text-sm;
 }
-
 
 /* PROFILE PAGE */
 .poster {
-  @apply rounded-5 w-[50px] h-[80px] object-cover sm:w-[95.7px] sm:h-[141.2px]
+  @apply rounded-5 w-[40px] h-[60px] object-cover sm:w-[50px] sm:h-[75px];
 }
