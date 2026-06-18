@@ -23,7 +23,7 @@ export const HeroSlide = memo(({ slide, index, isActive }: HeroSlideProps) => {
   const { t } = useTranslation()
 
   const year = useMemo(() => slide.release_date?.slice(0, 4) ?? '', [slide.release_date])
-  const runtime = useMemo(() => formatRuntime(slide.runtime), [slide.runtime])
+  const runtime = useMemo(() => (slide.runtime ? formatRuntime(slide.runtime) : null), [slide.runtime])
   const genresText = useMemo(() => slide.genres.slice(0, 3).join(', '), [slide.genres])
   const rating = useMemo(() => slide.vote_average.toFixed(1), [slide.vote_average])
 
@@ -59,8 +59,12 @@ export const HeroSlide = memo(({ slide, index, isActive }: HeroSlideProps) => {
             <span className="flex items-center gap-1 text-gold font-semibold">⭐ {rating}</span>
             <span className={cls.metaSeparator} />
             <span>{year}</span>
-            <span className={cls.metaSeparator} />
-            <span>{runtime}</span>
+            {runtime && (
+              <>
+                <span className={cls.metaSeparator} />
+                <span>{runtime}</span>
+              </>
+            )}
             {genresText && (
               <>
                 <span className={cls.metaSeparator} />

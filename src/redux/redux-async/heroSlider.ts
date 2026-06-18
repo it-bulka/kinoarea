@@ -1,22 +1,23 @@
 import { type Dispatch } from 'redux'
 import { HeroSliderActionCreators } from '../actionsCreators/heroSlider'
 import { type HeroSliderActions } from '../actions/heroSlider'
-import { getTrendingMovies, getMovieDetails } from '../../api/movieDBApi'
+import { getTrendingMovies } from '../../api/movieDBApi'
 import { type IHeroSlide } from '../../api/types/heroSlider'
-import { type IMovieDetailsRes } from '../../api/types/responses'
+import { type IMovieRes } from '../../api/types/film'
+import { movieTypes, type GenreId } from '../../mock/types'
 
 const SLIDES_COUNT = 8
 
-const toHeroSlide = (d: IMovieDetailsRes): IHeroSlide => ({
-  id: d.id,
-  title: d.title,
-  backdrop_path: d.backdrop_path,
-  poster_path: d.poster_path,
-  overview: d.overview,
-  vote_average: d.vote_average,
-  release_date: String(d.release_date),
-  runtime: d.runtime,
-  genres: d.genres.map(g => g.name),
+const toHeroSlide = (m: IMovieRes): IHeroSlide => ({
+  id: m.id,
+  title: m.title || m.name || '',
+  backdrop_path: m.backdrop_path,
+  poster_path: m.poster_path,
+  overview: m.overview,
+  vote_average: m.vote_average,
+  release_date: String(m.release_date || m.first_air_date || ''),
+  runtime: 0,
+  genres: m.genre_ids.map(id => movieTypes[id as GenreId]).filter(Boolean),
 })
 
 export const fetchHeroSlides = () => {
@@ -25,9 +26,10 @@ export const fetchHeroSlides = () => {
       dispatch(HeroSliderActionCreators.loadHeroSlider())
 
       const { results } = await getTrendingMovies('day')
-      const candidates = results.filter(m => m.backdrop_path).slice(0, SLIDES_COUNT)
-      const details = await Promise.all(candidates.map(m => getMovieDetails(String(m.id))))
-      const slides = details.filter(d => d.backdrop_path).map(toHeroSlide)
+      const slides = results
+        .filter(m => m.backdrop_path)
+        .slice(0, SLIDES_COUNT)
+        .map(toHeroSlide)
 
       dispatch(HeroSliderActionCreators.addHeroSlides(slides))
     } catch (err) {
