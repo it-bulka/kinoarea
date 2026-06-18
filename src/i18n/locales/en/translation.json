@@ -58,6 +58,12 @@
         "3": "USA & Canada"
       }
     },
+    "heroSlider": {
+      "trending": "Trending",
+      "watchNow": "Watch Now",
+      "moreDetails": "More Details",
+      "min": "min"
+    },
     "genres": {
       "1": "All",
       "2": "Action",
