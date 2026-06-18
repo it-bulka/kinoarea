@@ -1,39 +1,54 @@
-import { ReactComponent as PlayIcon } from '../../../../assets/images/general/play-btn.svg'
-import { IMovieVideo } from '../../../../api/types/responses'
-import { Typography, TypographyTypes } from '../../../../components/ui/Typography/Typography'
-import cls from './FilmVideos.module.scss'
+import { memo, useMemo } from 'react'
 import { useTranslation } from 'react-i18next'
+import { SectionHeader, SectionHeaderType } from '../../../../components/ui/SectionHeader/SectionHeader'
+import { VideoCard } from '../../../../components/ui/VideoCard/VideoCard'
+import { FilmVideosSkeleton } from '../FilmVideosSkeleton'
+import { Paths } from '../../../../router/paths'
+import type { IMovieVideo } from '../../../../api/types/responses'
 
-const getYoutubeThumbnail = (key: string) => `https://img.youtube.com/vi/${key}/mqdefault.jpg`
+const MAX_PREVIEW = 8
 
 interface FilmVideosProps {
+  slug: string
   videos: IMovieVideo[]
+  isLoading: boolean
   onVideoSelect: (key: string) => void
 }
 
-export const FilmVideos = ({ videos, onVideoSelect }: FilmVideosProps) => {
+export const FilmVideos = memo(({ slug, videos, isLoading, onVideoSelect }: FilmVideosProps) => {
   const { t } = useTranslation()
-  if (!videos.length) return null
+
+  const previewVideos = useMemo(() => videos.slice(0, MAX_PREVIEW), [videos])
 
   return (
-    <>
-      <Typography variant="h3" type={TypographyTypes._TITLE} className="mx-auto mb-[18px] md:mb-9 2xl:mb-[42px] w-max">
-        {t('film.videos')}
-      </Typography>
-      <div className={cls.videosGrid}>
-        {videos.map(video => (
-          <button key={video.id} className={cls.card} onClick={() => onVideoSelect(video.key)}>
-            <div className={cls.thumbWrap}>
-              <img src={getYoutubeThumbnail(video.key)} alt={video.name} className={cls.thumb} />
-              <div className={cls.overlay}>
-                <PlayIcon className={cls.playIcon} />
-              </div>
-            </div>
-            <p className="text-xs font-black mt-2 line-clamp-2 lg:text-sm">{video.name}</p>
-            <span className="text-xs text-white/50 capitalize">{video.type}</span>
-          </button>
-        ))}
-      </div>
-    </>
+    <section>
+      <SectionHeader
+        title={t('film.videos')}
+        type={SectionHeaderType.ARROW}
+        linkTitle={t('film.allVideos')}
+        moveToViaArrow={Paths.film.videos(slug)}
+        className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
+      />
+      {isLoading ? (
+        <FilmVideosSkeleton />
+      ) : videos.length === 0 ? (
+        <p className={'py-6 text-center text-text-muted font-inter text-sm'}>{t('film.noVideos')}</p>
+      ) : (
+        <ul className={'grid grid-cols-2 gap-3 md:grid-cols-3 lg:grid-cols-4'}>
+          {previewVideos.map(video => (
+            <li key={video.id}>
+              <VideoCard
+                videoKey={video.key}
+                name={video.name}
+                type={video.type}
+                onClick={() => onVideoSelect(video.key)}
+              />
+            </li>
+          ))}
+        </ul>
+      )}
+    </section>
   )
-}
+})
+
+FilmVideos.displayName = 'FilmVideos'

@@ -94,13 +94,9 @@ export const FilmPage = () => {
           />
         </WithErrorBoundary>
 
-        {!isLoading && videos.length > 0 && (
-          <WithErrorBoundary>
-            <section className={'rounded-10 pt-4 px-3.5 pb-8 lg:py-10 lg:px-5'}>
-              <FilmVideos videos={videos} onVideoSelect={handleVideoSelect} />
-            </section>
-          </WithErrorBoundary>
-        )}
+        <WithErrorBoundary>
+          <FilmVideos slug={slug!} videos={videos} isLoading={isLoading} onVideoSelect={handleVideoSelect} />
+        </WithErrorBoundary>
       </div>
     </>
   )
