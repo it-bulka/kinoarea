@@ -7,12 +7,13 @@ import { ProfilePages } from '../../../../router/paths'
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 import { ProfileAvatar } from './ProfileAvatar'
 import { ProfileInfo } from './ProfileInfo'
+import { ProfileMainSkeleton } from '../../ProfileSkeletons'
 import cls from './ProfileMain.module.scss'
 
 import { ReactComponent as SettingsIcon } from '../../../../assets/images/general/settings.svg'
 
 export const ProfileMain = () => {
-  const { user } = useTypedSelector(state => state.user)
+  const { user, loading } = useTypedSelector(state => state.user)
   const { t } = useTranslation()
 
   useEffect(() => {
@@ -22,6 +23,8 @@ export const ProfileMain = () => {
       document.title = 'Kinoarea'
     }
   }, [user?.name, t])
+
+  if (loading || !user) return <ProfileMainSkeleton />
 
   return (
     <article className={cls.spotlight}>

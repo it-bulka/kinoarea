@@ -18,6 +18,7 @@ import { FilmActorsSkeleton } from '../pages/FilmActors/FilmActorsSkeleton'
 import { FilmPostersSkeleton } from '../pages/FilmPosters/FilmPostersSkeleton'
 import { FilmVideosSkeleton } from '../pages/FilmVideos/FilmVideosSkeleton'
 import {
+  ProfileLayoutSkeleton,
   ProfileMainSkeleton,
   SettingSkeleton,
   FriendsSkeleton,
@@ -168,11 +169,9 @@ export const router = createBrowserRouter([
       {
         path: 'profile',
         element: (
-          <>
-            <WithSuspense>
-              <Profile />
-            </WithSuspense>
-          </>
+          <WithSuspense fallback={<ProfileLayoutSkeleton />}>
+            <Profile />
+          </WithSuspense>
         ),
         children: [
           {

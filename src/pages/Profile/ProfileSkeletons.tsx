@@ -3,6 +3,33 @@ import cls from './Profile.module.scss'
 import clsMain from './subpages/ProfileMain/ProfileMain.module.scss'
 import clsFriends from './subpages/Friends/Friends.module.scss'
 
+const NAV_ITEMS = 7
+
+export const ProfileLayoutSkeleton = () => (
+  <div className={cls.profileLayout}>
+    <aside className={cls.sidebar} aria-hidden="true">
+      <div className={`${cls.sidebarLogo} flex justify-center`}>
+        <Skeleton className="w-10 h-10 rounded-5" />
+      </div>
+      <nav className={cls.sidebarNav}>
+        {Array.from({ length: NAV_ITEMS }).map((_, i) => (
+          <div key={i} className={cls.navItem}>
+            <Skeleton className="w-5 h-5 rounded" />
+            <Skeleton className="h-2 w-8 rounded-5 hidden lg:block" />
+          </div>
+        ))}
+      </nav>
+      <div className={cls.navItem}>
+        <Skeleton className="w-5 h-5 rounded" />
+        <Skeleton className="h-2 w-8 rounded-5 hidden lg:block" />
+      </div>
+    </aside>
+    <div className={cls.profileContent}>
+      <ProfileMainSkeleton />
+    </div>
+  </div>
+)
+
 const TitleSkeleton = () => (
   <div className={cls.titleWrapper}>
     <Skeleton className="h-7 w-44 rounded-5 md:h-8" />
