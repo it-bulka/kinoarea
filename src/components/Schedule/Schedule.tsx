@@ -18,10 +18,10 @@ export const Schedule = ({ period, films }: ScheduleProps) => {
         </Typography>
       </div>
       <div
-        className={`grid grid-cols-2 gap-[8.8px] mt-4
-        md:grid-cols-3 md:gap-[10.12px] md:mt-5
-        lg:grid-cols-4 lg:gap-x-[1.17%] lg:gap-y-5 
-        2xl:gap-[22.84px]`}
+        className={`grid grid-cols-3 gap-[8.8px] mt-4
+        md:grid-cols-4 md:gap-[10.12px] md:mt-5
+        lg:grid-cols-5 lg:gap-x-[1.17%] lg:gap-y-5
+        2xl:grid-cols-6 2xl:gap-[22.84px]`}
       >
         {films.map(item => {
           const path = item.poster_path || item.backdrop_path
