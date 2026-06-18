@@ -29,9 +29,10 @@ export const Navigation = ({ isOpen, onClose }: NavigationProps) => {
         </div>
       </div>
       <NavLinks
-        className={`text-sm flex flex-col text-center gap-8 
+        className={`text-sm flex flex-col text-center gap-8
           md:flex-row md:gap-0.5 md:justify-between md:w-[78%] md:mx-auto md:text-xs
           lg:max-w-[523px]`}
+        onClick={onClose}
       />
     </nav>
   )
