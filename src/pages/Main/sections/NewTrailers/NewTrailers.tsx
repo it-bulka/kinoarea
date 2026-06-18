@@ -18,7 +18,7 @@ import { NewTrailersSkeleton } from './NewTrailersSkeleton'
 import { useTranslation } from 'react-i18next'
 import { useMainSectionReveal } from '../../hooks/useMainSectionReveal'
 
-const TRAILER_POOL_SIZE = 8
+const TRAILER_POOL_SIZE = 5
 
 const toFbFilm = (m: IMovieRes): Omit<IFbFavouriteMovie, 'status'> => ({
   id: m.id,

@@ -8,7 +8,7 @@ import { type IIncome } from '../../api/types'
 import { type IParams } from '../../api/types/requests'
 
 const TOP_MOVIES_COUNT = 6
-const FETCH_POOL_SIZE = 10
+const FETCH_POOL_SIZE = 7
 
 export interface ProfitFetchOptions {
   from?: string
