@@ -4,11 +4,14 @@ import { FilmSlider } from '../../../../components/ui/sliders/FilmSlider/FilmSli
 import { useTypedSelector } from '../../../../hooks/useTypedSelector'
 import { useTranslation } from 'react-i18next'
 import { useMainSectionReveal } from '../../hooks/useMainSectionReveal'
+import { UpcomingSkeleton } from './UpcomingSkeleton'
 
 export const Upcoming = () => {
-  const { upcoming } = useTypedSelector(state => state.movies)
+  const { upcoming, isUpcomingLoading } = useTypedSelector(state => state.movies)
   const { t } = useTranslation()
-  const sectionRef = useMainSectionReveal({ start: 'top 85%' })
+  const sectionRef = useMainSectionReveal({ start: 'top 85%', deps: [upcoming] })
+
+  if (isUpcomingLoading || !upcoming.length) return <UpcomingSkeleton />
 
   return (
     <section ref={sectionRef} className={'container pt-[17px] lg:pt-8 2xl:pt-[49px] 2xl:pb-[105px]'}>

@@ -23,7 +23,7 @@ const PersonsComponent = () => {
   const [smallPersonsList, setSmallPersonsList] = useState<IPerson[]>([])
   const slidePosition = useRef(startSlidePos)
   const swiperInstance = useRef<SwiperRef>(null)
-  const sectionRef = useMainSectionReveal({ deps: [loading] })
+  const sectionRef = useMainSectionReveal({ deps: [popularPersons] })
 
   const setBigList = (): void => {
     if (!popularPersons) return
