@@ -43,6 +43,9 @@ const Likes = lazy(() => import('../pages/Profile/subpages/Likes/Likes').then(m 
 const FavouriteFilms = lazy(() =>
   import('../pages/Profile/subpages/FavouriteFilms/FavouriteFilms').then(m => ({ default: m.FavouriteFilms }))
 )
+const UserComments = lazy(() =>
+  import('../pages/Profile/subpages/UserComments/UserComments').then(m => ({ default: m.UserComments }))
+)
 const Famous = lazy(() => import('../pages/Profile/subpages/Famous/Famous').then(m => ({ default: m.Famous })))
 const Actors = lazy(() => import('../pages/Actors/Actors').then(m => ({ default: m.Actors })))
 const Actor = lazy(() => import('../pages/Actor/Actor').then(m => ({ default: m.Actor })))
@@ -196,7 +199,7 @@ export const router = createBrowserRouter([
             path: 'comments',
             element: (
               <WithSuspense>
-                <UserReviews />
+                <UserComments />
               </WithSuspense>
             ),
           },
