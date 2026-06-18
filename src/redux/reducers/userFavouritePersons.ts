@@ -22,7 +22,7 @@ export const userFavouritePersonsReducer = (
     case UserFavouritePersons.ADD:
       return { ...state, persons: action.payload, loading: false, error: null }
     case UserFavouritePersons.LOAD:
-      return { ...state, loading: false }
+      return { ...state, loading: true }
     case UserFavouritePersons.ERR:
       return { ...state, loading: false, error: action.payload }
     default:

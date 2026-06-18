@@ -19,7 +19,7 @@ export const userFavouriteFilmsReducer = (state = initialState, action: UserFavo
     case UserFavouriteFilms.ADD:
       return { ...state, films: action.payload, loading: false, error: null }
     case UserFavouriteFilms.LOAD:
-      return { ...state, loading: false }
+      return { ...state, loading: true }
     case UserFavouriteFilms.ERR:
       return { ...state, loading: false, error: action.payload }
     case UserFavouriteFilms.REMOVE:

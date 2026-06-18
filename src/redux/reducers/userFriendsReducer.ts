@@ -18,7 +18,7 @@ export const userFriendsReducer = (state = initialState, action: UserFriendsActi
     case UserFriends.ADD_FRIENDS:
       return { ...state, friends: action.payload, loading: false, error: null }
     case UserFriends.LOAD_FRIENDS:
-      return { ...state, loading: false }
+      return { ...state, loading: true }
     case UserFriends.ERR_FRIENDS:
       return { ...state, loading: false, error: action.payload }
     default:
