@@ -18,7 +18,7 @@ export const userReviewsReduser = (state = initialState, action: UserReviewActio
     case UserReviews.ADD_REVIEWS:
       return { ...state, reviews: action.payload, loading: false, error: null }
     case UserReviews.LOAD_REVIEWS:
-      return { ...state, loading: false }
+      return { ...state, loading: true }
     case UserReviews.ERR_REVIEWS:
       return { ...state, loading: false, error: action.payload }
     default:
