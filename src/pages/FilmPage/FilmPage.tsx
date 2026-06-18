@@ -1,34 +1,23 @@
 import { useParams } from 'react-router-dom'
-import { useTranslation } from 'react-i18next'
-import { SectionHeader, SectionHeaderType } from '../../components/ui/SectionHeader/SectionHeader'
-import { CastList } from '../../components/ui/CastList/CastList'
-import { PostersList } from '../../components/ui/PostersList/PostersList'
-import { Typography, TypographyTypes } from '../../components/ui/Typography/Typography'
-import { FilmSlider } from '../../components/ui/sliders/FilmSlider/FilmSlider'
-import { SliderNav } from '../../components/ui/sliders/SliderNav/SliderNav'
-import { ReviewsList } from '../../components/ui/ReviewsList/ReviewsList'
-import { Button } from '../../components/ui/Button/Button'
-import { Comment } from '../../components/ui/Comment/Comment'
 import { WithErrorBoundary } from '../../components/ui/ErrorFallback'
-import { FilmVideos } from './sections/FilmVideos/FilmVideos'
 import { FilmHero } from './sections/FilmHero/FilmHero'
 import { FilmHeroSkeleton } from './sections/FilmHeroSkeleton'
-import { FilmCastSkeleton } from './sections/FilmCastSkeleton'
-import { FilmPostersSkeleton } from './sections/FilmPostersSkeleton'
-import { FilmSimilarSkeleton } from './sections/FilmSimilarSkeleton'
-import { FilmReviewsSkeleton } from './sections/FilmReviewsSkeleton'
+import { FilmCast } from './sections/FilmCast/FilmCast'
+import { FilmPosters } from './sections/FilmPosters/FilmPosters'
+import { FilmSimilar } from './sections/FilmSimilar/FilmSimilar'
+import { FilmReviews } from './sections/FilmReviews/FilmReviews'
+import { FilmVideos } from './sections/FilmVideos/FilmVideos'
 import { useFilmPage } from './hooks/useFilmPage'
+import { useMovieReviews } from './hooks/useMovieReviews'
 import { setMovieDBPath } from '../../utils'
-import { Paths } from '../../router/paths'
 
 export const FilmPage = () => {
   const { slug } = useParams()
-  const { t } = useTranslation()
   const {
     details,
     cast,
     posters,
-    reviews,
+    tmdbReviews,
     similar,
     videos,
     isLoading,
@@ -45,6 +34,8 @@ export const FilmPage = () => {
     onDislikeClick,
     onFavouriteClick,
   } = useFilmPage(slug)
+
+  const { movieReviews, isLoadingReviews, hasMoreReviews, loadMoreReviews, prependReview } = useMovieReviews(slug)
 
   return (
     <>
@@ -76,85 +67,31 @@ export const FilmPage = () => {
         )}
 
         <WithErrorBoundary>
-          <section>
-            <SectionHeader
-              title={t('film.cast')}
-              type={SectionHeaderType.ARROW}
-              linkTitle={t('film.allActors')}
-              moveToViaArrow={Paths.film.actors(slug!)}
-              className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
-            />
-            {isLoading ? <FilmCastSkeleton /> : <CastList list={cast} />}
-          </section>
+          <FilmCast slug={slug!} cast={cast} isLoading={isLoading} />
         </WithErrorBoundary>
 
         <WithErrorBoundary>
-          <section>
-            <SectionHeader
-              title={t('film.posters')}
-              type={SectionHeaderType.ARROW}
-              linkTitle={t('film.allPosters')}
-              moveToViaArrow={Paths.film.posters(slug!)}
-              className={'mb-4 mt-7 md:mb-8 2xl:mb-20'}
-            />
-            {isLoading ? (
-              <FilmPostersSkeleton />
-            ) : posters.length === 0 ? (
-              <p className={'py-6 text-center text-text-muted font-inter text-sm'}>{t('film.noPosters')}</p>
-            ) : (
-              <PostersList list={posters} />
-            )}
-          </section>
+          <FilmPosters slug={slug!} posters={posters} isLoading={isLoading} />
         </WithErrorBoundary>
 
         <WithErrorBoundary>
-          <section>
-            <Typography
-              variant={'h3'}
-              type={TypographyTypes._TITLE}
-              className={'mx-auto mt-9 mb-[18px] md:mt-[52px] md:mb-9 2xl:mt-[73px] 2xl:mb-[42px] w-max'}
-            >
-              {t('film.similar')}
-            </Typography>
-            {isLoading ? (
-              <FilmSimilarSkeleton />
-            ) : (
-              <>
-                <FilmSlider slides={similar} name={`film-${slug}`} />
-                <div className={'flex justify-center items-center mt-8'}>
-                  <SliderNav sliderName={`film-${slug}`} />
-                </div>
-              </>
-            )}
-          </section>
+          <FilmSimilar slug={slug!} similar={similar} isLoading={isLoading} />
         </WithErrorBoundary>
 
         <WithErrorBoundary>
-          <section>
-            <div className={'mb-5 mt-24 md:flex md:justify-between'}>
-              <Typography variant={'h3'} type={TypographyTypes._TITLE} className={'mx-auto w-max mb-[54px] md:m-0'}>
-                {t('film.reviews')}
-              </Typography>
-              <Button className={'mx-auto md:m-0'} onClick={addComment}>
-                {isCommentBlockShown ? t('film.hideReview') : t('film.addReview')}
-              </Button>
-            </div>
-            {user && isCommentBlockShown && (
-              <Comment
-                userImg={user.img || ''}
-                userName={user.name}
-                userSurname={user.surname || ''}
-                userId={user.id}
-                movie={{
-                  id: details?.id || '',
-                  name: details?.title || '',
-                  poster: details?.poster_path || '',
-                }}
-                className={'mb-4'}
-              />
-            )}
-            {isLoading ? <FilmReviewsSkeleton /> : <ReviewsList list={reviews} />}
-          </section>
+          <FilmReviews
+            details={details}
+            user={user}
+            isCommentBlockShown={isCommentBlockShown}
+            onAddComment={addComment}
+            tmdbReviews={tmdbReviews}
+            isPageLoading={isLoading}
+            movieReviews={movieReviews}
+            isLoadingReviews={isLoadingReviews}
+            hasMoreReviews={hasMoreReviews}
+            onLoadMore={loadMoreReviews}
+            onReviewSent={prependReview}
+          />
         </WithErrorBoundary>
 
         {!isLoading && videos.length > 0 && (
