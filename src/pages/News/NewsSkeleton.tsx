@@ -1,15 +1,22 @@
 import { Skeleton } from '../../components/ui/Skeleton/Skeleton'
 
-const GRID_ITEMS = 10
+const GRID_ITEMS = 20
 
 const FilmCardSkeleton = () => (
   <div className="relative rounded-xl overflow-hidden bg-noir-card aspect-[2/3]">
     <Skeleton className="absolute inset-0 w-full h-full" />
+    <div className="absolute top-2.5 right-2.5 z-10">
+      <Skeleton className="w-10 h-4 rounded-md" />
+    </div>
+    <div className="absolute bottom-0 left-0 right-0 p-3 md:p-4">
+      <Skeleton className="h-4 w-3/4 rounded-5" />
+      <Skeleton className="h-3 w-1/3 rounded-5 mt-1" />
+    </div>
   </div>
 )
 
 export const NewsListSkeleton = () => (
-  <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-5 gap-3 md:gap-4 lg:gap-5 mb-8 md:mb-10 2xl:mb-[60px]">
+  <div className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-7 gap-2.5 md:gap-3 lg:gap-4 mb-8 md:mb-10 2xl:mb-[60px]">
     {Array.from({ length: GRID_ITEMS }).map((_, i) => (
       <FilmCardSkeleton key={i} />
     ))}

@@ -27,7 +27,7 @@ export const NewsFilmGrid = ({ films, onFilmClick }: NewsFilmGridProps) => {
   return (
     <div
       ref={gridRef}
-      className="grid grid-cols-3 md:grid-cols-4 lg:grid-cols-5 2xl:grid-cols-6 gap-2.5 md:gap-3 lg:gap-4 mb-8 md:mb-10 2xl:mb-[60px]"
+      className="grid grid-cols-4 md:grid-cols-5 lg:grid-cols-6 2xl:grid-cols-7 gap-2.5 md:gap-3 lg:gap-4 mb-8 md:mb-10 2xl:mb-[60px]"
     >
       {films.map(film => (
         <NewsFilmCard key={film.id} item={film} onClick={onFilmClick} />
