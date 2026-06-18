@@ -5,7 +5,7 @@ interface CashGatheringCardProps extends Omit<IIncome, 'id'> {
 export const CashGatheringCard = ({ img, title, income, info, order }: CashGatheringCardProps) => {
   return (
     <div className={'font-inter font-medium flex items-center max-w-full'}>
-      <img src={img} alt={title} className={'rounded-[5px] w-2/5 shrink-1 object-cover'} />
+      <img src={img} alt={title} className={'rounded-[5px] w-1/4 shrink-1 object-cover'} />
       <div className={'w-3/5 pl-2.5 lg:pl-[11.51px]'}>
         <h6 className={'text-15 font-inter font-bold lg:text-lg/20px'}>
           {order}. {title}
