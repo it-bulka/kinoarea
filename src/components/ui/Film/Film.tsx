@@ -32,11 +32,11 @@ export const Film = ({ img, rating, title, genre, className, id }: FilmProps) =>
           <button
             onClick={() => navigate(`/films/${id}`)}
             className={
-              'flex items-center gap-2 px-5 py-2.5 border border-gold/60 text-text-base font-inter font-medium rounded-lg hover:bg-gold/20 hover:border-gold transition-all duration-200'
+              'flex items-center gap-2 px-3.5 py-1.5 text-sm border border-gold/60 text-text-base font-inter font-medium rounded-md hover:bg-gold/20 hover:border-gold transition-all duration-200'
             }
           >
             {t('film.watchFilm')}
-            <ArrowRightIcon className={'w-3.5 h-3.5'} />
+            <ArrowRightIcon className={'w-3 h-3'} />
           </button>
         </div>
       </div>
