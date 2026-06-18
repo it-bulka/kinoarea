@@ -402,13 +402,29 @@
     "myProfile": "My Profile",
     "preview": "Preview",
     "backToEdit": "Back to Editing",
-    "send": "Send"
+    "send": "Send",
+    "sending": "Sending..."
+  },
+  "comments": {
+    "title": "Your Comments",
+    "total": "Total: {{count}}",
+    "empty": "You haven't written any comments yet",
+    "backToMain": "Back to main page",
+    "delete": "Delete"
+  },
+  "reviewsList": {
+    "showMore": "Show more",
+    "showLess": "Show less",
+    "noReviews": "No reviews yet. Be the first to share your thoughts!",
+    "loadMore": "Load more reviews"
   },
   "notifications": {
     "userAbsent": "Log in or register to like films",
     "userAbsentComment": "Log in or register to write reviews",
     "userAbsentFavourite": "Log in or register to add films to favourites",
     "commentSent": "Your review has been successfully added",
+    "commentError": "Failed to send review. Please try again",
+    "commentDeleted": "Comment deleted successfully",
     "subscriptionSent": "You have successfully subscribed to the newsletter"
   },
   "common": {
