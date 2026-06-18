@@ -38,8 +38,10 @@ export const Layout = ({ children, noMailing = false }: LayoutProps) => {
   return (
     <ScrollRestoration>
       <div className="App bg-noir flex flex-col min-h-screen">
-        <Header onMenu={onMenuClick} />
-        <Navigation isOpen={isNavOpen.value} onClose={onNavClose} />
+        <div className="sticky top-0 z-50 bg-noir">
+          <Header onMenu={onMenuClick} />
+          <Navigation isOpen={isNavOpen.value} onClose={onNavClose} />
+        </div>
         <main className={'grow relative'}>
           <div
             className="absolute inset-0 bg-no-repeat opacity-40 pointer-events-none z-0"
