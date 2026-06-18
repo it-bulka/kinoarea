@@ -83,6 +83,9 @@
     "addReview": "Add Review",
     "hideReview": "Hide Review Form",
     "videos": "Trailers & Videos",
+    "allVideos": "All Videos",
+    "noVideos": "No videos available for this film",
+    "loadMoreVideos": "Load more",
     "details": {
       "year": "Year",
       "country": "Country",
