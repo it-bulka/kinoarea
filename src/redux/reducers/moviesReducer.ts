@@ -20,17 +20,17 @@ interface IMoviesState {
 }
 
 const initial: IMoviesState = {
-  isNowPlayingLoading: false,
+  isNowPlayingLoading: true,
   nowPlayingError: null,
   nowPlaying: [],
   nowPlayingCategory: genres[0],
 
-  isPopularLoading: false,
+  isPopularLoading: true,
   popularError: null,
   popular: [],
   popularCategory: years[0],
 
-  isUpcomingLoading: false,
+  isUpcomingLoading: true,
   upcomingError: null,
   upcoming: [],
 }

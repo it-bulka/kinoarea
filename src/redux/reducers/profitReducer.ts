@@ -14,7 +14,7 @@ interface IProfitState {
 const initialState: IProfitState = {
   activeCategory: profit[0],
   items: [],
-  isLoading: false,
+  isLoading: true,
   error: null,
 }
 

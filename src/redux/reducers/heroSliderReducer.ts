@@ -10,7 +10,7 @@ interface IHeroSliderState {
 
 const initial: IHeroSliderState = {
   slides: [],
-  isLoading: false,
+  isLoading: true,
   error: null,
 }
 

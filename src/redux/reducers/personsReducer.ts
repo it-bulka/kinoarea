@@ -13,7 +13,7 @@ interface IPersonsState {
 const initialState: IPersonsState = {
   popular: [],
   error: null,
-  loading: false,
+  loading: true,
   activeCategory: persons[0],
 }
 export const personsReducer = (state: IPersonsState = initialState, action: PersonsActions): IPersonsState => {
