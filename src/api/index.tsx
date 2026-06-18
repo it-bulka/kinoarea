@@ -1,1 +1,1 @@
-export { endpoints, BaseMovieDBAssetsUrl } from './endpoints'
+export { endpoints, BaseMovieDBAssetsUrl, BaseMovieDBOriginalUrl } from './endpoints'

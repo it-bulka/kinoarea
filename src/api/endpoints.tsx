@@ -11,3 +11,4 @@ export const endpoints = {
 } as const
 
 export const BaseMovieDBAssetsUrl = import.meta.env.VITE_MOVIEDB_ASSETS
+export const BaseMovieDBOriginalUrl = 'https://image.tmdb.org/t/p/original'
