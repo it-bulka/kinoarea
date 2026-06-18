@@ -40,6 +40,11 @@ export const PersonSlider = forwardRef(
           914: {
             spaceBetween: '2.55%',
           },
+          1280: {
+            slidesPerView: 3,
+            slidesPerGroup: 3,
+            spaceBetween: '2.55%',
+          },
         }}
         className={'slider-cards'}
         onNavigationNext={() => onSlideNext?.()}

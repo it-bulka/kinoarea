@@ -14,7 +14,7 @@ const PersonCardBase = ({ img, rate, actor, knownFor }: PersonCardProps) => {
 
   return (
     <div
-      className={`aspect-[4/3] rounded-[10px] overflow-hidden relative flex flex-col
+      className={`aspect-square rounded-[10px] overflow-hidden relative flex flex-col
         pt-1.5 pb-3 px-2
         md:pt-[9px] md:pb-[23px] md:px-[13px]
         lg:pt-[7px] lg:px-2.5 lg:pb-5`}
