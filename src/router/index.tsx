@@ -17,6 +17,16 @@ import { CollectionsSkeleton } from '../pages/Collections/CollectionsSkeleton'
 import { FilmActorsSkeleton } from '../pages/FilmActors/FilmActorsSkeleton'
 import { FilmPostersSkeleton } from '../pages/FilmPosters/FilmPostersSkeleton'
 import { FilmVideosSkeleton } from '../pages/FilmVideos/FilmVideosSkeleton'
+import {
+  ProfileMainSkeleton,
+  SettingSkeleton,
+  FriendsSkeleton,
+  ReviewsSkeleton,
+  LikesSkeleton,
+  CommentsSkeleton,
+  FavouriteFilmsSkeleton,
+  FamousSkeleton,
+} from '../pages/Profile/ProfileSkeletons'
 
 const Main = lazy(() => import('../pages/Main/Main').then(m => ({ default: m.Main })))
 const NotFound = lazy(() => import('../pages/NotFound/NotFound').then(m => ({ default: m.NotFound })))
@@ -168,7 +178,7 @@ export const router = createBrowserRouter([
           {
             index: true,
             element: (
-              <WithSuspense>
+              <WithSuspense fallback={<ProfileMainSkeleton />}>
                 <ProfileMain />
               </WithSuspense>
             ),
@@ -176,7 +186,7 @@ export const router = createBrowserRouter([
           {
             path: 'setting',
             element: (
-              <WithSuspense>
+              <WithSuspense fallback={<SettingSkeleton />}>
                 <ProfileSetting />
               </WithSuspense>
             ),
@@ -184,7 +194,7 @@ export const router = createBrowserRouter([
           {
             path: 'friends',
             element: (
-              <WithSuspense>
+              <WithSuspense fallback={<FriendsSkeleton />}>
                 <Friends />
               </WithSuspense>
             ),
@@ -192,7 +202,7 @@ export const router = createBrowserRouter([
           {
             path: 'reviews',
             element: (
-              <WithSuspense>
+              <WithSuspense fallback={<ReviewsSkeleton />}>
                 <UserReviews />
               </WithSuspense>
             ),
@@ -200,7 +210,7 @@ export const router = createBrowserRouter([
           {
             path: 'likes',
             element: (
-              <WithSuspense>
+              <WithSuspense fallback={<LikesSkeleton />}>
                 <Likes />
               </WithSuspense>
             ),
@@ -208,7 +218,7 @@ export const router = createBrowserRouter([
           {
             path: 'comments',
             element: (
-              <WithSuspense>
+              <WithSuspense fallback={<CommentsSkeleton />}>
                 <UserComments />
               </WithSuspense>
             ),
@@ -216,7 +226,7 @@ export const router = createBrowserRouter([
           {
             path: 'films',
             element: (
-              <WithSuspense>
+              <WithSuspense fallback={<FavouriteFilmsSkeleton />}>
                 <FavouriteFilms />
               </WithSuspense>
             ),
@@ -224,7 +234,7 @@ export const router = createBrowserRouter([
           {
             path: 'famous',
             element: (
-              <WithSuspense>
+              <WithSuspense fallback={<FamousSkeleton />}>
                 <Famous />
               </WithSuspense>
             ),
