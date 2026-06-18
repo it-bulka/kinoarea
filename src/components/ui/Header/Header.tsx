@@ -63,7 +63,7 @@ export const Header = ({ onMenu }: HeaderProps) => {
 
       {/* Controls — far right */}
       <div className="flex items-center gap-2">
-        <Button onClick={onMenu} variant="icon" className="xl:hidden">
+        <Button onClick={onMenu} variant="icon" className="md:hidden">
           <BurgerIcon />
         </Button>
 

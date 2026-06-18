@@ -1,7 +1,6 @@
 import { memo } from 'react'
 import { Typography, TypographyTypes } from '../Typography/Typography'
 import { CategoryList } from '../CategoryList/CattegoryList'
-import { ReactComponent as BurgerIcon } from '../../../assets/images/general/burger.svg'
 import { ICategory } from '../Category/Category'
 import { Link } from '../Link/Link'
 import classnames from 'classnames'
@@ -53,11 +52,8 @@ export const SectionHeader = memo((props: SectionHeaderProps) => {
 
   return (
     <div className={'mt-5 mb-[30px] xl:flex xl:justify-between xl:items-center'}>
-      <Typography variant={'h2'} type={TypographyTypes._TITLE} className={'relative mx-auto mb-5 w-fit md:mx-0'}>
-        <>
-          {title}
-          <BurgerIcon className={'absolute top-1/2 -right-8 --translate-y-1/2 fill-white md:hidden'} />
-        </>
+      <Typography variant={'h2'} type={TypographyTypes._TITLE} className={'mx-auto mb-5 w-fit md:mx-0'}>
+        {title}
       </Typography>
       <div className={'hidden xl:block w-[51px] h-0 border-b-2 border-gold/40 border-solid mx-2'} />
       <CategoryList list={categories} className={'mt-4 xl:mt-0'} onItemClick={onCategoryClick} />
