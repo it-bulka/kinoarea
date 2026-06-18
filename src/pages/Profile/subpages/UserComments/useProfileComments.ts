@@ -9,7 +9,7 @@ const PAGE_SIZE = 40
 
 export const useProfileComments = (userId: string | undefined) => {
   const [comments, setComments] = useState<IUserReview[]>([])
-  const [isLoading, setIsLoading] = useState(false)
+  const [isLoading, setIsLoading] = useState(true)
   const [hasMore, setHasMore] = useState(true)
   const lastDocRef = useRef<QueryDocumentSnapshot<DocumentData> | null>(null)
   const { setNotification } = useActions()
@@ -27,7 +27,10 @@ export const useProfileComments = (userId: string | undefined) => {
         lastDocRef.current = lastDoc
         setHasMore(reviews.length === PAGE_SIZE)
       })
-      .catch(() => setHasMore(false))
+      .catch(err => {
+        console.error('Failed to load comments:', err)
+        setHasMore(false)
+      })
       .finally(() => setIsLoading(false))
   }, [userId])
 

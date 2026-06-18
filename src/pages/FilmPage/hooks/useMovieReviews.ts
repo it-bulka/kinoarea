@@ -24,7 +24,10 @@ export const useMovieReviews = (movieId: string | undefined) => {
         lastDocRef.current = lastDoc
         setHasMoreReviews(reviews.length === PAGE_SIZE)
       })
-      .catch(() => setHasMoreReviews(false))
+      .catch(err => {
+        console.error('Failed to load movie reviews:', err)
+        setHasMoreReviews(false)
+      })
       .finally(() => setIsLoadingReviews(false))
   }, [movieId])
 
