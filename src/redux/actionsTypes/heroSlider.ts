@@ -1,0 +1,5 @@
+export enum HeroSliderActionTypes {
+  LOAD = 'HERO_SLIDER/LOAD',
+  ADD_SLIDES = 'HERO_SLIDER/ADD_SLIDES',
+  ERROR = 'HERO_SLIDER/ERROR',
+}

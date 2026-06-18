@@ -17,8 +17,10 @@ import { fetchUserFavouriteFilms } from './userFavouriteFilms'
 import { UserFavouriteFilmsActionCreators } from '../actionsCreators/userFavouriteFilms'
 import { fetchUserFavouritePersons } from './userFavouritePersons'
 import { setLanguage } from '../actionsCreators/language'
+import * as HeroSliderAsyncActions from './heroSlider'
 
 export default {
+  ...HeroSliderAsyncActions,
   ...MovieAsyncActions,
   ...GenresAsyncActions,
   ...PersonsThunk,
