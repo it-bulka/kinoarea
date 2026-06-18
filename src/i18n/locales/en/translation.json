@@ -50,6 +50,8 @@
       "from": "From",
       "to": "To",
       "apply": "Apply",
+      "periodLabel": "View for period",
+      "empty": "No films found for the specified period",
       "regions": {
         "1": "Ukraine",
         "2": "World",

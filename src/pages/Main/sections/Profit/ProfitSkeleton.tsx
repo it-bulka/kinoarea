@@ -1,6 +1,6 @@
 import { Skeleton } from '../../../../components/ui/Skeleton/Skeleton'
 
-const ROWS = 5
+const ROWS = 6
 
 export const ProfitSkeleton = () => (
   <section className={'container'}>

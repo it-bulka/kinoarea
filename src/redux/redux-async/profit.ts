@@ -7,7 +7,7 @@ import { type IMovieDetailsRes } from '../../api/types/responses'
 import { type IIncome } from '../../api/types'
 import { type IParams } from '../../api/types/requests'
 
-const TOP_MOVIES_COUNT = 5
+const TOP_MOVIES_COUNT = 6
 const FETCH_POOL_SIZE = 10
 
 export interface ProfitFetchOptions {

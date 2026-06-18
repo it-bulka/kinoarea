@@ -57,7 +57,8 @@ export const Profit = () => {
         categories={setActiveItem(translatedProfit, activeCategory.id)}
         onCategoryClick={onCategoryChange}
       />
-      <div className={'flex flex-wrap items-center gap-3 my-4'}>
+      <p className={'text-white/70 text-sm mt-4 mb-2'}>{t('main.profit.periodLabel')}</p>
+      <div className={'flex flex-wrap items-center gap-3 mb-4'}>
         <DateInput
           date={startDate}
           onChange={setStartDate}
@@ -75,7 +76,11 @@ export const Profit = () => {
           {t('main.profit.apply')}
         </Button>
       </div>
-      <IncomeList list={items} />
+      {items.length > 0 ? (
+        <IncomeList list={items} />
+      ) : (
+        <p className={'text-white/50 text-center py-8'}>{t('main.profit.empty')}</p>
+      )}
     </section>
   )
 }
