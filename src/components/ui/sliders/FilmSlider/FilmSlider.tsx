@@ -31,15 +31,15 @@ export const FilmSlider = ({ slides, name }: FilmSliderProps) => {
       }}
       breakpoints={{
         768: {
-          slidesPerView: 3,
+          slidesPerView: 4,
           spaceBetween: 6,
         },
         914: {
-          slidesPerView: 4,
+          slidesPerView: 5,
           spaceBetween: 12,
         },
         1280: {
-          slidesPerView: 5,
+          slidesPerView: 7,
           spaceBetween: 16,
         },
       }}

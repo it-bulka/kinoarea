@@ -13,7 +13,7 @@ export const FilmList = memo(({ list }: FilmListProps) => {
   return (
     <div
       className={
-        'grid gap-3 grid-cols-card-2 md:gap-3.5 md:grid-cols-card-3 lg:grid-cols-card-4 xl:grid-cols-5 2xl:gap-[22px]'
+        'grid gap-3 grid-cols-card-3 md:gap-3.5 md:grid-cols-card-4 lg:grid-cols-5 xl:grid-cols-7 2xl:gap-[22px]'
       }
     >
       {list.map(movie => {
