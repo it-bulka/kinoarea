@@ -135,7 +135,7 @@ export const getTrendingMovies = async (
 
 export const getSearchedItem = async (value?: string, page: number = 1): Promise<ISearchResult | undefined> => {
   if (!value) return
-  const { data } = await movieDBAxious.get<ISearchResult>(`/search/multi`, {
+  const { data } = await movieDBAxious.get<ISearchResult>(`/search/movie`, {
     params: {
       query: value,
       page,

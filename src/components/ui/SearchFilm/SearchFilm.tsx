@@ -63,8 +63,6 @@ export const SearchFilm = ({ className, onClose }: SearchFilmProps) => {
     [onClose, navigate]
   )
 
-  const movies = searched.filter(item => item.media_type === 'movie')
-
   return (
     <div
       className={twMerge('z-[100] bg-noir/80 backdrop-blur-sm', className)}
@@ -86,7 +84,7 @@ export const SearchFilm = ({ className, onClose }: SearchFilmProps) => {
         </div>
 
         <ul className={'max-h-[80vh] overflow-auto mt-4 list-none p-0 m-0'}>
-          {movies.map(item => (
+          {searched.map(item => (
             <SearchedItem
               key={item.id}
               img={setMovieDBPath(item.poster_path)}
