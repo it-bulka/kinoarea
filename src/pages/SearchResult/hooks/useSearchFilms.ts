@@ -5,6 +5,7 @@ import type { IMovies } from '../../../api/types'
 import type { IParams, MovieSort, MOVIETV } from '../../../api/types/requests'
 import { usePageParam } from '../../../hooks/usePageParam'
 import { scrollTop } from '../../../utils/scrollTop'
+import { useDebouncedCallback } from '../../../hooks/useDebounceCallback'
 
 export interface UseSearchFilmsReturn {
   films: IMovies
@@ -15,7 +16,7 @@ export interface UseSearchFilmsReturn {
   categoryValue: MOVIETV
   sortValue: MovieSort | 'notchosen' | null
   searchRef: React.RefObject<HTMLInputElement>
-  handleSearch: () => void
+  handleSearch: (v: string) => void
   handleCategoryChange: (opt: unknown) => void
   handleSortChange: (opt: unknown) => void
   handlePageChange: (page: number) => void
@@ -36,13 +37,26 @@ export const useSearchFilms = (): UseSearchFilmsReturn => {
   const searchRef = useRef<HTMLInputElement>(null)
 
   const search = useCallback(
-    async (page: number, category: MOVIETV = categoryValue, sort: MovieSort | 'notchosen' | null = sortValue) => {
+    async (
+      page: number,
+      category: MOVIETV = categoryValue,
+      sort: MovieSort | 'notchosen' | null = sortValue,
+      query?: string
+    ) => {
       setIsLoading(true)
-      const query = searchRef.current?.value || undefined
-      const params: IParams = { page }
-      if (!query && sort && sort !== 'notchosen') params.sort_by = sort
 
-      const data = await MovieDBAPI.getSearch({ type: category, query, params })
+      const params: IParams = { page }
+
+      if (!query && sort && sort !== 'notchosen') {
+        params.sort_by = sort
+      }
+
+      const data = await MovieDBAPI.getSearch({
+        type: category,
+        query,
+        params,
+      })
+
       if (!data) return
 
       const { results, ...rest } = data
@@ -50,8 +64,7 @@ export const useSearchFilms = (): UseSearchFilmsReturn => {
       setPagesData(rest)
       setIsLoading(false)
     },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    []
+    [categoryValue, sortValue]
   )
 
   useEffect(() => {
@@ -59,10 +72,17 @@ export const useSearchFilms = (): UseSearchFilmsReturn => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
-  const handleSearch = useCallback(() => {
+  const debouncedSearch = useDebouncedCallback((v: string) => {
     setCurrentPage(1)
-    search(1, categoryValue, sortValue)
-  }, [search, setCurrentPage, categoryValue, sortValue])
+    search(1, categoryValue, sortValue, v)
+  }, 500)
+
+  const handleSearch = useCallback(
+    (value: string) => {
+      debouncedSearch(value)
+    },
+    [debouncedSearch]
+  )
 
   const handleCategoryChange = useCallback(
     (opt: unknown) => {

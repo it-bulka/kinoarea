@@ -24,7 +24,7 @@ export const SearchResult = () => {
 
   return (
     <section className={'container py-6'}>
-      <SearchBar ref={searchRef} onSearch={handleSearch} className={'mb-6'} />
+      <SearchBar ref={searchRef} onChange={handleSearch} className={'mb-6'} />
 
       <div className={'flex flex-col gap-4 mb-6 md:flex-row md:items-end md:justify-between'}>
         <div>

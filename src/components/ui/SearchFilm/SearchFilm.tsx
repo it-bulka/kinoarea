@@ -2,7 +2,7 @@ import { SearchBar } from '../SearchBar/SearchBar'
 import { twMerge } from 'tailwind-merge'
 import { SearchedItem } from '../SearchedItem/SearchedItem'
 import { ReactComponent as CloseIcon } from '../../../assets/images/general/close-btn.svg'
-import { KeyboardEventHandler, MouseEventHandler, useCallback, useRef, useState } from 'react'
+import { KeyboardEventHandler, MouseEventHandler, useCallback, useState } from 'react'
 import { getSearchedItem } from '../../../api/movieDBApi'
 import { ISearchMovieResult, ISearchResult } from '../../../api/types/responses'
 import { setMovieDBPath } from '../../../utils'
@@ -11,6 +11,7 @@ import { Button } from '../Button/Button'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
 import type { GenreIds } from '../../../mock/types'
+import { useDebouncedCallback } from '../../../hooks/useDebounceCallback'
 
 interface SearchFilmProps {
   className?: string
@@ -18,22 +19,27 @@ interface SearchFilmProps {
 }
 
 export const SearchFilm = ({ className, onClose }: SearchFilmProps) => {
-  const ref = useRef<HTMLInputElement | null>(null)
+  const [query, setQuery] = useState('')
   const [searched, setSearched] = useState<ISearchMovieResult[]>([])
   const [pages, setPages] = useState<Pick<ISearchResult, 'page' | 'total_pages'>>({ page: 0, total_pages: 0 })
   const navigate = useNavigate()
   const { t } = useTranslation()
 
-  const handleSearch = useCallback(async () => {
-    const finded = await getSearchedItem(ref.current?.value)
-    if (!finded) return
-    const { page, total_pages, results } = finded
-    results && setSearched(results)
-    setPages({ page, total_pages })
-  }, [])
+  const debouncedSearch = useDebouncedCallback(async (value: string) => {
+    const result = await getSearchedItem(value)
+
+    if (!result) return
+
+    setSearched(result.results ?? [])
+    setPages({ page: result.page, total_pages: result.total_pages })
+  }, 500)
+  const handleChange = (value: string) => {
+    setQuery(value)
+    debouncedSearch(value)
+  }
 
   const handleMoreClick = useCallback(async () => {
-    const finded = await getSearchedItem(ref.current?.value, pages.page + 1)
+    const finded = await getSearchedItem(query, pages.page + 1)
     if (!finded) return
     const { page, total_pages, results } = finded
     results && setSearched(prev => [...prev, ...results])
@@ -73,7 +79,7 @@ export const SearchFilm = ({ className, onClose }: SearchFilmProps) => {
     >
       <div className={'content container pt-2'} role="dialog" aria-modal="true" aria-label={t('search.title')}>
         <div className={'flex items-center gap-2 md:relative'}>
-          <SearchBar className={'flex-1'} ref={ref} onSearch={handleSearch} />
+          <SearchBar className={'flex-1'} onChange={handleChange} />
           <button
             className={'md:absolute md:top-1/2 md:-right-2 md:translate-x-full md:-translate-y-1/2 lg:-right-4'}
             onClick={onClose}
